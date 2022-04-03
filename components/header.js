@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import styles from "./header.module.less";
+import styles from "./header.module.scss";
 import { ThemeContext, ThemeSelectToggle } from "./theme-select";
 import { Logo } from "./logo";
 import classnames from "classnames";
@@ -7,16 +7,20 @@ import Link from "next/link";
 import { Sidebar } from "./sidebar";
 import { useMedia } from "react-use";
 import { navItems } from "../data/links";
-export const Header = ({pageHint=""}) => {
+export const Header = ({ pageHint = "" }) => {
   const { theme } = useContext(ThemeContext);
-  const collapsed = useMedia("(max-width:700px)",false);
+  const collapsed = useMedia("(max-width:700px)", false);
   return (
     <div className={classnames(styles.root, styles[theme])}>
       <div className={styles.title}>
-        <Logo size={1}></Logo>
-        <h1 className={styles.text}>
-          Animated <strong>Java</strong>
-        </h1>
+        <Link href={"/"}>
+          <a className={styles.titleLink}>
+            <Logo size={1}></Logo>
+            <h1 className={styles.text}>
+              Animated <strong>Java</strong>
+            </h1>
+          </a>
+        </Link>
       </div>
       <div className={styles.rightHand}>
         {!collapsed && (

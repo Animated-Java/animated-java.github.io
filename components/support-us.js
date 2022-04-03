@@ -1,13 +1,13 @@
 import {getKeyFactoryFor} from "../util/getKeyFor";
 import { useState } from "react";
-import styles from "./support-us.module.less";
+import styles from "./support-us.module.scss";
 import { LINKS } from "../data/links";
 import { useEffectOnce, useMedia } from "react-use";
 import classnames from "classnames";
 const getKeyFor = getKeyFactoryFor("SupportUs");
 const LS_KEY_CLOSED = getKeyFor("closed");
-export function SupportUs({ visible }) {
-  const [isVisible, setIsVisible] = useState(visible);
+export function SupportUs() {
+  const [isVisible, setIsVisible] = useState(true);
   const [isFirstRender,setIsFirstRender] = useState(true);
   useEffectOnce(()=>{
       if(localStorage.getItem(LS_KEY_CLOSED)==="yes"){

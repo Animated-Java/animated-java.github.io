@@ -1,6 +1,6 @@
-import styles from "./banner.module.less";
-import SplashImage from "../assets/splash.png";
-import Image from "next/image"
+import styles from "./banner.module.scss";
+// import SplashImage from "../assets/splash.png";
+// import Image from "next/image"
 import { useMedia } from "react-use";
 import classNames from "classnames";
 export function Banner() {
@@ -10,7 +10,8 @@ export function Banner() {
   return (
       <div className={styles.root}>
         <div className={classNames(styles.content,large && styles.large,med&&styles.medium,small&&styles.small)}>
-            <Image src={SplashImage} alt={"splash"}></Image>
+            {/* <Image src={SplashImage} alt={"splash"} width={globalThis && globalThis.window && globalThis.window?.innerWidth||100}></Image> */}
+            <div className={styles.image}></div>
             <div className={styles.gradient}></div>
         </div>
       </div>

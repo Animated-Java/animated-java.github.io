@@ -1,4 +1,4 @@
-import styles from "./social.module.less";
+import styles from "./social.module.scss";
 import DiscordIcon from "../assets/ico/discord.svg";
 import GitHubIcon from "../assets/ico/github.svg";
 import GitHubIconDark from "../assets/ico/github.dark.svg";
@@ -25,7 +25,7 @@ function social(name, Icon, href, dmicon) {
 export const DiscordSocial = social(
   "discord",
   DiscordIcon,
-  "https://discord.animated-java.dev"
+  "https://discord.gg/jFgY4PXZfp"
 );
 export const GithubSocial = social(
   "github",

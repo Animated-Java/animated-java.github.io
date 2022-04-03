@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useContext, useState } from "react";
-import styles from "./footer.module.less";
+import styles from "./footer.module.scss";
 import { DiscordSocial, GithubSocial, PatreonSocial } from "./social";
 import { ThemeContext } from "./theme-select";
 import { navItems } from "../data/links";
@@ -24,7 +24,7 @@ export function Footer({ minimal }) {
         </div>
         <div className={styles.notice}>
           <p>
-            Niether this website nor the animated-java project is affiliated
+            Neither this website nor the animated-java project is affiliated
             with Mojang Studios or Minecraft.
           </p>
         </div>

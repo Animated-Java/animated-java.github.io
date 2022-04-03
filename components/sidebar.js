@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react"
-import styles from "./sidebar.module.less";
+import styles from "./sidebar.module.scss";
 import classNames from "classnames";
 import { Portal } from "./portal";
 import { ThemeContext } from "./theme-select";

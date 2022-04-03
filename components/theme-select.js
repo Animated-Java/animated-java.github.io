@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useEffectOnce } from "react-use";
 import { getKeyFactoryFor } from "../util/getKeyFor";
-import styles from "./theme-select.module.less";
+import styles from "./theme-select.module.scss";
 import classnames from "classnames";
 
 const getKeyFor = getKeyFactoryFor("ThemeSelect");

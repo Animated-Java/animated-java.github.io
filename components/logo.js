@@ -1,4 +1,4 @@
-import styles from "./logo.module.less";
+import styles from "./logo.module.scss";
 import Image from "next/image";
 import logoImage from "../assets/gif/animated_java_armor_stand_running_right.gif";
 const aspectRatio = 24.43 / 14.5;
