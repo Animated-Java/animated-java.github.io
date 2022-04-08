@@ -1,12 +1,12 @@
-.main{
-    min-height: 50vh;
-    overflow-x: hidden;
-    transition: 0.2s;
-    transition-property: background-color;
-    &.light{
-        background-color: #FFFFFF;
-    }
-    &.dark{
-        background-color:#474747;
-    }
+.main {
+	min-height: 50vh;
+	overflow-x: hidden;
+	transition: 0.2s;
+	transition-property: background-color;
+	&.light {
+		background-color: #ffffff;
+	}
+	&.dark {
+		background-color: #474747;
+	}
 }

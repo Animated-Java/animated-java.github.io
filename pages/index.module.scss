@@ -1,21 +1,21 @@
-.content{
-    display:flex;
-    flex-direction: column;
-    color:white;
-    align-items: center;
-    justify-content: center;
-    align-content: space-between;
-    height: 100vh;
-    >.pill{
-        width: 60px;
-        height:8px;
-        border-radius: 4px;
-        background-color: #666666;
-    }
-    >.stats{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        width: calc(100vw - 128px);
-    }
+.content {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	align-items: center;
+	justify-content: center;
+	align-content: space-between;
+	height: 100vh;
+	> .pill {
+		width: 60px;
+		height: 8px;
+		border-radius: 4px;
+		background-color: #666666;
+	}
+	> .stats {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+		width: calc(100vw - 128px);
+	}
 }

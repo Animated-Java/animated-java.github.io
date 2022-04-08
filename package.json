@@ -1,31 +1,32 @@
 {
-  "name": "animated-java.dev",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@mdx-js/loader": "^2.1.1",
-    "classnames": "^2.3.1",
-    "discord.js": "^12",
-    "firebase": "^9.6.1",
-    "next": "^12",
-    "patreon": "^0.4.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-use": "^17.3.1"
-  },
-  "devDependencies": {
-    "@next/mdx": "^12.1.4",
-    "eslint": "7.30.0",
-    "eslint-config-next": "11.0.1",
-    "next-images": "^1.8.1",
-    "next-plugin-svgr": "^1.0.0",
-    "next-transpile-modules": "^8.0.0",
-    "sass": "^1.43.4"
-  }
+	"name": "animated-java.dev",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "prettier -w ."
+	},
+	"dependencies": {
+		"@mdx-js/loader": "^2.1.1",
+		"classnames": "^2.3.1",
+		"discord.js": "^12",
+		"firebase": "^9.6.1",
+		"next": "^12",
+		"patreon": "^0.4.1",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"react-use": "^17.3.1"
+	},
+	"devDependencies": {
+		"@next/mdx": "^12.1.4",
+		"eslint": "7.30.0",
+		"eslint-config-next": "11.0.1",
+		"next-images": "^1.8.1",
+		"next-plugin-svgr": "^1.0.0",
+		"next-transpile-modules": "^8.0.0",
+		"prettier": "^2.6.2",
+		"sass": "^1.43.4"
+	}
 }
