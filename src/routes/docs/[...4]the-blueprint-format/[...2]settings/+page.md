@@ -73,13 +73,13 @@ If multiple blueprints export into the same resource pack, they will be automati
 
 ## Data Pack Settings
 
-### Use Advanced Settings
+<!-- ### Use Advanced Settings
 
 Whether or not to use the advanced settings for the data pack.
 
 :::admonition type=warning
 Do not use this setting unless your workflow absolutely requires it. It is not recommended for most users, and will not be as well supported as the default settings.
-:::
+::: -->
 
 ### Data Pack
 
