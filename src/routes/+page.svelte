@@ -4,7 +4,7 @@
 
 	import { Button } from '@svelteness/kit-docs';
 	import { inView } from '$lib';
-	import Carousel from '../../components/VideoCarousel.svelte';
+	import Carousel from '../components/VideoCarousel.svelte';
 
 	let sidebar: HTMLElement | null;
 	let main: HTMLElement | null;

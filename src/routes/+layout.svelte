@@ -26,7 +26,7 @@
 
 	const navbar: NavbarConfig = {
 		links: [
-			{ title: 'Home', slug: '/home', match: /\/home/ },
+			{ title: 'Home', slug: '/', match: /\// },
 			{ title: 'Documentation', slug: '/docs', match: /\/docs/ }
 		]
 	};
