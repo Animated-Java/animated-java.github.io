@@ -12,8 +12,10 @@
 		'fthlphRmsjY',
 		'dd7pqAPd-p0',
 		'M2R3zgvbZ30',
-		'0UCrI7NJ5KI',
 		'0xPyRA-he5c',
+		'0UCrI7NJ5KI',
+		'yfaQM3aHgxE',
+		'sC3FqzpDrpQ',
 		'CO2kYUMpYPk',
 		'fs0NUGmsa10',
 		'4VlwyI0EHo4'
@@ -30,7 +32,9 @@
 </script>
 
 <div class="container">
-	<Youtube id={VIDEOS[$index]} animations={false} />
+	{#key $index}
+		<Youtube id={VIDEOS[$index]} animations={false} />
+	{/key}
 	<div class="grid">
 		{#each VIDEOS as id}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
