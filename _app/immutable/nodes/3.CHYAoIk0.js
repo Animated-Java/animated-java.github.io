@@ -1,1 +1,0 @@
-import{R as o}from"../chunks/control.CYgJF_JY.js";function r(e,t){throw new o(e,t.toString())}new TextEncoder;const n=!0;function i(){throw r(307,"/docs/introduction/what-is-animated-java")}const c=Object.freeze(Object.defineProperty({__proto__:null,load:i,prerender:n},Symbol.toStringTag,{value:"Module"}));export{c as universal};
