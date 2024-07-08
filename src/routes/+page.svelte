@@ -1,25 +1,25 @@
 <script lang="ts">
-	import Youtube from 'svelte-youtube-embed';
-	import { onDestroy, onMount } from 'svelte';
+	import Youtube from 'svelte-youtube-embed'
+	import { onDestroy, onMount } from 'svelte'
 
-	import { Button } from '@svelteness/kit-docs';
-	import { inView } from '$lib';
-	import Carousel from '../components/VideoCarousel.svelte';
+	import { Button } from '@svelteness/kit-docs'
+	import { inView } from '$lib'
+	import Carousel from '../components/VideoCarousel.svelte'
 
-	let sidebar: HTMLElement | null;
-	let main: HTMLElement | null;
+	let sidebar: HTMLElement | null
+	let main: HTMLElement | null
 
 	onMount(() => {
-		sidebar = document.querySelector('.on-this-page');
-		main = document.querySelector('main');
-		if (sidebar) sidebar.style.display = 'none';
-		if (main) main.style.overflow = 'visible';
-	});
+		sidebar = document.querySelector('.on-this-page')
+		main = document.querySelector('main')
+		if (sidebar) sidebar.style.display = 'none'
+		if (main) main.style.overflow = 'visible'
+	})
 
 	onDestroy(() => {
-		if (sidebar) sidebar.style.display = 'block';
-		if (main) main.style.overflow = 'hidden';
-	});
+		if (sidebar) sidebar.style.display = 'block'
+		if (main) main.style.overflow = 'hidden'
+	})
 
 	const PANELS: Array<{ title: string; description: string; details: string; image: string }> = [
 		{
@@ -54,7 +54,7 @@
 				'Animated Java has had hundreds of hours put into performance testing, and optimization. Worry less about performance and more about creating!',
 			image: '/img/performance.png'
 		}
-	];
+	]
 </script>
 
 <div class="page">
@@ -77,8 +77,8 @@
 				class={`panel ${i % 2 == 0 ? 'left' : 'right'}-panel`}
 				use:inView
 				on:enter={(e) => {
-					if (e.target.classList.contains('panel-fade-in')) return;
-					e.target.classList.add('panel-fade-in');
+					if (e.target.classList.contains('panel-fade-in')) return
+					e.target.classList.add('panel-fade-in')
 				}}
 			>
 				{#if i % 2 == 0}

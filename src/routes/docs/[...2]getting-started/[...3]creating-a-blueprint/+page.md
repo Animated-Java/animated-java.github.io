@@ -8,6 +8,7 @@ description: Learn how to create a new blueprint in Animated Java.
 {$frontmatter.description}
 
 ## Starting a new Project
+
 From the start menu, navigate to `Animated Java Blueprint` > `Create new AJ Blueprint`
 ![blueprint-step1](/img/steps/blueprint/1.png)
 
@@ -27,7 +28,6 @@ The blueprint name is used both as the project's file name, and as a way to quic
 The size of the largest texture in the blueprint. This is used by Blockbench to calculate the UV coordinates for the model.
 
 Make sure you update this value to match the largest texture in your blueprint whenever you add or remove textures.
-
 
 ### Export Namespace
 

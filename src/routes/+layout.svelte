@@ -1,14 +1,14 @@
 <script lang="ts">
-	import '@svelteness/kit-docs/client/polyfills/index.js';
-	import '@svelteness/kit-docs/client/styles/normalize.css';
-	import '@svelteness/kit-docs/client/styles/fonts.css';
-	import '@svelteness/kit-docs/client/styles/theme.css';
-	import '$lib/styles/kit-docs.css';
+	import '@svelteness/kit-docs/client/polyfills/index.js'
+	import '@svelteness/kit-docs/client/styles/normalize.css'
+	import '@svelteness/kit-docs/client/styles/fonts.css'
+	import '@svelteness/kit-docs/client/styles/theme.css'
+	import '$lib/styles/kit-docs.css'
 
-	import { page } from '$app/stores';
+	import { page } from '$app/stores'
 
-	import DiscordIcon from '~icons/ri/discord-fill';
-	import GithubIcon from '~icons/ri/github-fill';
+	import DiscordIcon from '~icons/ri/discord-fill'
+	import GithubIcon from '~icons/ri/github-fill'
 
 	import {
 		Button,
@@ -17,25 +17,25 @@
 		SocialLink,
 		createSidebarContext,
 		type NavbarConfig
-	} from '@svelteness/kit-docs';
-	import type { LayoutData } from './$types';
+	} from '@svelteness/kit-docs'
+	import type { LayoutData } from './$types'
 
-	export let data: LayoutData;
+	export let data: LayoutData
 
-	$: ({ meta, sidebar } = data);
+	$: ({ meta, sidebar } = data)
 
 	const navbar: NavbarConfig = {
 		links: [
 			{ title: 'Home', slug: '/', match: /\// },
 			{ title: 'Documentation', slug: '/docs', match: /\/docs/ }
 		]
-	};
+	}
 
-	const { activeCategory } = createSidebarContext(sidebar);
+	const { activeCategory } = createSidebarContext(sidebar)
 
-	$: category = $activeCategory ? `${$activeCategory}: ` : '';
-	$: title = meta ? `${category}${meta.title} | Animated Java` : 'Animated Java';
-	$: description = meta?.description;
+	$: category = $activeCategory ? `${$activeCategory}: ` : ''
+	$: title = meta ? `${category}${meta.title} | Animated Java` : 'Animated Java'
+	$: description = meta?.description
 </script>
 
 <svelte:head>

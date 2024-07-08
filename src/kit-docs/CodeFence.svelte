@@ -1,43 +1,43 @@
 <script lang="ts">
-	import { getI18nContext } from '@svelteness/kit-docs';
+	import { getI18nContext } from '@svelteness/kit-docs'
 	// import MCFunctionTML from '../mcfunction.tmLanguage.json';
 
-	import clsx from 'clsx';
+	import clsx from 'clsx'
 
-	import CopyFileIcon from '~icons/ri/file-copy-line';
+	import CopyFileIcon from '~icons/ri/file-copy-line'
 
-	export let lang: string | null = null;
-	export let ext: string | null = null;
-	export let code: string | null = null;
-	export let rawCode: string | null = null;
-	export let title: string | null = null;
-	export let linesCount: number = (code?.match(/"line"/g) || []).length;
-	export let showLineNumbers = false;
-	export let highlightLines: [number, number][] = [];
-	export let copyHighlightOnly = false;
-	export let copySteps = false;
-	export let showCopyCode = copySteps || copyHighlightOnly;
+	export let lang: string | null = null
+	export let ext: string | null = null
+	export let code: string | null = null
+	export let rawCode: string | null = null
+	export let title: string | null = null
+	export let linesCount: number = (code?.match(/"line"/g) || []).length
+	export let showLineNumbers = false
+	export let highlightLines: [number, number][] = []
+	export let copyHighlightOnly = false
+	export let copySteps = false
+	export let showCopyCode = copySteps || copyHighlightOnly
 
-	const i18n = getI18nContext();
+	const i18n = getI18nContext()
 
-	let currentStep = 1;
-	let stepHighlightLines: [number, number][] = [];
+	let currentStep = 1
+	let stepHighlightLines: [number, number][] = []
 
 	$: if (copySteps) {
-		stepHighlightLines = [highlightLines[currentStep - 1] ?? [currentStep, currentStep]];
+		stepHighlightLines = [highlightLines[currentStep - 1] ?? [currentStep, currentStep]]
 	}
 
-	$: currentHighlightedLines = copySteps ? stepHighlightLines : highlightLines;
+	$: currentHighlightedLines = copySteps ? stepHighlightLines : highlightLines
 
 	const isHighlightLine = (lineNumber: number, _?: any): boolean =>
-		currentHighlightedLines.some(([start, end]) => lineNumber >= start && lineNumber <= end);
+		currentHighlightedLines.some(([start, end]) => lineNumber >= start && lineNumber <= end)
 
 	// `linesCount-1` since last line is always empty (prettier)
-	$: lines = [...Array(linesCount - 1).keys()].map((n) => n + 1);
+	$: lines = [...Array(linesCount - 1).keys()].map((n) => n + 1)
 
-	$: unescapedRawCode = rawCode?.replace(/&#8203/g, '');
+	$: unescapedRawCode = rawCode?.replace(/&#8203/g, '')
 
-	let showCopiedCodePrompt = false;
+	let showCopiedCodePrompt = false
 	async function copyCodeToClipboard() {
 		try {
 			const copiedCode =
@@ -46,30 +46,30 @@
 							?.split('\n')
 							.filter((_, i) => isHighlightLine(i + 1))
 							.join('\n')
-					: unescapedRawCode;
+					: unescapedRawCode
 
-			await navigator.clipboard.writeText(copiedCode || '');
+			await navigator.clipboard.writeText(copiedCode || '')
 		} catch (e) {
 			// no-op
 		}
 
-		showCopiedCodePrompt = true;
+		showCopiedCodePrompt = true
 		if (copySteps) {
-			const nextStep = currentStep + 1;
-			const maxSteps = highlightLines.length > 0 ? highlightLines.length : lines.length;
-			currentStep = nextStep > maxSteps ? 1 : nextStep;
+			const nextStep = currentStep + 1
+			const maxSteps = highlightLines.length > 0 ? highlightLines.length : lines.length
+			currentStep = nextStep > maxSteps ? 1 : nextStep
 		}
 	}
 
 	$: if (showCopiedCodePrompt) {
 		setTimeout(() => {
-			showCopiedCodePrompt = false;
-		}, 400);
+			showCopiedCodePrompt = false
+		}, 400)
 	}
 
-	$: showTopBar = title || showCopyCode;
-	$: hasTopbarTitle = title || ext;
-	$: topbarTitle = title ?? (ext === 'sh' ? 'terminal' : ext);
+	$: showTopBar = title || showCopyCode
+	$: hasTopbarTitle = title || ext
+	$: topbarTitle = title ?? (ext === 'sh' ? 'terminal' : ext)
 </script>
 
 <div

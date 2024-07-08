@@ -16,6 +16,7 @@ You'll need the following tools to get started with Animated Java:
 - A text editor. We recommend [Visual Studio Code](https://code.visualstudio.com/).
 
 ## Installing Animated Java
+
 :::steps
 
 !!!step title="Step 1"|(slot=description)=Open Blockbench, and navigate to `File` > `Plugins`.

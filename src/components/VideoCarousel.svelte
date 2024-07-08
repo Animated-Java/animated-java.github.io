@@ -1,33 +1,34 @@
 <script lang="ts" context="module">
-	import { Button } from '@svelteness/kit-docs';
+	import { Button } from '@svelteness/kit-docs'
 </script>
 
 <script lang="ts">
-	import Youtube from 'svelte-youtube-embed';
-	import { writable } from 'svelte/store';
+	import Youtube from 'svelte-youtube-embed'
+	import { writable } from 'svelte/store'
 
-	let index = writable(0);
+	let index = writable(0)
 
 	const VIDEOS = [
-		'fthlphRmsjY',
-		'dd7pqAPd-p0',
-		'M2R3zgvbZ30',
-		'0xPyRA-he5c',
-		'0UCrI7NJ5KI',
-		'yfaQM3aHgxE',
-		'sC3FqzpDrpQ',
-		'CO2kYUMpYPk',
-		'fs0NUGmsa10',
-		'4VlwyI0EHo4'
-	];
+		'fthlphRmsjY', // I Added Mr Beast to Minecraft...
+		'dd7pqAPd-p0', // Phantom Manor
+		'M2R3zgvbZ30', // How to Mine a Tree
+		'0xPyRA-he5c', // Cataclysmic Emissary
+		'0UCrI7NJ5KI', // New Boss Test
+		'-6pLFvW5_Dk', // Camera Animation Test
+		'yfaQM3aHgxE', // Mordecai the Unending
+		'sC3FqzpDrpQ', // Diamond Golem
+		'CO2kYUMpYPk', // Excuse me Sir
+		'fs0NUGmsa10', // Butter Dog
+		'4VlwyI0EHo4' // Funny Mobile Game
+	]
 
 	async function getYoutubeVideoTitle(id: string) {
 		const res = await fetch(
 			`//www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`
-		);
-		const videoInfo = await res.json();
+		)
+		const videoInfo = await res.json()
 
-		return videoInfo?.title;
+		return videoInfo?.title
 	}
 </script>
 
@@ -42,7 +43,7 @@
 			<div
 				class="thumbnail-container"
 				on:click={(e) => {
-					index.set(VIDEOS.indexOf(id));
+					index.set(VIDEOS.indexOf(id))
 				}}
 			>
 				<Button class="thumbnail-button">

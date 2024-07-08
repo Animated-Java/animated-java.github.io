@@ -1,5 +1,5 @@
 /// <reference types="@svelteness/kit-docs/globals" />
-import type { CompositionEventHandler } from 'svelte/elements';
+import type { CompositionEventHandler } from 'svelte/elements'
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -14,10 +14,10 @@ declare global {
 
 	declare namespace svelteHTML {
 		interface HTMLProps<T> {
-			'on:enter'?: CompositionEventHandler<T>;
-			'on:exit'?: CompositionEventHandler<T>;
+			'on:enter'?: CompositionEventHandler<T>
+			'on:exit'?: CompositionEventHandler<T>
 		}
 	}
 }
 
-export {};
+export {}
