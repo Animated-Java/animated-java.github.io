@@ -4,7 +4,6 @@
 
 	import clsx from 'clsx';
 
-	// @ts-expect-error
 	import CopyFileIcon from '~icons/ri/file-copy-line';
 
 	export let lang: string | null = null;

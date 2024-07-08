@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '@svelteness/kit-docs/client/polyfills/index.js';
 	import '@svelteness/kit-docs/client/styles/normalize.css';
 	import '@svelteness/kit-docs/client/styles/fonts.css';
@@ -6,30 +6,35 @@
 	import '$lib/styles/kit-docs.css';
 
 	import { page } from '$app/stores';
-	import AnimatedJavaBanner from '$img/Animated Java 2024 Banner.svg?raw';
+
+	import DiscordIcon from '~icons/ri/discord-fill';
+	import GithubIcon from '~icons/ri/github-fill';
 
 	import {
 		Button,
 		KitDocs,
 		KitDocsLayout,
 		SocialLink,
-		createSidebarContext
+		createSidebarContext,
+		type NavbarConfig
 	} from '@svelteness/kit-docs';
+	import type { LayoutData } from './$types';
 
-	/** @type {import('./$types').LayoutData} */
-	export let data;
+	export let data: LayoutData;
 
 	$: ({ meta, sidebar } = data);
 
-	/** @type {import('@svelteness/kit-docs').NavbarConfig} */
-	const navbar = {
-		links: [{ title: 'Documentation', slug: '/docs', match: /\/docs/ }]
+	const navbar: NavbarConfig = {
+		links: [
+			{ title: 'Home', slug: '/home', match: /\/home/ },
+			{ title: 'Documentation', slug: '/docs', match: /\/docs/ }
+		]
 	};
 
 	const { activeCategory } = createSidebarContext(sidebar);
 
 	$: category = $activeCategory ? `${$activeCategory}: ` : '';
-	$: title = meta ? `${category}${meta.title} | KitDocs` : null;
+	$: title = meta ? `${category}${meta.title} | Animated Java` : 'Animated Java';
 	$: description = meta?.description;
 </script>
 
@@ -48,20 +53,31 @@
 	<KitDocsLayout {navbar} {sidebar}>
 		<div class="logo" slot="navbar-left">
 			<Button href="/">
-				{@html AnimatedJavaBanner}
+				<div class="header-container">
+					<!-- svelte-ignore a11y-missing-attribute -->
+					<img src="/img/animated_java_icon.svg" />
+					<div>
+						<h1>Animated Java</h1>
+					</div>
+				</div>
 			</Button>
 		</div>
 
 		<slot />
-		<div class="header" slot="main-top">
-			<div class="header-wip-warning">
+
+		<div class="footer" slot="main-bottom">
+			<div class="header-wip-warning" style="margin-top: 16px;">
 				⚠️ This website is a work in progress. Some pages may be incomplete or missing. ⚠️
 			</div>
-		</div>
-		<div class="footer" slot="main-bottom">
 			<div class="footer-social">
-				<SocialLink type="discord" href="https://discord.com/invite/jFgY4PXZfp" />
-				<SocialLink type="gitHub" href="https://github.com/Animated-Java/animated-java" />
+				<div class="social-container">
+					<Button title="Join our Discord Server!">
+						<svelte:component this={DiscordIcon} class="social-icon" />
+					</Button>
+					<Button title="Check out our Source Code!">
+						<svelte:component this={GithubIcon} class="social-icon" />
+					</Button>
+				</div>
 			</div>
 		</div>
 	</KitDocsLayout>
@@ -102,5 +118,37 @@
 		display: flex;
 		justify-content: center;
 		margin-bottom: 2rem;
+	}
+
+	.header-container {
+		display: flex;
+		align-items: center;
+		margin-bottom: 2rem;
+		position: relative;
+		top: 16px;
+	}
+	.header-container div {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin-left: 1rem;
+	}
+	.header-container img {
+		width: 48px;
+		border-radius: 8px;
+		box-shadow: 2px 2px 4px -2px black;
+	}
+	.header-container h1 {
+		font-size: 1.5rem;
+	}
+
+	.social-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.social-container > :global(button) {
+		font-size: 2rem;
 	}
 </style>

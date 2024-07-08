@@ -1,18 +1,13 @@
 <script lang="ts">
 	import clsx from 'clsx';
 
-	// @ts-expect-error
 	import NoteIcon from '~icons/ri/sticky-note-fill';
-	// @ts-expect-error
 	import HeroiconsSolidCode from '~icons/heroicons-solid/code';
-	// @ts-expect-error
 	import TipIcon from '~icons/ri/lightbulb-flash-fill';
-	// @ts-expect-error
 	import WarningIcon from '~icons/ri/error-warning-fill';
-	// @ts-expect-error
 	import DangerIcon from '~icons/ri/skull-2-fill';
-	// @ts-expect-error
 	import ExperimentalIcon from '~icons/ri/test-tube-fill';
+
 	import { getI18nContext } from '@svelteness/kit-docs';
 
 	export let type: 'note' | 'info' | 'tip' | 'warning' | 'danger' | 'experimental';

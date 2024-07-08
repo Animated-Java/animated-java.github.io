@@ -4,5 +4,5 @@ export const prerender = true;
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
-	throw redirect(307, '/docs/introduction/what-is-animated-java');
+	throw redirect(307, '/home');
 }
