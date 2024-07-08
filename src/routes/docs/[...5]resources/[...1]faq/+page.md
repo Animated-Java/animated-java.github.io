@@ -47,7 +47,7 @@ If you disable `Export Resources` in your Blueprint's settings, you can make and
 
 \*Only one animation may affect any given bone at a time. However, you can play multiple animations simultaneously by having them affect different bones.
 
-See the [Included / Excluded Bones](/docs/the-blueprint-format/animations##included-excluded-bones) section of Blueprint Animations for more information.
+See the [Included / Excluded Bones](/docs/the-blueprint-format/animations#included-excluded-bones) section of Blueprint Animations for more information.
 
 ---
 
@@ -61,4 +61,4 @@ See the [Included / Excluded Bones](/docs/the-blueprint-format/animations##inclu
 
 ## Can I smoothly transition between different animations?
 
-**Yes!** See the [Tweening](/docs/the-blueprint-format/animations#tweening) section of Blueprint Animations for more information.
+**Yes!** See the [Tweening](/docs/exported-rigs/controlling-a-rig-instance#tween-function) section of Blueprint Animations for more information.
