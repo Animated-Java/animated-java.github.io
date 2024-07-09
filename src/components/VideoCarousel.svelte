@@ -81,6 +81,7 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
 		margin-top: 2rem;
+		gap: 0.5rem;
 	}
 	p {
 		text-align: center;
@@ -91,8 +92,13 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.thumbnail-container :global(button span) {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.thumbnail-image {
-		min-height: 148px;
+		height: 148px;
 		aspect-ratio: 16 / 9;
 		background-size: cover;
 		background-position: center;
@@ -118,7 +124,7 @@
 		}
 		.thumbnail-image {
 			width: 128px;
-			min-height: 72px;
+			height: 72px;
 		}
 		p {
 			text-align: center;
