@@ -92,6 +92,12 @@
 		--kd-color-brand-rgb: 213, 149, 76;
 	}
 
+	@media (max-width: 768px) {
+		:global(.on-this-page) {
+			display: none !important;
+		}
+	}
+
 	.logo :global(a) {
 		display: flex;
 		align-items: center;

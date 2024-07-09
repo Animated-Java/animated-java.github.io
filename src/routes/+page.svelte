@@ -23,36 +23,31 @@
 		if (main) main.style.overflow = 'hidden'
 	})
 
-	const PANELS: Array<{ title: string; description: string; details: string; image: string }> = [
+	const PANELS: Array<{ title: string; description: string; image: string }> = [
 		{
 			title: '100% Vanilla Minecraft!',
-			description: 'No mods required!',
-			details: 'Built for Map Makers and Data Pack Developers.',
+			description: 'Built for Map Makers and Data Pack Developers.',
 			image: '/img/vanilla.png'
 		},
 		{
 			title: 'Variants',
-			description: 'Swap out textures on the fly!',
-			details: 'Swap out textures on a Rig in-game with a single function call.',
+			description: 'Swap out textures on a Rig in-game with a single function call.',
 			image: '/img/variants.gif'
 		},
 		{
 			title: 'Advanced Easing Options',
-			description: 'Make your animations pop!',
-			details: 'Choose from a variety of easing options to make your animations more dynamic.',
+			description: 'Choose from a variety of easing options to make your animations more dynamic.',
 			image: '/img/easing.gif'
 		},
 		{
 			title: 'Vanilla Models',
-			description: 'Create animations without a Resource Pack!',
-			details:
+			description:
 				'Animated Java supports vanilla item and block models, allowing you to create animated models without a Resource Pack!',
 			image: '/img/resourcepackless.png'
 		},
 		{
 			title: 'Heavily Optimized',
-			description: 'Worry less about performance!',
-			details:
+			description:
 				'Animated Java has had hundreds of hours put into performance testing, and optimization. Worry less about performance and more about creating!',
 			image: '/img/performance.png'
 		}
@@ -87,9 +82,12 @@
 					<img src={panel.image} alt={panel.title} />
 				{/if}
 				<div>
-					<h2>{panel.title} <span>- {panel.description}</span></h2>
+					<h2>
+						{panel.title}
+						<!-- <span>{panel.description}</span> -->
+					</h2>
 					<hr />
-					<p>{panel.details}</p>
+					<p>{panel.description}</p>
 				</div>
 				{#if i % 2 == 1}
 					<img src={panel.image} alt={panel.title} />
@@ -205,10 +203,6 @@
 	h2 {
 		font-size: 1.5rem;
 	}
-	h2 span {
-		font-size: 1rem;
-		vertical-align: middle;
-	}
 
 	.page {
 		display: flex;
@@ -259,5 +253,75 @@
 		width: 100%;
 		margin: 0rem 0 0.5rem 0;
 		border: 1px solid rgb(var(--kd-color-brand));
+	}
+
+	@media (max-width: 768px) {
+		.panel img {
+			width: 100%;
+		}
+		.panel {
+			flex-direction: column;
+		}
+		.right-panel {
+			flex-direction: column-reverse;
+		}
+		.panel > div {
+			margin: 16px;
+		}
+		.panel > div > h2 {
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			text-align: center;
+		}
+		.panel-container {
+			gap: 2rem;
+		}
+		.header-container {
+			flex-direction: column;
+			margin: 2rem 0 0 0;
+		}
+		.header-container > div {
+			margin-left: unset;
+		}
+		.header-container img {
+			width: 128px;
+		}
+		.header-container h1 {
+			font-size: 2.5rem;
+			text-align: center;
+			margin-bottom: 0.75rem;
+		}
+		.header-container h3 {
+			font-size: 1.25rem;
+			text-align: center;
+		}
+		.page {
+			margin: 0px 16px 0 16px;
+		}
+		.panel-container {
+			margin-top: 2rem;
+		}
+		.made-with-aj {
+			margin-top: 4rem;
+		}
+	}
+
+	@media (max-height: 768px) {
+		.panel-container {
+			margin-top: 2rem;
+		}
+		.made-with-aj {
+			margin-top: 4rem;
+		}
+
+		.panel img {
+			width: 50%;
+		}
+		.panel {
+			display: flex;
+			align-items: center;
+			text-align: center;
+		}
 	}
 </style>

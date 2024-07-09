@@ -111,4 +111,23 @@
 		padding-bottom: 0.25rem;
 		text-transform: capitalize;
 	}
+
+	@media (max-width: 768px) {
+		.grid {
+			grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+		}
+		.thumbnail-image {
+			width: 128px;
+			min-height: 72px;
+		}
+		p {
+			text-align: center;
+			text-transform: capitalize;
+			max-width: 128px;
+			font-size: 0.9rem;
+		}
+		:global(.v__title) {
+			font-size: 1rem;
+		}
+	}
 </style>
