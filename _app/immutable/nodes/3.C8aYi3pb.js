@@ -1,0 +1,1 @@
+import{r as e}from"../chunks/index.De_1-CT6.js";const r=!0;function t(){throw e(302,"https://discord.com/invite/jFgY4PXZfp")}const n=Object.freeze(Object.defineProperty({__proto__:null,load:t,prerender:r},Symbol.toStringTag,{value:"Module"}));export{n as universal};
