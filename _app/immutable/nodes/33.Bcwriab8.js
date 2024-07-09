@@ -1,0 +1,1 @@
+import{r as e}from"../chunks/index.De_1-CT6.js";const t=!0;function r(){throw e(302,"https://github.com/Animated-Java/animated-java")}const a=Object.freeze(Object.defineProperty({__proto__:null,load:r,prerender:t},Symbol.toStringTag,{value:"Module"}));export{a as universal};
