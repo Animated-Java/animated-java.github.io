@@ -15,7 +15,7 @@ description: Learn how to install pre-release versions of Animated Java.
 
 !!!
 
-!!!step title="Step 2"|(slot=description)=Find the `animated-java.js` file you downloaded from our [Discord Server](https://discord.com/invite/jFgY4PXZfp), then click `Open`.
+!!!step title="Step 2"|(slot=description)=Find the `animated-java.js` file you downloaded from our [Discord Server](/discord), then click `Open`.
 
 ![pre-release-step2](/img/steps/pre-release/2.png)
 
@@ -23,4 +23,4 @@ description: Learn how to install pre-release versions of Animated Java.
 
 :::
 
-That's it! You should now have the pre-release version of Animated Java installed. If you have any issues, feel free to ask for help in the `#animated-java-support` channel of our [Discord server](https://discord.com/invite/jFgY4PXZfp).
+That's it! You should now have the pre-release version of Animated Java installed. If you have any issues, feel free to ask for help in the `#animated-java-support` channel of our [Discord server](/discord).

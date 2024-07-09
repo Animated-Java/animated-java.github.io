@@ -7,6 +7,26 @@ description: Frequently asked questions about Animated Java.
 
 {$frontmatter.description}
 
+## How do I install Animated Java?
+
+Follow the instructions in the [Installation](/docs/getting-started/installing-animated-java) section of the documentation.
+
+---
+
+## What versions of Minecraft does Animated Java support?
+
+Animated Java v1.0.0 supports Minecraft versions 1.21 and above.
+
+For older versions of Minecraft, see the [Legacy Releases](/docs/legacy-releases/index) section of the documentation.
+
+## How can I support the development of Animated Java?
+
+You can support my projects on Ko-Fi at [https://ko-fi.com/snavesutit](https://ko-fi.com/snavesutit)!
+
+Additionally, you can help by reporting bugs, suggesting features, and contributing to the project on [GitHub](/source)
+
+---
+
 ## What model limitations does Animated Java have and how do they compare to Vanilla Minecraft?
 
 Animated Java has fewer limitations than Vanilla Minecraft, but there are still a few limitations to keep in mind when creating your models:
@@ -23,7 +43,7 @@ There are a few things you can do to make sure your models run as smoothly as po
 - Use a few bones as possible. The more bones you have, the more NBT modifications need to be done each frame. Note that bones with no Cubes in them are not exported, and therefor do not contribute to performance issues.
 - Avoid playing animations when your Rig is not visible to the player.
 
-Animated Java is designed to be as efficient as possible, but there are still some limitations to what can be done with commands. If you are experiencing performance issues, consider joining the [Animated Java Discord](https://discord.gg/jFgY4PXZfp) for help and advice.
+Animated Java is designed to be as efficient as possible, but there are still some limitations to what can be done with commands. If you are experiencing performance issues, consider joining the [Animated Java Discord](/discord) for help and advice.
 
 ---
 

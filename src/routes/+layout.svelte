@@ -71,10 +71,10 @@
 			</div>
 			<div class="footer-social">
 				<div class="social-container">
-					<Button title="Join our Discord Server!">
+					<Button title="Join our Discord Server!" href="/discord">
 						<svelte:component this={DiscordIcon} class="social-icon" />
 					</Button>
-					<Button title="Check out our Source Code!">
+					<Button title="Check out our Source Code!" href="/source">
 						<svelte:component this={GithubIcon} class="social-icon" />
 					</Button>
 				</div>
@@ -152,9 +152,10 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		gap: 2rem;
 	}
 
-	.social-container > :global(button) {
+	.social-container > :global(a) {
 		font-size: 2rem;
 	}
 </style>
