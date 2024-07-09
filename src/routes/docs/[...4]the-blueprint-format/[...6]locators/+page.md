@@ -77,11 +77,11 @@ When selecting a Locator in `Animate Mode`, you can add Command Keyframes to it'
 
   :::admonition type=info title=Example
 
-  ```txt title="A Simple Execute Condition"
+  ```rust title="A Simple Execute Condition"
   if entity @s[tag=my_tag]
   ```
 
-  ```txt title="A More Complex Execute Condition"
+  ```rust title="A More Complex Execute Condition"
   aligned xyz positioned ~.5 ~ ~.5 if entity @n[tag=my_tag,distance=..0.1]
   ```
 
@@ -94,12 +94,12 @@ Sometimes you may want to execute commands at a specific locator's position / ro
 :::admonition type=info title=Example
 Execute at a specific locator's position
 
-```txt title="foo/as_root.mcfunction"
+```rust title="foo/as_root.mcfunction"
 execute as <root> on passengers if entity @s[tag=aj.data] run \
   function foo:position with entity @s data.locators.<locator_name>
 ```
 
-```txt title="foo/position.mcfunction"
+```rust title="foo/position.mcfunction"
 $execute positioned $(posx) $(posy) $(posz) rotated $(roty) $(rotx) run ...
 ```
 
@@ -110,12 +110,12 @@ Execute as a specific locator's entity
 
 Note that this method will only work if you have the Locator's `Use Entity` config option enabled.
 
-```txt title="foo/as_root.mcfunction"
+```rust title="foo/as_root.mcfunction"
 execute as <root> on passengers if entity @s[tag=aj.data] run \
   function foo:select with entity @s data.locators.<locator_name>
 ```
 
-```txt title="foo/select.mcfunction"
+```rust title="foo/select.mcfunction"
 $execute as $(uuid) run ...
 ```
 
@@ -125,13 +125,13 @@ $execute as $(uuid) run ...
 
 Executing commands at all of a Rig Instance's locators that have an entity associated with them.
 
-```txt title="foo/as_root.mcfunction"
+```rust title="foo/as_root.mcfunction"
 execute as <root> run \
   function animated_java:<export_namespace>/as_own_locator_entities \
   {command:'function foo:as_locator'}
 ```
 
-```txt title="foo/as_locator.mcfunction"
+```rust title="foo/as_locator.mcfunction"
 say Hello, World!
 ```
 
