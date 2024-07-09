@@ -1,10 +1,12 @@
 <script lang="ts">
-	import Youtube from 'svelte-youtube-embed'
 	import { onDestroy, onMount } from 'svelte'
 
-	import { Button } from '@svelteness/kit-docs'
+	// import { Button } from '@svelteness/kit-docs'
 	import { inView } from '$lib'
 	import Carousel from '../components/VideoCarousel.svelte'
+	// import { fly } from 'svelte/transition'
+
+	import MaterialSymbolsClose from '~icons/material-symbols/close'
 
 	let sidebar: HTMLElement | null
 	let main: HTMLElement | null
@@ -103,9 +105,46 @@
 			<Carousel></Carousel>
 		</div>
 	</div>
+
+	<!-- <div class="discord-widget-container">
+		<Button>
+			<svelte:component this={MaterialSymbolsClose} />
+		</Button>
+		<iframe
+			class="discord-widget"
+			title="Discord Widget"
+			src="https://discord.com/widget?id=785339959518953482&theme=dark"
+			width="350"
+			height="350"
+			allowtransparency="true"
+			frameborder="200"
+			sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+			in:fly|global={{ y: 100, duration: 1000, delay: 1000 }}
+		></iframe>
+	</div> -->
 </div>
 
 <style>
+	/* :global(.discord-widget-container) {
+		position: fixed;
+		bottom: 16px;
+		right: 16px;
+		background-color: rgb(88, 101, 242);
+		border-radius: 16px;
+		padding-top: 1rem;
+	}
+	:global(.discord-widget-container > button) {
+		position: absolute;
+		top: 0.25rem;
+		right: -0.5rem;
+	}
+	.discord-widget {
+		border-radius: 16px;
+	}
+	.discord-widget :global(.widgetBody-38iyIo) {
+		display: none;
+	} */
+
 	.section-title {
 		display: flex;
 		flex-direction: column;

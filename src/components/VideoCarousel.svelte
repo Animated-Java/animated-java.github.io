@@ -7,6 +7,7 @@
 	import { writable } from 'svelte/store'
 
 	let index = writable(0)
+	let container: HTMLDivElement
 
 	const VIDEOS = [
 		'fthlphRmsjY', // I Added Mr Beast to Minecraft...
@@ -27,12 +28,16 @@
 			`//www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`
 		)
 		const videoInfo = await res.json()
-
 		return videoInfo?.title
+	}
+
+	function setSelectedVideo(id: string) {
+		$index = VIDEOS.indexOf(id)
+		container?.scrollIntoView({ behavior: 'smooth' })
 	}
 </script>
 
-<div class="container">
+<div class="container" bind:this={container}>
 	{#key $index}
 		<Youtube id={VIDEOS[$index]} animations={false} />
 	{/key}
@@ -42,8 +47,8 @@
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
 				class="thumbnail-container"
-				on:click={(e) => {
-					index.set(VIDEOS.indexOf(id))
+				on:click={() => {
+					setSelectedVideo(id)
 				}}
 			>
 				<Button class="thumbnail-button">
