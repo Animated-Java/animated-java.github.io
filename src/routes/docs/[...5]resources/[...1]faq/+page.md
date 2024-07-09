@@ -23,7 +23,7 @@ There are a few things you can do to make sure your models run as smoothly as po
 - Use a few bones as possible. The more bones you have, the more NBT modifications need to be done each frame. Note that bones with no Cubes in them are not exported, and therefor do not contribute to performance issues.
 - Avoid playing animations when your Rig is not visible to the player.
 
-Animated Java is designed to be as efficient as possible, but there are still some limitations to what can be done with commands. If you are experiencing performance issues, consider joining the [Animated Java Discord](https://discord.gg/7Q2uY8Z) for help and advice.
+Animated Java is designed to be as efficient as possible, but there are still some limitations to what can be done with commands. If you are experiencing performance issues, consider joining the [Animated Java Discord](https://discord.gg/jFgY4PXZfp) for help and advice.
 
 ---
 
