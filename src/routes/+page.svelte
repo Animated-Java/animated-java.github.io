@@ -98,10 +98,10 @@
 		{/each}
 	</div>
 
-	<div class="center-container">
-		<div class="made-with-aj">
-			<h2 class="section-title">Made with Animated Java!</h2>
-			<hr />
+	<div class="made-with-aj">
+		<h2 class="section-title">Made with Animated Java!</h2>
+		<hr />
+		<div class="center-container">
 			<Carousel></Carousel>
 		</div>
 	</div>

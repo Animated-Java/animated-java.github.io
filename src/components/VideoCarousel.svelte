@@ -38,9 +38,16 @@
 </script>
 
 <div class="container" bind:this={container}>
-	{#key $index}
-		<Youtube id={VIDEOS[$index]} animations={false} />
-	{/key}
+	<Youtube id={VIDEOS[$index]} animations={false} />
+	{#await getYoutubeVideoTitle(VIDEOS[$index])}
+		<p class="main-title loading">Loading Title...</p>
+	{:then title}
+		<p class="main-title">{title}</p>
+	{:catch error}
+		<!--  -->
+	{/await}
+	<!-- {#key $index}
+	{/key} -->
 	<div class="grid">
 		{#each VIDEOS as id}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -57,7 +64,7 @@
 						style={`background-image: url(https://img.youtube.com/vi/${id}/0.jpg);`}
 					></div>
 					{#await getYoutubeVideoTitle(id)}
-						<p>Loading...</p>
+						<p class="loading">Loading Title...</p>
 					{:then title}
 						<p>{title}</p>
 					{:catch error}
@@ -110,12 +117,20 @@
 		box-shadow: 2px 2px 8px -4px black;
 	}
 	:global(.v__title) {
+		display: none;
 		text-align: left;
 		font-size: 1.5rem;
 		backdrop-filter: blur(4px);
 		background: rgba(var(--kd-color-elevate) / 0.5) !important;
 		padding-bottom: 0.25rem;
 		text-transform: capitalize;
+	}
+	.main-title {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+	.loading {
+		color: rgb(139, 139, 139);
 	}
 
 	@media (max-width: 768px) {
@@ -126,7 +141,7 @@
 			width: 128px;
 			height: 72px;
 		}
-		p {
+		.thumbnail-container p {
 			text-align: center;
 			text-transform: capitalize;
 			max-width: 128px;
