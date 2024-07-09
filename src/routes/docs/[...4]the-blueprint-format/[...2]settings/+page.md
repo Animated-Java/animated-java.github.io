@@ -39,13 +39,21 @@ The renderbox of the model. If this box goes off-screen in-game the model will s
 
 If you are using a Paper plugin to load your rig, you should enable this setting. It will change the way the rig is exported to be compatible with the plugin.
 
-### Export Resources
+### Resource Pack Export Mode
 
-Whether or not to export the textures and models used in the rig. If you are not using a resource pack, you should disable this setting.
+What format to export the Resource Pack in.
 
-### Export Data Pack
+- **Raw**: Exports the Resource Pack as a normal folder structure.
+- **Zip**: Exports the Resource Pack as a `.zip` file.
+- **None**: Does not export the Resource Pack.
 
-Whether or not to export the rig as a Data Pack. If you are not using a Data Pack (If you have a custom implementation of Animated Java), you should disable this setting.
+### Data Pack Export Mode
+
+What format to export the Data Pack in.
+
+- **Raw**: Exports the Data Pack as a normal folder structure.
+- **Zip**: Exports the Data Pack as a `.zip` file.
+- **None**: Does not export the Data Pack.
 
 ## Resource Pack Settings
 
@@ -73,14 +81,6 @@ If multiple blueprints export into the same resource pack, they will be automati
 
 ## Data Pack Settings
 
-<!-- ### Use Advanced Settings
-
-Whether or not to use the advanced settings for the data pack.
-
-:::admonition type=warning
-Do not use this setting unless your workflow absolutely requires it. It is not recommended for most users, and will not be as well supported as the default settings.
-::: -->
-
 ### Data Pack
 
 The data pack to export the rig into. The exported files will be placed in the `data/animated_java/<export_namespace>` folder of the selected data pack.
@@ -91,7 +91,7 @@ If multiple blueprints export into the same data pack, they will be automaticall
 
 A list of commands that is run as the Rig Instance's root entity when it's first summoned.
 
-### Interp Duration
+### Interpolation Duration
 
 The duration of the interpolation between animation frames. This is used to smooth out the animation. A value between 1 and 3 is recommended for best results.
 
@@ -105,8 +105,18 @@ Whether or not to use command storage to store animation data instead of functio
 
 This reduces the number of files in the data pack, but increases the performance cost of playing animations by around 33%.
 
-:::admonition type=danger
-This setting is experimental and may be removed in future versions.
+## Plugin Settings
 
-The storage animation system **_does not_** support variant, or command keyframes.
-:::
+These settings are only visible if Plugin Mode is enabled.
+
+### Baked Animations
+
+Whether or not to bake the exported animations.
+
+Baked animations have their frames pre-calculated and stored in the exported JSON file, reducing the complexity of rendering the model in-game.
+
+Some Plugins may require this to be enabled to function correctly.
+
+### JSON File
+
+The path to the exported [JSON file]().

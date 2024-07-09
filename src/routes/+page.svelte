@@ -61,6 +61,7 @@
 			<img src="/img/animated_java_icon.svg" />
 			<div>
 				<h1>Welcome to Animated Java!</h1>
+				<hr />
 				<h3>
 					A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition.
 				</h3>
@@ -70,14 +71,7 @@
 
 	<div class="panel-container">
 		{#each PANELS as panel, i}
-			<div
-				class={`panel ${i % 2 == 0 ? 'left' : 'right'}-panel`}
-				use:inView
-				on:enter={(e) => {
-					if (e.target.classList.contains('panel-fade-in')) return
-					e.target.classList.add('panel-fade-in')
-				}}
-			>
+			<div class={`panel ${i % 2 == 0 ? 'left' : 'right'}-panel`}>
 				{#if i % 2 == 0}
 					<img src={panel.image} alt={panel.title} />
 				{/if}
@@ -92,14 +86,22 @@
 				{#if i % 2 == 1}
 					<img src={panel.image} alt={panel.title} />
 				{/if}
+				<div
+					class="in-view"
+					use:inView
+					on:enter={(e) => {
+						if (e.target.parentElement.classList.contains('panel-fade-in')) return
+						e.target.parentElement.classList.add('panel-fade-in')
+					}}
+				/>
 			</div>
 		{/each}
 	</div>
 
-	<div class="made-with-aj">
-		<h2 class="section-title">Made with Animated Java!</h2>
-		<hr />
-		<div class="center-container">
+	<div class="center-container">
+		<div class="made-with-aj">
+			<h2 class="section-title">Made with Animated Java!</h2>
+			<hr />
 			<Carousel></Carousel>
 		</div>
 	</div>
@@ -143,6 +145,14 @@
 		display: none;
 	} */
 
+	.in-view {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		/* border: 1px solid red; */
+	}
+
 	.section-title {
 		display: flex;
 		flex-direction: column;
@@ -181,7 +191,7 @@
 		opacity: 0;
 		transform: translateX(10%);
 	}
-	.panel > div {
+	.panel > div:first-of-type {
 		align-self: center;
 		display: flex;
 		flex-direction: column;
@@ -202,6 +212,7 @@
 	}
 	h2 {
 		font-size: 1.5rem;
+		margin-bottom: 0.25rem;
 	}
 
 	.page {
@@ -249,6 +260,10 @@
 		flex-direction: column;
 		margin-top: 8rem;
 	}
+	.made-with-aj h2 {
+		font-size: 2rem;
+		margin: 0px;
+	}
 	hr {
 		width: 100%;
 		margin: 0rem 0 0.5rem 0;
@@ -256,6 +271,9 @@
 	}
 
 	@media (max-width: 768px) {
+		.in-view {
+			top: 50%;
+		}
 		.panel img {
 			width: 100%;
 		}
