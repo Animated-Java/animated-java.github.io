@@ -30,3 +30,22 @@ You will also need to remove the Animated Java function references from the `min
 
 - `<data_pack_root>/data/minecraft/tags/functions/tick.json`
 - `<data_pack_root>/data/minecraft/tags/functions/load.json`
+
+## Function API Changes
+
+A few changes have been made to the function API in Animated Java. These changes are detailed below.
+
+### Summon Function
+
+The [summon function](/docs/exported-rigs/summoning-a-new-rig-instance) has been updated to use macro arguments instead of scoreboard arguments.
+
+```rust title="Old"
+scoreboard players operation #variant aj.i = $aj.armor_stand.variant.no_baseplate aj.id
+scoreboard players operation #animation aj.i = $aj.armor_stand.animation.walk aj.id
+scoreboard players set #frame aj.i 20
+function animated_java:armor_stand/summon
+```
+
+```rust title="New"
+function animated_java:armor_stand/summon {args:{variant:'no_baseplate', animation:'walk', frame: 20}}
+```
