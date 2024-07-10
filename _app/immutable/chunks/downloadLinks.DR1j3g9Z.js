@@ -1,1 +1,0 @@
-const a="https://github.com/Animated-Java/animated-java/releases/latest/download/animated_java.js",t="https://github.com/Animated-Java/animated-java/releases/download/legacy-beta/animated_java.js",e="https://github.com/Animated-Java/animated-java/releases/download/legacy-armorstands/animated_java.js";export{a as L,e as a,t as b};

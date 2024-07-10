@@ -1,1 +1,0 @@
-import{L as e}from"../chunks/downloadLinks.DR1j3g9Z.js";import{r}from"../chunks/index.De_1-CT6.js";const o=!0;function t(){throw r(302,e)}const i=Object.freeze(Object.defineProperty({__proto__:null,load:t,prerender:o},Symbol.toStringTag,{value:"Module"}));export{i as universal};
