@@ -13,12 +13,13 @@
 		'fthlphRmsjY', // I Added Mr Beast to Minecraft...
 		'dd7pqAPd-p0', // Phantom Manor
 		'M2R3zgvbZ30', // How to Mine a Tree
-		'0xPyRA-he5c', // Cataclysmic Emissary
+		'biJ41HIeu3E', // Minecraft: Fabled Lands - Lord Veridian Boss Fight
 		'0UCrI7NJ5KI', // New Boss Test
-		'-6pLFvW5_Dk', // Camera Animation Test
+		'0xPyRA-he5c', // Cataclysmic Emissary
 		'yfaQM3aHgxE', // Mordecai the Unending
-		'sC3FqzpDrpQ', // Diamond Golem
 		'CO2kYUMpYPk', // Excuse me Sir
+		'-6pLFvW5_Dk', // Camera Animation Test
+		'sC3FqzpDrpQ', // Diamond Golem
 		'fs0NUGmsa10', // Butter Dog
 		'4VlwyI0EHo4' // Funny Mobile Game
 	]

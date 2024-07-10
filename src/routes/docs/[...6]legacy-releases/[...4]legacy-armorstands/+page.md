@@ -9,8 +9,8 @@ description: The initial release of Animated Java that uses items on the heads o
 
 ## Install URL
 
-```txt
-https://animated-java.dev/downloads/legacy_armorstands
-```
+````txt
+https://builds.animated-java.dev/legacy-armorstands/animated_java.js```
 
 Follow the instructions in [Installing Legacy Versions](installing-legacy-versions) to install this version of the plugin.
+````

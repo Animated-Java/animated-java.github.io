@@ -9,8 +9,8 @@ description: The last Beta version of Animated Java 1.0.0. Uses Display Entities
 
 ## Install URL
 
-```txt
-https://animated-java.dev/downloads/legacy_beta
-```
+````txt
+https://builds.animated-java.dev/legacy-beta/animated_java.js```
 
 Follow the instructions in [Installing Legacy Versions](installing-legacy-versions) to install this version of the plugin.
+````
