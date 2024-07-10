@@ -7,6 +7,10 @@ const SPECIFIC_VERSION =
 
 export const prerender = true
 
+export function entries() {
+	return [{ version: 'latest' }, { version: 'legacy-beta' }, { version: 'legacy-armorstands' }]
+}
+
 export function load({ params }) {
 	console.log(params.version)
 	if (params.version === 'latest') {
