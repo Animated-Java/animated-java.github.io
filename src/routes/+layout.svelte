@@ -14,7 +14,6 @@
 		Button,
 		KitDocs,
 		KitDocsLayout,
-		SocialLink,
 		createSidebarContext,
 		type NavbarConfig
 	} from '@svelteness/kit-docs'
@@ -34,8 +33,10 @@
 	const { activeCategory } = createSidebarContext(sidebar)
 
 	$: category = $activeCategory ? `${$activeCategory}: ` : ''
-	$: title = meta ? `${category}${meta.title} | Animated Java` : 'Animated Java'
-	$: description = meta?.description
+	$: title = meta ? `Animated Java | ${category}${meta.title}` : 'Animated Java'
+	$: description =
+		meta?.description ||
+		'A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition.'
 </script>
 
 <svelte:head>
@@ -46,6 +47,15 @@
 		{#if description}
 			<meta name="description" content={description} />
 		{/if}
+		<meta property="og:type" content="website" />
+		<meta content={title} property="og:title" />
+		<meta content={description} property="og:description" />
+		<meta content={$page.url} property="og:url" />
+		<meta
+			content="https://animated-java.github.io/img/animated_java_animated_icon.png"
+			property="og:image"
+		/>
+		<meta content="#00ACED" data-react-helmet="true" name="theme-color" />
 	{/key}
 </svelte:head>
 
