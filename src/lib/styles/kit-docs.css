@@ -95,10 +95,15 @@ code::after {
 }
 
 code:not(pre code) {
-	background-color: var(--kd-code-fence-bg) !important;
-	padding: 4px 8px !important;
-	border-radius: 6px !important;
-	color: var(--kd-code-fence-fg) !important;
+	background-color: #16171b !important;
+	padding: 4px 6px !important;
+	border-radius: 4px !important;
+	border: 1px solid #2e3440 !important;
+	color: #f78c6c !important;
 	font-weight: normal !important;
 	text-wrap: nowrap !important;
+}
+
+td {
+	text-wrap: balance !important;
 }

@@ -19,12 +19,12 @@ execute positioned <x> <y> <z> rotated <rx> <ry> run function animated_java:<exp
 
 ## Arguments
 
-The `summon` function can take the following arguments:
-
-- `variant` (optional): The name of the Variant of the Rig Instance to summon. If not specified, the default Variant will be used.
-- `animation` (optional): The name of the Animation to use as the summoned pose of the Rig Instance. If not specified, the default pose will be used.
-- `frame` (optional): Which frame of the Animation to use as the summoned pose of the Rig Instance. If not specified, the first frame will be used. Requires the `animation` argument to be specified.
-- `start_animation` (optional): Whether to start the Animation when the Rig Instance is summoned. If not specified, the Animation will not start. Requires the `animation` argument to be specified.
+| Name              | Type    | Description                                                                                                                                                                      |
+| ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`         | String  | The name of the Variant of the Rig Instance to summon. If not specified, the default Variant will be used.                                                                       |
+| `animation`       | String  | The name of the Animation to use as the summoned pose of the Rig Instance. If not specified, the default pose will be used.                                                      |
+| `frame`           | Integer | Which frame of the Animation to use as the summoned pose of the Rig Instance. If not specified, the first frame will be used. Requires the `animation` argument to be specified. |
+| `start_animation` | Boolean | Whether to start the Animation when the Rig Instance is summoned. If not specified, the Animation will not start. Requires the `animation` argument to be specified.             |
 
 :::admonition type="info" title="Examples"
 

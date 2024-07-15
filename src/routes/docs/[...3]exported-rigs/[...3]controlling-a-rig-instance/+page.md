@@ -77,7 +77,9 @@ Sets the animation to a specific frame with interpolation.
 
 #### Arguments
 
-- `frame` (int): The frame to set the animation to.
+| Name    | Type    | Description                        |
+| ------- | ------- | ---------------------------------- |
+| `frame` | Integer | The frame to set the animation to. |
 
 ```rust title=Set the walk animation to frame 10 with interpolation | copy
 execute as @e[type=item_display,tag=aj.<export_namespace>.root] run \
@@ -90,7 +92,9 @@ Sets the animation to a specific frame instantly without interpolation.
 
 #### Arguments
 
-- `frame` (int): The frame to set the animation to.
+| Name    | Type    | Description                        |
+| ------- | ------- | ---------------------------------- |
+| `frame` | Integer | The frame to set the animation to. |
 
 ```rust title=Set the walk animation to frame 10 | copy
 execute as @e[type=item_display,tag=aj.<export_namespace>.root] run \
@@ -103,8 +107,10 @@ Pauses all currently playing animations, and smoothly transitions to the target 
 
 #### Arguments
 
-- `to_frame` (int): The frame of this animation to tween to.
-- `duration` (int): The duration of the tween in ticks.
+| Name       | Type    | Description                              |
+| ---------- | ------- | ---------------------------------------- |
+| `to_frame` | Integer | The frame of this animation to tween to. |
+| `duration` | Integer | The duration of the tween in ticks.      |
 
 ```rust title=Smoothly transition the walk animation to frame 10 over a second | copy
 execute as @e[type=item_display,tag=aj.<export_namespace>.root] run \
