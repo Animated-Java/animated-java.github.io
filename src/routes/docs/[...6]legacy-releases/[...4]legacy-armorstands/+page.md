@@ -7,9 +7,7 @@ description: The initial release of Animated Java that uses items on the heads o
 
 {$frontmatter.description}
 
-## Install URL
-
-```txt
+```txt copy|title=Download URL
 https://builds.animated-java.dev/download/legacy-armorstands/animated_java.js
 ```
 

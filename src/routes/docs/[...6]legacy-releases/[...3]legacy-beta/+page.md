@@ -7,9 +7,7 @@ description: The last Beta version of Animated Java 1.0.0. Uses Display Entities
 
 {$frontmatter.description}
 
-## Install URL
-
-```txt
+```txt copy|title=Download URL
 https://builds.animated-java.dev/download/legacy-beta/animated_java.js
 ```
 
