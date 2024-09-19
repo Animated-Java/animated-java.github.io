@@ -315,7 +315,7 @@
 			text-align: center;
 		}
 		.page {
-			margin: 0px 16px 0 16px;
+			margin-left: 32px;
 		}
 		.panel-container {
 			margin-top: 2rem;

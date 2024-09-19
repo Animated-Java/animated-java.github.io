@@ -9,13 +9,7 @@ Do you wish your Vanilla Minecraft creations could move and animate like the one
 Are you <i>tired</i> of Minecraft's <WigglyText text="silly model limitations?"/> Animated Java is here to help!
 
 <div
-	style="
-	display: flex;
-	align-items: center;
-	height: 64px;
-	margin-top: 8px;
-	margin-bottom: 0 !important;
-"
+	class="aj-welcome-page-header"
 >
 	<h1 style="	margin-top: 0px; margin-bottom: 0">Welcome to Animated Java!</h1>
 	<img
