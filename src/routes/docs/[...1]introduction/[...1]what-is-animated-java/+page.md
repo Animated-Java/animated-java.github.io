@@ -20,9 +20,7 @@ Are you <i>tired</i> of Minecraft's <WigglyText text="silly model limitations?"/
 	/>
 </div>
 
-Animated Java is a plugin for Blockbench that allows you to create custom animations and models
-for Vanilla Minecraft. It uses the power of Java Edition's Data Pack and Resource Pack systems
-to bring your creations to life!
+Animated Java is a plugin for Blockbench that allows you to create animated entity models for Vanilla Minecraft. It uses the power of Java Edition's Data Pack and Resource Pack systems to bring your creations to life!
 
 - Variants: Swap between different textures in-game.
 - Highly optimized: Hours of performance optimizations have gone into Animated Java's Exported Data Pack to make sure it's as fast as possible.

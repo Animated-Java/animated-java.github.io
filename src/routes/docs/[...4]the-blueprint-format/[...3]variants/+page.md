@@ -1,6 +1,6 @@
 ---
 title: Variants
-description: Learn what variants are and how to use them in Animated Java.
+description: Variants are variations of a model that can be applied to a Rig Instance to change it's appearance, and NBT.
 ---
 
 # {$frontmatter.title}

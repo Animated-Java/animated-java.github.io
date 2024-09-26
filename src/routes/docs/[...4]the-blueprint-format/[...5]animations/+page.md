@@ -1,6 +1,6 @@
 ---
 title: Animations
-description: Everything you need to know about Animations in the Blueprint Format.
+description: Animations are sequences of keyframes that can be played on a Rig Instance to animate it's elements.
 ---
 
 # {$frontmatter.title}
