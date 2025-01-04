@@ -12,6 +12,7 @@
 	const VIDEOS = [
 		'RFwAM5v5QoQ', // I Coded Minecraft’s Hardest Difficulty
 		'dd7pqAPd-p0', // Phantom Manor
+		'XdABXLbS_ok', // I Coded Five Nights at Freddy's in Minecraft
 		'M2R3zgvbZ30', // How to Mine a Tree
 		'biJ41HIeu3E', // Minecraft: Fabled Lands - Lord Veridian Boss Fight
 		'0UCrI7NJ5KI', // New Boss Test
