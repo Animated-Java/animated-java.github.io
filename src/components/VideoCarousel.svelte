@@ -10,12 +10,13 @@
 	let container: HTMLDivElement
 
 	const VIDEOS = [
-		'fthlphRmsjY', // I Added Mr Beast to Minecraft...
+		'RFwAM5v5QoQ', // I Coded Minecraft’s Hardest Difficulty
 		'dd7pqAPd-p0', // Phantom Manor
 		'M2R3zgvbZ30', // How to Mine a Tree
 		'biJ41HIeu3E', // Minecraft: Fabled Lands - Lord Veridian Boss Fight
 		'0UCrI7NJ5KI', // New Boss Test
 		'0xPyRA-he5c', // Cataclysmic Emissary
+		'fthlphRmsjY', // I Added Mr Beast to Minecraft...
 		'yfaQM3aHgxE', // Mordecai the Unending
 		'CO2kYUMpYPk', // Excuse me Sir
 		'-6pLFvW5_Dk', // Camera Animation Test
