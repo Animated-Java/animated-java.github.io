@@ -81,7 +81,7 @@ See the [Included / Excluded Bones](/docs/the-blueprint-format/animations#includ
 
 ## Can I smoothly transition between different animations?
 
-**Yes!** See the [Tweening](/docs/exported-rigs/controlling-a-rig-instance#tween-function) section of Blueprint Animations for more information.
+**Yes!** See the [Tweening](/docs/rigs/controlling-a-rig-instance#tween-function) section of Blueprint Animations for more information.
 
 ## How long has Animated Java been in development?
 

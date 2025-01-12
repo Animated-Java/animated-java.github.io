@@ -37,7 +37,7 @@ A few changes have been made to the function API in Animated Java. These changes
 
 ### Summon Function
 
-The [summon function](/docs/exported-rigs/summoning-a-new-rig-instance) has been updated to use macro arguments instead of scoreboard arguments.
+The [summon function](/docs/rigs/summoning-a-new-rig-instance) has been updated to use macro arguments instead of scoreboard arguments.
 
 ```rust title="Old"
 scoreboard players operation #variant aj.i = $aj.armor_stand.variant.no_baseplate aj.id

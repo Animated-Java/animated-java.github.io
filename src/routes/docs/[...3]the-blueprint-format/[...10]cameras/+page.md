@@ -7,7 +7,7 @@ description: Cameras are used to control the player's view during an animation b
 
 { $frontmatter.description }
 
-Looking for how to interact with a Camera in-game? Check out [Interacting with Cameras](/docs/rigs/camera).
+Looking for how to interact with a Camera in-game? Check out [Interacting with Cameras](/docs/rigs/cameras).
 
 ## Installing the Camera Plugin
 
