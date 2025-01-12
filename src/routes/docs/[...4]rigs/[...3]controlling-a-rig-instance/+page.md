@@ -5,12 +5,14 @@ description: Learn how to control a Rig Instance.
 
 # { $frontmatter.title }
 
+{ $frontmatter.description }
+
 ## Selecting the Rig Instance
 
 Before we can control a Rig Instance, we need to be able to select it. The following selectors can be used to select Rig Instances:
 
 ```rust title=Select all Rig Instances | copy
-@e[type=item_display,tag=aj.rig_root]
+@e[type=item_display,tag=aj.global.root]
 ```
 
 ```rust title=Select all Rig Instances from a specific Blueprint | copy

@@ -1,11 +1,13 @@
 ---
 title: Locators
-description: Locators are used to execute commands at a specific position / rotation relative to the Rig Instance.
+description: Locators are points in space that can be used to execute commands at specific positions / rotations relative to your Rig Instance.
 ---
 
 # { $frontmatter.title }
 
 { $frontmatter.description }
+
+Looking for how to interact with a Locator in-game? Check out [Interacting with Locators](/docs/rigs/locators).
 
 ## Creating a Locator
 
@@ -86,53 +88,3 @@ When selecting a Locator in `Animate Mode`, you can add Command Keyframes to it'
   ```
 
   :::
-
-## Excuting Commands as / at Locators Externally.
-
-Sometimes you may want to execute commands at a specific locator's position / rotation from an external function. This can be done by getting the locator's information using the data entity's `data.locators.<locator_name>` NBT.
-
-:::admonition type=info title=Example
-Execute at a specific locator's position
-
-```rust title="foo/as_root.mcfunction"
-execute as <root> on passengers if entity @s[tag=aj.data] run \
-  function foo:position with entity @s data.locators.<locator_name>
-```
-
-```rust title="foo/position.mcfunction"
-$execute positioned $(posx) $(posy) $(posz) rotated $(roty) $(rotx) run ...
-```
-
-:::
-
-:::admonition type=info title=Example
-Execute as a specific locator's entity
-
-Note that this method will only work if you have the Locator's `Use Entity` config option enabled.
-
-```rust title="foo/as_root.mcfunction"
-execute as <root> on passengers if entity @s[tag=aj.data] run \
-  function foo:select with entity @s data.locators.<locator_name>
-```
-
-```rust title="foo/select.mcfunction"
-$execute as $(uuid) run ...
-```
-
-:::
-
-:::admonition type=info title=Example
-
-Executing commands at all of a Rig Instance's locators that have an entity associated with them.
-
-```rust title="foo/as_root.mcfunction"
-execute as <root> run \
-  function animated_java:<export_namespace>/as_own_locator_entities \
-  {command:'function foo:as_locator'}
-```
-
-```rust title="foo/as_locator.mcfunction"
-say Hello, World!
-```
-
-:::

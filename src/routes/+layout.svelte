@@ -76,9 +76,13 @@
 		<slot />
 
 		<div class="footer" slot="main-bottom">
-			<div class="header-wip-warning" style="margin-top: 16px;">
-				⚠️ This website is a work in progress. Some pages may be incomplete or missing. ⚠️
-			</div>
+			{#if $page.url.pathname !== '/'}
+				<div class="footer-wip-warning" style="margin-top: 16px;">
+					⚠️ This site only contains the documentation for the latest release of Animated Java. ⚠️
+					<br />
+					Older versions may have different features or behavior.
+				</div>
+			{/if}
 			<div class="footer-social">
 				<div class="social-container">
 					<Button title="Join our Discord Server!" href="/discord">
@@ -193,14 +197,15 @@
 		align-items: center;
 	}
 
-	.header-wip-warning {
-		margin-bottom: 1rem;
+	.footer-wip-warning {
+		/* margin-bottom: 1rem; */
 		text-align: center;
 	}
 
 	.footer-social {
 		display: flex;
 		justify-content: center;
+		margin-top: 2rem;
 		margin-bottom: 2rem;
 	}
 
