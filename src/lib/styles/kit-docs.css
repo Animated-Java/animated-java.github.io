@@ -1,12 +1,14 @@
 :root,
 .prefers-light-scheme {
 	--kd-color-brand: 0 172 237;
-	--kd-color-focus: 79 70 229;
+	--kd-color-focus: 0 172 237 !important;
 	--kd-color-soft: 68 78 94;
 	--kd-color-body: 250 250 250;
 	--kd-color-elevate: 243 244 246;
 	--kd-color-inverse: 5 11 23;
 	--kd-color-border: 209 213 219;
+
+	--kd-color-subtle: rgb(181 186 199);
 
 	--kd-code-fence-bg: rgb(212 217 251);
 	--kd-code-fence-fg: rgb(26, 29, 36);
