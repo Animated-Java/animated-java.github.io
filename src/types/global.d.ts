@@ -4,6 +4,6 @@ declare module 'virtual:icons/*' {
 }
 
 declare module '~icons/*' {
-	const component: string
+	const component: any
 	export default component
 }

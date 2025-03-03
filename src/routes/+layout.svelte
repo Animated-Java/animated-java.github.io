@@ -1,9 +1,14 @@
 <script lang="ts">
+	import '@docsearch/css' // Must come first.
+	import '@svelteness/kit-docs/client/styles/docsearch.css'
+
 	import '@svelteness/kit-docs/client/polyfills/index.js'
 	import '@svelteness/kit-docs/client/styles/normalize.css'
 	import '@svelteness/kit-docs/client/styles/fonts.css'
 	import '@svelteness/kit-docs/client/styles/theme.css'
 	import '$lib/styles/kit-docs.css'
+
+	import { Algolia } from '@svelteness/kit-docs/client/algolia'
 
 	import { page } from '$app/stores'
 
@@ -60,7 +65,16 @@
 </svelte:head>
 
 <KitDocs {meta}>
-	<KitDocsLayout {navbar} {sidebar}>
+	<KitDocsLayout {navbar} {sidebar} search>
+		<!-- FIXME - Add actual Animated Java site's API keys (These are placeholders from the Algolia docs) -->
+		<Algolia
+			apiKey="599cec31baffa4868cae4e79f180729b"
+			appId="R2IYF7ETH7"
+			indexName="docsearch"
+			placeholder="Search the Docs..."
+			slot="search"
+		/>
+
 		<div class="logo" slot="navbar-left">
 			<Button href="/">
 				<div class="header-container">
