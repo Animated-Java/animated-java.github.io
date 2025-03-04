@@ -11,9 +11,9 @@ description: Get started with Animated Java by installing the plugin.
 
 You'll need the following tools to get started with Animated Java:
 
-- [Blockbench](https://blockbench.net/) 4.10.0 or newer.
-- [Minecraft](https://www.minecraft.net/) 1.21 or newer. See our [legacy releases](/docs/legacy-releases/index) for older versions of Minecraft.
-- A text editor. We recommend [Visual Studio Code](https://code.visualstudio.com/).
+-   [Blockbench](https://blockbench.net/) 4.10.0 or newer.
+-   [Minecraft](https://www.minecraft.net/) 1.21 or newer. See our [legacy releases](/docs/legacy-releases/versions) for older versions of Minecraft.
+-   A text editor. We recommend [Visual Studio Code](https://code.visualstudio.com/).
 
 ## Installing Animated Java
 

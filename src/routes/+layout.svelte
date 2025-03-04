@@ -1,73 +1,121 @@
 <script lang="ts">
+	import '@docsearch/css' // Must come first.
+	import '@svelteness/kit-docs/client/styles/docsearch.css'
+
 	import '@svelteness/kit-docs/client/polyfills/index.js'
 	import '@svelteness/kit-docs/client/styles/normalize.css'
 	import '@svelteness/kit-docs/client/styles/fonts.css'
 	import '@svelteness/kit-docs/client/styles/theme.css'
 	import '$lib/styles/kit-docs.css'
-
+	import { Algolia } from '@svelteness/kit-docs/client/algolia'
 	import { page } from '$app/stores'
-
+	import { PUBLIC_ALGOLIA_ID, PUBLIC_ALGOLIA_SEARCH_KEY } from '$env/static/public'
 	import DiscordIcon from '~icons/ri/discord-fill'
 	import GithubIcon from '~icons/ri/github-fill'
+	import KofiIcon from '../kit-docs/kofiLogo.svelte'
+	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs'
+	import { SLOGAN } from '$lib/strings'
+	import HeadMeta from '../components/HeadMeta.svelte'
 
-	import {
-		Button,
-		KitDocs,
-		KitDocsLayout,
-		createSidebarContext,
-		type NavbarConfig
-	} from '@svelteness/kit-docs'
-	import type { LayoutData } from './$types'
+	export let data
 
-	export let data: LayoutData
+	const links = [
+		{ label: 'Home', title: 'Home', slug: '/', match: /^\/$/, icon: false },
+		{
+			label: 'Documentation',
+			title: 'Documentation',
+			slug: '/docs',
+			match: /^\/docs\S*/,
+			icon: false,
+		},
+		{ icon: DiscordIcon, title: 'Join our Discord!', slug: '/discord', match: /^\/discord$/ },
+		{
+			icon: GithubIcon,
+			title: 'View Source Code (Github)',
+			slug: '/source',
+			match: /^\/source$/,
+		},
+		{ icon: KofiIcon, title: 'Support Us!', slug: '/support-us', match: /^\/support-us$/ },
+	]
 
-	$: ({ meta, sidebar } = data)
+	let currentRelease = '1.X.X'
 
-	const navbar: NavbarConfig = {
-		links: [
-			{ title: 'Home', slug: '/', match: /\// },
-			{ title: 'Documentation', slug: '/docs', match: /\/docs/ }
-		]
+	const PACKAGE_URL =
+		'https://raw.githubusercontent.com/Animated-Java/animated-java/refs/heads/main/package.json'
+
+	function getCurrentRelease() {
+		try {
+			fetch(PACKAGE_URL)
+				.then(res => res.json())
+				.then(data => {
+					currentRelease = data.version
+				})
+		} catch (error) {
+			console.error(error)
+		}
 	}
+	getCurrentRelease()
 
-	const { activeCategory } = createSidebarContext(sidebar)
+	const { activeCategory } = createSidebarContext(data.sidebar)
 
-	$: category = $activeCategory ? `${$activeCategory}: ` : ''
-	$: title = meta ? `Animated Java | ${category}${meta.title}` : 'Animated Java'
-	$: description =
-		meta?.description ||
-		'A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition.'
+	$: category = $activeCategory ? `${$activeCategory} — ` : ''
+	$: title = data.meta ? `Animated Java | ${category}${data.meta.title}` : 'Animated Java'
+	$: description = data.meta?.description || SLOGAN
 </script>
 
-<svelte:head>
-	{#key $page.url.pathname}
-		{#if title}
-			<title>{title}</title>
-		{/if}
-		{#if description}
-			<meta name="description" content={description} />
-		{/if}
-		<meta property="og:type" content="website" />
-		<meta content={title} property="og:title" />
-		<meta content={description} property="og:description" />
-		<meta content={$page.url} property="og:url" />
-		<meta
-			content="https://animated-java.github.io/img/animated_java_animated_icon.png"
-			property="og:image"
-		/>
-		<meta content="#00ACED" data-react-helmet="true" name="theme-color" />
-	{/key}
-</svelte:head>
+<HeadMeta {title} {description} />
 
-<KitDocs {meta}>
-	<KitDocsLayout {navbar} {sidebar}>
+<KitDocs meta={data.meta}>
+	<KitDocsLayout navbar={{ links: [] }} sidebar={data.sidebar} search>
+		<Algolia
+			appId={PUBLIC_ALGOLIA_ID}
+			apiKey={PUBLIC_ALGOLIA_SEARCH_KEY}
+			indexName="docsearch"
+			placeholder="Search the Docs..."
+			slot="search"
+		/>
+
+		<ul slot="navbar-right" class="nav-links">
+			{#each links as link}
+				<li>
+					<a
+						class={!!link.match.exec($page.url.pathname) ? 'active' : ''}
+						title={link.title}
+						href={link.slug}
+					>
+						{link.label ?? ''}
+						<svelte:component this={link.icon} />
+					</a>
+				</li>
+			{/each}
+		</ul>
+
+		<div class="hide-parent" slot="navbar-right-alt"></div>
+
+		<ul
+			slot="sidebar-top"
+			class={'custom-sidebar-top' + ($page.url.pathname === '/docs' ? ' active' : '')}
+		>
+			<li>
+				<a href="/docs">
+					<h5 class="">Welcome!</h5>
+				</a>
+			</li>
+		</ul>
+
 		<div class="logo" slot="navbar-left">
 			<Button href="/">
 				<div class="header-container">
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<img src="/img/animated_java_icon.svg" />
+					<img class="icon" src="/img/animated_java_icon.svg" alt="Animated Java Icon" />
 					<div>
-						<h1>Animated Java</h1>
+						<img
+							class="banner"
+							role="heading"
+							aria-level="1"
+							aria-label="Animated Java"
+							src="/img/animated_java_2025_banner_no_background_no_padding.svg"
+							alt="Animated Java"
+						/>
 					</div>
 				</div>
 			</Button>
@@ -77,36 +125,18 @@
 
 		<div class="footer" slot="main-bottom">
 			{#if $page.url.pathname !== '/'}
-				<div class="footer-wip-warning" style="margin-top: 16px;">
-					⚠️ This site only contains the documentation for the latest release of Animated Java. ⚠️
+				<div class="footer-version-warning">
+					This documentation is for the latest release of Animated Java.
 					<br />
-					Older versions may have different features or behavior.
+					Versions older than {currentRelease}, or
+					<a class="link" href="/docs/legacy-releases/versions">legacy</a> versions may have
+					different features or behavior.
 				</div>
 			{/if}
-			<div class="footer-social">
-				<div class="social-container">
-					<Button title="Join our Discord Server!" href="/discord">
-						<svelte:component this={DiscordIcon} class="social-icon" />
-					</Button>
-					<Button title="Check out our Source Code!" href="/source">
-						<svelte:component this={GithubIcon} class="social-icon" />
-					</Button>
-					<Button title="Support Us on Ko-fi!" href="https://ko-fi.com/snavesutit">
-						<svg
-							width="39"
-							height="39"
-							viewBox="0 0 39 39"
-							class="social-icon"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M36.821 13.9081C35.6615 7.76406 29.5326 7 29.5326 7H2.08442C1.17843 7 1.06593 8.20024 1.06593 8.20024C1.06593 8.20024 0.942933 19.2159 1.03293 25.9812C1.27893 29.627 4.91188 30 4.91188 30C4.91188 30 17.3122 29.9654 22.8606 29.9263C26.5176 29.2856 26.8851 26.0669 26.8476 24.3102C33.3755 24.6711 37.9804 20.0522 36.821 13.9081ZM20.2282 19.1889C18.3592 21.3742 14.2118 25.169 14.2118 25.169C14.2118 25.169 14.0303 25.348 13.7468 25.2036C13.6328 25.1178 13.5848 25.0682 13.5848 25.0682C12.9203 24.4049 8.53283 20.4823 7.53385 19.1212C6.47036 17.6698 5.97237 15.0602 7.39735 13.5411C8.82383 12.022 11.9048 11.9077 13.9418 14.1533C13.9418 14.1533 16.2892 11.4731 19.1437 12.7049C21.9997 13.9382 21.8917 17.2336 20.2282 19.1889ZM29.4876 19.9078C28.0956 20.0823 26.9646 19.9499 26.9646 19.9499V11.4054H29.6196C29.6196 11.4054 32.576 12.2341 32.576 15.3731C32.576 18.2503 31.0985 19.3844 29.4876 19.9078Z"
-								fill="currentColor"
-							/>
-						</svg>
-					</Button>
-				</div>
-			</div>
+			<p class="footer-copywrite">
+				© 2025 Titus Evans. All rights reserved. <br />Animated Java is not affiliated with
+				Mojang Studios.
+			</p>
 			{#if $page.url.pathname !== '/'}
 				<a class="ko-fi-button" href="https://ko-fi.com/snavesutit">
 					<img src="/img/kofi-logo.png" alt="" /> Support Us!
@@ -124,6 +154,60 @@
 	:global(:root.dark) {
 		--kd-color-brand-rgb: 213, 149, 76;
 	}
+
+	:global(:has(> .hide-parent)) {
+		display: none;
+	}
+
+	.custom-sidebar-top {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		/* font-size: 1.125rem; */
+		font-weight: 400;
+		margin-bottom: 2rem;
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+		border-left: 1px solid rgb(var(--kd-color-elevate));
+		padding-left: 1rem;
+		padding-top: 0.25rem;
+		padding-bottom: 0.25rem;
+	}
+	.custom-sidebar-top > li {
+		flex-grow: 1;
+	}
+	.custom-sidebar-top:hover {
+		color: rgb(var(--kd-color-inverse) / var(--tw-text-opacity));
+		border-color: rgb(var(--kd-color-inverse) / var(--tw-border-opacity));
+	}
+	.custom-sidebar-top.active {
+		color: rgb(var(--kd-color-brand));
+		border-color: rgb(var(--kd-color-brand));
+		font-weight: 600;
+	}
+
+	.nav-links {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+	.nav-links > li {
+		list-style: none;
+		display: flex;
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+	}
+	.nav-links > li > a {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.nav-links > li > a.active {
+		color: rgb(var(--kd-color-brand));
+		border-bottom: 2px solid rgb(var(--kd-color-brand));
+	}
+	/* .nav-links > li > img,
+	.nav-links > li > :global(svg) {
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+	} */
 
 	.ko-fi-button {
 		position: fixed;
@@ -170,6 +254,9 @@
 			margin-top: 8px;
 			margin-bottom: 0 !important;
 		}
+		.logo img.banner {
+			display: none !important;
+		}
 	}
 
 	:global(.aj-welcome-page-header) {
@@ -191,22 +278,36 @@
 		overflow: hidden;
 	}
 
+	.logo img.icon {
+		width: 48px;
+		border-radius: 8px;
+		box-shadow: 2px 2px 4px -2px black;
+	}
+	.logo img.banner {
+		width: 200px;
+		margin: 8px 0;
+	}
+
 	.footer {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
-	.footer-wip-warning {
-		/* margin-bottom: 1rem; */
+	.footer-version-warning {
 		text-align: center;
+		border: 2px dashed #facc15aa;
+		padding: 4px 8px;
+		border-radius: 8px;
+		font-style: italic;
+		margin-top: -32px;
+		color: var(--kd-color-subtle);
 	}
 
-	.footer-social {
-		display: flex;
-		justify-content: center;
-		margin-top: 2rem;
-		margin-bottom: 2rem;
+	.footer-copywrite {
+		margin: 32px;
+		color: var(--kd-color-subtle);
+		text-align: center;
 	}
 
 	.header-container {
@@ -221,24 +322,5 @@
 		flex-direction: column;
 		justify-content: center;
 		margin-left: 1rem;
-	}
-	.header-container img {
-		width: 48px;
-		border-radius: 8px;
-		box-shadow: 2px 2px 4px -2px black;
-	}
-	.header-container h1 {
-		font-size: 1.5rem;
-	}
-
-	.social-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		gap: 2rem;
-	}
-
-	.social-container > :global(a) {
-		font-size: 2rem;
 	}
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	import { inView, scrollAnimator } from '$lib'
 	import { Button } from '@svelteness/kit-docs'
 </script>
 
@@ -24,7 +25,7 @@
 		'-6pLFvW5_Dk', // Camera Animation Test
 		'sC3FqzpDrpQ', // Diamond Golem
 		'fs0NUGmsa10', // Butter Dog
-		'4VlwyI0EHo4' // Funny Mobile Game
+		'4VlwyI0EHo4', // Funny Mobile Game
 	]
 
 	async function getYoutubeVideoTitle(id: string) {
@@ -50,10 +51,8 @@
 	{:catch error}
 		<!--  -->
 	{/await}
-	<!-- {#key $index}
-	{/key} -->
 	<div class="grid">
-		{#each VIDEOS as id}
+		{#each VIDEOS as id, index}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div
@@ -67,6 +66,21 @@
 						class="thumbnail-image"
 						style={`background-image: url(https://img.youtube.com/vi/${id}/0.jpg);`}
 					></div>
+					<div
+						use:inView={{ top: 100 }}
+						on:enter={e => {
+							if (
+								e.target.parentElement?.parentElement?.parentElement?.classList.contains(
+									'transition-in'
+								)
+							)
+								return
+							e.target.parentElement.parentElement.parentElement.classList.add(
+								'transition-in'
+							)
+						}}
+					></div>
+
 					{#await getYoutubeVideoTitle(id)}
 						<p class="loading">Loading Title...</p>
 					{:then title}
@@ -102,6 +116,15 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		transition:
+			transform 0.2s ease 0s,
+			opacity 0.2s ease 0s;
+		transform: translateY(16px) scale(0.9);
+		opacity: 0;
+	}
+	.thumbnail-container:global(.transition-in) {
+		transform: translateY(0) scale(1);
+		opacity: 1;
 	}
 	.thumbnail-container :global(button span) {
 		display: flex;

@@ -21,7 +21,7 @@ Before we can control a Rig Instance, we need to be able to select it. The follo
 
 ## Moving and Rotating the Rig Instance
 
-Similar to how we control normal entities in Minecraft, we can move and rotate Rig Instances using the `tp` command.
+Similar to how we control normal entities in Minecraft, we can move and rotate Rig Instances using the `tp` or `rotate` command.
 
 ```rust title=Move a Rig Instance 5 blocks towards positive X | copy
 execute as @e[type=item_display,tag=aj.<export_namespace>.root] at @s run \
@@ -30,7 +30,12 @@ execute as @e[type=item_display,tag=aj.<export_namespace>.root] at @s run \
 
 ```rust title=Rotate a Rig Instance 90 degrees | copy
 execute as @e[type=item_display,tag=aj.<export_namespace>.root] at @s run \
-	tp @s ~ ~ ~ ~90 ~
+	rotate @s ~90 ~
+```
+
+```rust title=Move a Rig Instance 5 blocks upwards and rotate it 90 degrees | copy
+execute as @e[type=item_display,tag=aj.<export_namespace>.root] at @s run \
+	tp @s ~ ~5 ~ ~90 ~
 ```
 
 ## Controlling Animation Playback

@@ -19,27 +19,27 @@ If this button isn't there, you can press `h` and then search for `Add Locator`.
 
 ## Config Options
 
-- ### Use Entity
+-   ### Use Entity
 
-  If enabled, the locator will have an entity associated with it.
+    If enabled, the locator will have an entity associated with it.
 
-- ### Entity Type
+-   ### Entity Type
 
-  The entity type of the locator's entity.
+    The entity type of the locator's entity.
 
-  _Requires `Use Entity` to be enabled._
+    _Requires `Use Entity` to be enabled._
 
-- ### Summon Commands
+-   ### On-Summon Commands
 
-  The commands that will be executed when the locator is summoned.
+    The commands that will be executed when the locator is summoned.
 
-  _Requires `Use Entity` to be enabled._
+    _Requires `Use Entity` to be enabled._
 
-- ### Ticking Commands
+-   ### On-Tick Commands
 
-  Custom commands that will be executed every tick.
+    Custom commands that will be executed every tick.
 
-  If `Use Entity` is enabled, the commands will be executed as the locator's entity.
+    If `Use Entity` is enabled, the commands will be executed as the locator's entity.
 
 ## Animating Locators
 
@@ -55,36 +55,36 @@ When selecting a Locator in `Animate Mode`, you can add Command Keyframes to it'
 
 #### Command Keyframe Options
 
-- #### Command
+-   #### Command
 
-  The command(s) that will be executed. Supports multiple commands (one per line) similar to a `mcfunction`, and supports [MC-Build](https://mcbuild.dev/) syntax.
+    The command(s) that will be executed. Supports multiple commands (one per line) similar to a `mcfunction`, and supports [MC-Build](https://mcbuild.dev/) syntax.
 
-- #### Repeat?
+-   #### Repeat?
 
-  If enabled, the command will be executed every `Repeat Frequency` ticks until the next keyframe.
+    If enabled, the command will be executed every `Repeat Frequency` ticks until the next keyframe.
 
-- #### Repeat Frequency
+-   #### Repeat Frequency
 
-  The amount of ticks between each repeated command execution. A value of `1` will execute the command every tick.
+    The amount of ticks between each repeated command execution. A value of `1` will execute the command every tick.
 
-  `Repeat Frequency` is relative to the animation, and will pause / play with the animation.
+    `Repeat Frequency` is relative to the animation, and will pause / play with the animation.
 
-  If your animation's length is not evenly divisible by the `Repeat Frequency`, the time between the last command execution and the end of the animation will be less than the `Repeat Frequency`.
+    If your animation's length is not evenly divisible by the `Repeat Frequency`, the time between the last command execution and the end of the animation will be less than the `Repeat Frequency`.
 
-- #### Execute Condition
+-   #### Execute Condition
 
-  A condition that must be met in order for the command to be executed.
+    A condition that must be met in order for the command to be executed.
 
-  Expects a chain of [execute sub-commands](https://minecraft.wiki/w/Commands/execute#Syntax) without `execute` or `run`.
+    Expects a chain of [execute sub-commands](https://minecraft.wiki/w/Commands/execute#Syntax) without `execute` or `run`.
 
-  :::admonition type=info title=Example
+    :::admonition type=info title=Example
 
-  ```rust title="A Simple Execute Condition"
-  if entity @s[tag=my_tag]
-  ```
+    ```rust title="A Simple Execute Condition"
+    if entity @s[tag=my_tag]
+    ```
 
-  ```rust title="A More Complex Execute Condition"
-  aligned xyz positioned ~.5 ~ ~.5 if entity @n[tag=my_tag,distance=..0.1]
-  ```
+    ```rust title="A More Complex Execute Condition"
+    aligned xyz positioned ~.5 ~ ~.5 if entity @n[tag=my_tag,distance=..0.1]
+    ```
 
-  :::
+    :::

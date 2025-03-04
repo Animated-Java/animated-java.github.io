@@ -6,6 +6,6 @@ export const load = createKitDocsLoader({
 	sidebar: {
 		'/': null,
 		'/docs': '/docs',
-		'/404': '/docs'
-	}
+		'/404': '/docs',
+	},
 })

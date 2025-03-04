@@ -1,20 +1,20 @@
-import adapter from '@sveltejs/adapter-static'
-import preprocess from 'svelte-preprocess'
+import staticAdapter from '@sveltejs/adapter-static'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	extensions: ['.svelte', '.md'],
 
-	preprocess: preprocess(),
+	preprocess: vitePreprocess({
+		script: true,
+	}),
 
 	kit: {
-		adapter: adapter(),
-
+		adapter: staticAdapter(),
 		prerender: {
-			entries: ['*'],
-			handleMissingId: 'warn'
-		}
-	}
+			handleMissingId: 'warn',
+		},
+	},
 }
 
 export default config
