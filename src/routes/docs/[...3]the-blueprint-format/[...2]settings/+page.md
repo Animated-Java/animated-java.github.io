@@ -43,17 +43,29 @@ If you are using a Paper plugin to load your rig, you should enable this setting
 
 What format to export the Resource Pack in.
 
-- **Raw**: Exports the Resource Pack as a normal folder structure.
-- **Zip**: Exports the Resource Pack as a `.zip` file.
-- **None**: Does not export the Resource Pack.
+-   **Raw**: Exports the Resource Pack as a normal folder structure.
+-   **Zip**: Exports the Resource Pack as a `.zip` file.
+-   **None**: Does not export the Resource Pack.
 
 ### Data Pack Export Mode
 
 What format to export the Data Pack in.
 
-- **Raw**: Exports the Data Pack as a normal folder structure.
-- **Zip**: Exports the Data Pack as a `.zip` file.
-- **None**: Does not export the Data Pack.
+-   **Raw**: Exports the Data Pack as a normal folder structure.
+-   **Zip**: Exports the Data Pack as a `.zip` file.
+-   **None**: Does not export the Data Pack.
+
+### Export Namespace
+
+The namespace of all exported files. Used when generating the Data Pack and Resource Pack structure.
+
+:::admonition type=note
+The exported files will be placed in the following directories:
+
+-   Data Pack: `assets/animated_java/<export_namespace>/`
+-   Resource Pack: `data/animated_java/blueprints/<export_namespace>/`
+
+:::
 
 ## Resource Pack Settings
 
