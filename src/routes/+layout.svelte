@@ -54,10 +54,10 @@
 			console.error(error)
 		}
 	}
-
 	getCurrentRelease()
 
 	const { activeCategory } = createSidebarContext(data.sidebar)
+
 	$: category = $activeCategory ? `${$activeCategory} — ` : ''
 	$: title = data.meta ? `Animated Java | ${category}${data.meta.title}` : 'Animated Java'
 	$: description = data.meta?.description || SLOGAN
@@ -91,6 +91,17 @@
 		</ul>
 
 		<div class="hide-parent" slot="navbar-right-alt"></div>
+
+		<ul
+			slot="sidebar-top"
+			class={'custom-sidebar-top' + ($page.url.pathname === '/docs' ? ' active' : '')}
+		>
+			<li>
+				<a href="/docs">
+					<h5 class="">Welcome!</h5>
+				</a>
+			</li>
+		</ul>
 
 		<div class="logo" slot="navbar-left">
 			<Button href="/">
@@ -146,6 +157,32 @@
 
 	:global(:has(> .hide-parent)) {
 		display: none;
+	}
+
+	.custom-sidebar-top {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		/* font-size: 1.125rem; */
+		font-weight: 400;
+		margin-bottom: 2rem;
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+		border-left: 1px solid rgb(var(--kd-color-elevate));
+		padding-left: 1rem;
+		padding-top: 0.25rem;
+		padding-bottom: 0.25rem;
+	}
+	.custom-sidebar-top > li {
+		flex-grow: 1;
+	}
+	.custom-sidebar-top:hover {
+		color: rgb(var(--kd-color-inverse) / var(--tw-text-opacity));
+		border-color: rgb(var(--kd-color-inverse) / var(--tw-border-opacity));
+	}
+	.custom-sidebar-top.active {
+		color: rgb(var(--kd-color-brand));
+		border-color: rgb(var(--kd-color-brand));
+		font-weight: 600;
 	}
 
 	.nav-links {
