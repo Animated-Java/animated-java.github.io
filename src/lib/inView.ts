@@ -4,10 +4,10 @@ interface ISetObserverOptions {
 	bottom?: number
 }
 
-export default function inView(node: HTMLElement, options: ISetObserverOptions = {}) {
+export function inView(node: HTMLElement, options: ISetObserverOptions = {}) {
 	let observer: IntersectionObserver
 
-	const handleIntersect: IntersectionObserverCallback = (e) => {
+	const handleIntersect: IntersectionObserverCallback = e => {
 		const v = e[0].isIntersecting ? 'enter' : 'exit'
 		node.dispatchEvent(new CustomEvent(v))
 	}
@@ -31,6 +31,6 @@ export default function inView(node: HTMLElement, options: ISetObserverOptions =
 
 		destroy() {
 			if (observer) observer.disconnect()
-		}
+		},
 	}
 }

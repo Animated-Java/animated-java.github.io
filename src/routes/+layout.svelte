@@ -7,41 +7,34 @@
 	import '@svelteness/kit-docs/client/styles/fonts.css'
 	import '@svelteness/kit-docs/client/styles/theme.css'
 	import '$lib/styles/kit-docs.css'
-
 	import { Algolia } from '@svelteness/kit-docs/client/algolia'
-
 	import { page } from '$app/stores'
-
+	import { PUBLIC_ALGOLIA_ID, PUBLIC_ALGOLIA_SEARCH_KEY } from '$env/static/public'
 	import DiscordIcon from '~icons/ri/discord-fill'
 	import GithubIcon from '~icons/ri/github-fill'
+	import KofiIcon from '../kit-docs/kofi-logo.svelte'
+	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs'
+	import { SLOGAN } from '$lib/strings'
 
-	import {
-		Button,
-		KitDocs,
-		KitDocsLayout,
-		createSidebarContext,
-		type NavbarConfig
-	} from '@svelteness/kit-docs'
-	import type { LayoutData } from './$types'
-
-	export let data: LayoutData
+	export let data
 
 	$: ({ meta, sidebar } = data)
 
-	const navbar: NavbarConfig = {
-		links: [
-			{ title: 'Home', slug: '/', match: /\// },
-			{ title: 'Documentation', slug: '/docs', match: /\/docs/ }
-		]
-	}
+	const links = [
+		{ title: 'Home', slug: '/', icon: false },
+		{ title: 'Documentation', slug: '/docs', icon: false },
+		{ title: 'Discord', slug: '/discord', icon: DiscordIcon },
+		{ title: 'Source', slug: '/source', icon: GithubIcon },
+		{ title: 'Ko-fi', slug: 'https://ko-fi.com/snavesutit', icon: KofiIcon },
+	]
+
+	console.log(KofiIcon)
 
 	const { activeCategory } = createSidebarContext(sidebar)
 
 	$: category = $activeCategory ? `${$activeCategory}: ` : ''
 	$: title = meta ? `Animated Java | ${category}${meta.title}` : 'Animated Java'
-	$: description =
-		meta?.description ||
-		'A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition.'
+	$: description = meta?.description || SLOGAN
 </script>
 
 <svelte:head>
@@ -65,23 +58,41 @@
 </svelte:head>
 
 <KitDocs {meta}>
-	<KitDocsLayout {navbar} {sidebar} search>
-		<!-- FIXME - Add actual Animated Java site's API keys (These are placeholders from the Algolia docs) -->
+	<KitDocsLayout navbar={{ links: [] }} {sidebar} search>
 		<Algolia
-			apiKey="599cec31baffa4868cae4e79f180729b"
-			appId="R2IYF7ETH7"
+			appId={PUBLIC_ALGOLIA_ID}
+			apiKey={PUBLIC_ALGOLIA_SEARCH_KEY}
 			indexName="docsearch"
 			placeholder="Search the Docs..."
 			slot="search"
 		/>
 
+		<ul slot="navbar-right" class="nav-links">
+			{#each links as link}
+				<li>
+					<a class={link.slug === $page.url.pathname ? 'active' : ''} href={link.slug}>
+						{link.title}
+						<svelte:component this={link.icon} />
+					</a>
+				</li>
+			{/each}
+		</ul>
+
+		<div class="hide-parent" slot="navbar-right-alt"></div>
+
 		<div class="logo" slot="navbar-left">
 			<Button href="/">
 				<div class="header-container">
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<img src="/img/animated_java_icon.svg" />
+					<img class="icon" src="/img/animated_java_icon.svg" alt="Animated Java Icon" />
 					<div>
-						<h1>Animated Java</h1>
+						<img
+							class="banner"
+							role="heading"
+							aria-level="1"
+							aria-label="Animated Java"
+							src="/img/animated_java_2025_banner_no_background_no_padding.svg"
+							alt="Animated Java"
+						/>
 					</div>
 				</div>
 			</Button>
@@ -92,7 +103,8 @@
 		<div class="footer" slot="main-bottom">
 			{#if $page.url.pathname !== '/'}
 				<div class="footer-wip-warning" style="margin-top: 16px;">
-					⚠️ This site only contains the documentation for the latest release of Animated Java. ⚠️
+					⚠️ This site only contains the documentation for the latest release of Animated
+					Java. ⚠️
 					<br />
 					Older versions may have different features or behavior.
 				</div>
@@ -121,6 +133,10 @@
 					</Button>
 				</div>
 			</div>
+			<p class="footer-copywrite">
+				© 2025 Titus Evans. All rights reserved. <br />Animated Java is not affiliated with
+				Mojang Studios.
+			</p>
 			{#if $page.url.pathname !== '/'}
 				<a class="ko-fi-button" href="https://ko-fi.com/snavesutit">
 					<img src="/img/kofi-logo.png" alt="" /> Support Us!
@@ -138,6 +154,33 @@
 	:global(:root.dark) {
 		--kd-color-brand-rgb: 213, 149, 76;
 	}
+
+	:global(:has(> .hide-parent)) {
+		display: none;
+	}
+
+	.nav-links {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+	.nav-links > li {
+		list-style: none;
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+	}
+	.nav-links > li > a {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.nav-links > li > a.active {
+		color: rgb(var(--kd-color-brand));
+		border-bottom: 2px solid rgb(var(--kd-color-brand));
+	}
+	/* .nav-links > li > img,
+	.nav-links > li > :global(svg) {
+		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
+	} */
 
 	.ko-fi-button {
 		position: fixed;
@@ -184,6 +227,9 @@
 			margin-top: 8px;
 			margin-bottom: 0 !important;
 		}
+		.logo img.banner {
+			display: none !important;
+		}
 	}
 
 	:global(.aj-welcome-page-header) {
@@ -205,6 +251,16 @@
 		overflow: hidden;
 	}
 
+	.logo img.icon {
+		width: 48px;
+		border-radius: 8px;
+		box-shadow: 2px 2px 4px -2px black;
+	}
+	.logo img.banner {
+		width: 200px;
+		margin: 8px 0;
+	}
+
 	.footer {
 		display: flex;
 		flex-direction: column;
@@ -212,15 +268,20 @@
 	}
 
 	.footer-wip-warning {
-		/* margin-bottom: 1rem; */
 		text-align: center;
 	}
 
 	.footer-social {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		margin-top: 2rem;
 		margin-bottom: 2rem;
+	}
+
+	.footer-copywrite {
+		margin: 32px;
+		color: var(--kd-color-subtle);
 	}
 
 	.header-container {
@@ -235,14 +296,6 @@
 		flex-direction: column;
 		justify-content: center;
 		margin-left: 1rem;
-	}
-	.header-container img {
-		width: 48px;
-		border-radius: 8px;
-		box-shadow: 2px 2px 4px -2px black;
-	}
-	.header-container h1 {
-		font-size: 1.5rem;
 	}
 
 	.social-container {

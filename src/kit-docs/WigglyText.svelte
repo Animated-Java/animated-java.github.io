@@ -27,4 +27,10 @@
 		animation: wave 1.5s infinite;
 		animation-timing-function: ease-in-out;
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.wiggly-text {
+			animation: none;
+		}
+	}
 </style>

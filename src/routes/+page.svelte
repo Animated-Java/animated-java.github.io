@@ -1,156 +1,198 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte'
-
-	// import { Button } from '@svelteness/kit-docs'
-	import { inView } from '$lib'
 	import Carousel from '../components/VideoCarousel.svelte'
-	// import { fly } from 'svelte/transition'
+	import Arrow from '~icons/ri/arrow-down-s-line'
+	import { SLOGAN } from '$lib/strings'
+	import { fade } from 'svelte/transition'
+	import { scrollAnimator } from '$lib/scrollAnim'
 
-	import MaterialSymbolsClose from '~icons/material-symbols/close'
-
-	let sidebar: HTMLElement | null
-	let main: HTMLElement | null
-
-	onMount(() => {
-		sidebar = document.querySelector('.on-this-page')
-		main = document.querySelector('main')
-		if (sidebar) sidebar.style.display = 'none'
-		if (main) main.style.overflow = 'visible'
-	})
-
-	onDestroy(() => {
-		if (sidebar) sidebar.style.display = 'block'
-		if (main) main.style.overflow = 'hidden'
-	})
+	let scroll: number
 
 	const PANELS: Array<{ title: string; description: string; image: string }> = [
 		{
-			title: '100% Vanilla Minecraft!',
-			description: 'Built for Map Makers and Data Pack Developers.',
-			image: '/img/vanilla.png'
+			title: 'No Mods Required!',
+			description:
+				"Designed for Map Makers and Data Pack Developers, Animated Java leverages Minecraft's Data Pack and Resource Pack systems to animate your creations seamlessly.",
+			image: '/img/vanilla.png',
 		},
 		{
 			title: 'Variants',
-			description: 'Swap out textures on a Rig in-game with a single function call.',
-			image: '/img/variants.gif'
+			description:
+				'Easily swap textures and models on model in-game with a single function call.',
+			image: '/img/variants.gif',
 		},
 		{
 			title: 'Advanced Easing Options',
-			description: 'Choose from a variety of easing options to make your animations more dynamic.',
-			image: '/img/easing.gif'
+			description:
+				'Enhance your animations with a wide range of easing options for more dynamic and fluid motion.',
+			image: '/img/easing.gif',
 		},
 		{
 			title: 'Vanilla Models',
 			description:
-				'Animated Java supports vanilla item and block models, allowing you to create animated models without a Resource Pack!',
-			image: '/img/resourcepackless.png'
+				'Animated Java allows you to preview vanilla item and block models, enabling the creation of animated models without a Resource Pack!',
+			image: '/img/resourcepackless.png',
 		},
 		{
 			title: 'Heavily Optimized',
 			description:
-				'Animated Java has had hundreds of hours put into performance testing, and optimization. Worry less about performance and more about creating!',
-			image: '/img/performance.png'
-		}
+				'Animated Java has undergone extensive performance testing and optimization, allowing you to focus on creativity without worrying about performance.',
+			image: '/img/performance.png',
+		},
 	]
 </script>
 
+<svelte:window bind:scrollY={scroll} />
+
 <div class="page">
 	<div class="center-container">
-		<div class="header-container">
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<img src="/img/animated_java_icon.svg" />
+		<div class="title">
+			<img
+				class="icon"
+				src="/img/animated_java_icon.svg"
+				aria-label="Animated Java Icon"
+				alt="Animated Java Logo"
+			/>
 			<div>
-				<h1>Welcome to Animated Java!</h1>
-				<hr />
-				<h3>
-					A Blockbench plugin that makes complex animation a breeze in Minecraft: Java Edition.
-				</h3>
+				<img
+					class="banner"
+					role="heading"
+					aria-level="1"
+					aria-label="Animated Java"
+					src="/img/animated_java_2025_banner_no_background_no_padding.svg"
+					alt="Animated Java"
+				/>
+				<p>
+					{SLOGAN}
+				</p>
 			</div>
 		</div>
 	</div>
 
+	<div class="center">
+		<h1>What is Animated Java?</h1>
+	</div>
+
+	<div class="center">
+		<div class="blurb">
+			<p>
+				Animated Java is a Blockbench plugin that enables the creation of intricate animated
+				models for Vanilla Minecraft: Java Edition. With a wide range of features and
+				options, Animated Java is the perfect tool for Map Makers and Data Pack Developers
+				looking to add a touch of life to their creations.
+			</p>
+		</div>
+	</div>
+
+	{#if scroll < 100}
+		<div class="scroll-indicator" transition:fade={{ duration: 1000, delay: 500 }}>
+			<svelte:component this={Arrow} />
+			<p>Scroll to see more</p>
+			<svelte:component this={Arrow} />
+		</div>
+	{/if}
+
 	<div class="panel-container">
 		{#each PANELS as panel, i}
-			<div class={`panel ${i % 2 == 0 ? 'left' : 'right'}-panel`}>
-				{#if i % 2 == 0}
+			{@const isLeftSide = i % 2 == 0}
+			<div
+				class={`panel ${isLeftSide ? 'left' : 'right'}-panel`}
+				use:scrollAnimator={{
+					x: isLeftSide ? 200 : -200,
+					yOffset: -200,
+					rate: 1,
+					scale: 0.95,
+				}}
+			>
+				{#if isLeftSide}
 					<img src={panel.image} alt={panel.title} />
 				{/if}
 				<div>
 					<h2>
 						{panel.title}
-						<!-- <span>{panel.description}</span> -->
 					</h2>
 					<hr />
 					<p>{panel.description}</p>
 				</div>
-				{#if i % 2 == 1}
+				{#if !isLeftSide}
 					<img src={panel.image} alt={panel.title} />
 				{/if}
-				<div
-					class="in-view"
-					use:inView
-					on:enter={(e) => {
-						if (e.target.parentElement.classList.contains('panel-fade-in')) return
-						e.target.parentElement.classList.add('panel-fade-in')
-					}}
-				/>
 			</div>
 		{/each}
 	</div>
 
-	<div class="made-with-aj">
+	<div class="made-with-aj" use:scrollAnimator={{ x: 0, scale: 0.95, rate: 0.25, yOffset: -250 }}>
 		<h2 class="section-title">Made with Animated Java!</h2>
 		<hr />
 		<div class="center-container">
 			<Carousel></Carousel>
 		</div>
 	</div>
-
-	<!-- <div class="discord-widget-container">
-		<Button>
-			<svelte:component this={MaterialSymbolsClose} />
-		</Button>
-		<iframe
-			class="discord-widget"
-			title="Discord Widget"
-			src="https://discord.com/widget?id=785339959518953482&theme=dark"
-			width="350"
-			height="350"
-			allowtransparency="true"
-			frameborder="200"
-			sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-			in:fly|global={{ y: 100, duration: 1000, delay: 1000 }}
-		></iframe>
-	</div> -->
 </div>
 
 <style>
-	/* :global(.discord-widget-container) {
+	.center {
+		display: flex;
+		justify-content: center;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin-top: 4rem;
+		text-align: center;
+		border-bottom: 2px solid rgb(var(--kd-color-brand));
+		margin-bottom: 1rem;
+	}
+
+	.blurb {
+		max-width: 630px;
+		margin-bottom: 3em;
+		text-align: center;
+		color: var(--kd-color-subtle);
+		& p {
+			font-size: 1.1rem;
+			line-height: 1.5;
+			margin: 1em 0;
+		}
+	}
+
+	.scroll-indicator {
 		position: fixed;
-		bottom: 16px;
-		right: 16px;
-		background-color: rgb(88, 101, 242);
-		border-radius: 16px;
-		padding-top: 1rem;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 100;
+
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 4rem;
+		font-size: 2rem;
+		color: var(--kd-color-subtle);
+		font-style: italic;
+		gap: 1rem;
+		margin-bottom: 2rem;
+		opacity: 0.75;
 	}
-	:global(.discord-widget-container > button) {
-		position: absolute;
-		top: 0.25rem;
-		right: -0.5rem;
+
+	.scroll-indicator :global(svg) {
+		animation: scroll-arrows 2s infinite;
 	}
-	.discord-widget {
-		border-radius: 16px;
+
+	@keyframes scroll-arrows {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(1rem);
+		}
 	}
-	.discord-widget :global(.widgetBody-38iyIo) {
-		display: none;
-	} */
 
 	.in-view {
 		position: absolute;
 		top: 100%;
 		left: 0;
 		width: 100%;
-		/* border: 1px solid red; */
 	}
 
 	.section-title {
@@ -174,22 +216,17 @@
 	}
 	.panel {
 		overflow: visible;
+		opacity: 0;
 	}
 	.left-panel {
 		align-self: flex-start;
 		display: flex;
 		flex-direction: row;
-		/* Transition Effects */
-		opacity: 0;
-		transform: translateX(-10%);
 	}
 	.right-panel {
 		align-self: flex-end;
 		display: flex;
 		flex-direction: row;
-		/* Transition Effects */
-		opacity: 0;
-		transform: translateX(10%);
 	}
 	.panel > div:first-of-type {
 		align-self: center;
@@ -203,12 +240,8 @@
 		box-shadow: 2px 2px 8px -4px black;
 		width: 50%;
 	}
-	.panel-fade-in {
-		transition:
-			opacity 1s ease,
-			transform 1s ease;
-		opacity: 1;
-		transform: translateX(0);
+	.panel p {
+		color: var(--kd-color-subtle);
 	}
 	h2 {
 		font-size: 1.5rem;
@@ -231,28 +264,33 @@
 		overflow: visible;
 	}
 
-	.header-container {
+	.title {
 		display: flex;
 		align-items: center;
 		margin: 6rem 0 0rem 0;
 	}
-	.header-container div {
+	.title div {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		margin-left: 2rem;
 	}
-	.header-container img {
+	.title img.icon {
 		width: 192px;
 		border-radius: 16px;
 		box-shadow: 4px 4px 8px -4px black;
 	}
-	.header-container h1 {
-		margin: 0px;
-		font-size: 3rem;
+	.title img.banner {
+		width: 512px;
+		margin: 8px 0;
+		padding-bottom: 8px;
+		border-bottom: 2px solid rgb(var(--kd-color-brand));
 	}
-	.header-container h3 {
+	.title p {
 		margin: 0px;
+		font-size: 1.25rem;
+		font-style: italic;
+		color: var(--kd-color-subtle);
 	}
 
 	.made-with-aj {
@@ -295,22 +333,17 @@
 		.panel-container {
 			gap: 2rem;
 		}
-		.header-container {
+		.title {
 			flex-direction: column;
 			margin: 2rem 0 0 0;
 		}
-		.header-container > div {
+		.title > div {
 			margin-left: unset;
 		}
-		.header-container img {
+		.title img {
 			width: 128px;
 		}
-		.header-container h1 {
-			font-size: 2.5rem;
-			text-align: center;
-			margin-bottom: 0.75rem;
-		}
-		.header-container h3 {
+		.title p {
 			font-size: 1.25rem;
 			text-align: center;
 		}
@@ -322,6 +355,9 @@
 		}
 		.made-with-aj {
 			margin-top: 4rem;
+		}
+		.scroll-indicator {
+			display: none;
 		}
 	}
 
