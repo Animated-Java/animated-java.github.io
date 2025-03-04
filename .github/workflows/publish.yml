@@ -6,20 +6,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Node Version to 18
+      - name: Set Node Version to 22
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '22'
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install Dependencies
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
+        run: yarn install
 
-      - name: Build Production Bundle
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build
+      - name: Build
+        run: yarn build
 
       - name: Push to Build Branch
         if: github.ref == 'refs/heads/main'
