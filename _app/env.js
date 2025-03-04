@@ -1,1 +1,1 @@
-export const env={}
+export const env={"PUBLIC_ALGOLIA_ID":"C97YEODMS6","PUBLIC_ALGOLIA_SEARCH_KEY":"3db9876f9dfbf54e56317d57498b2799"}

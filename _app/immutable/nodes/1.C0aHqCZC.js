@@ -1,0 +1,1 @@
+import{s as t}from"../chunks/scheduler.24DCJvkM.js";import{S as o,i as n}from"../chunks/index.Bxj0scGo.js";import{r as s}from"../chunks/index.De_1-CT6.js";function i(e,r,a){throw s(302,"/404")}class $ extends o{constructor(r){super(),n(this,r,i,null,t,{prerender:0})}get prerender(){return this.$$.ctx[0]}}export{$ as component};
