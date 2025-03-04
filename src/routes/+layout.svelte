@@ -12,7 +12,7 @@
 	import { PUBLIC_ALGOLIA_ID, PUBLIC_ALGOLIA_SEARCH_KEY } from '$env/static/public'
 	import DiscordIcon from '~icons/ri/discord-fill'
 	import GithubIcon from '~icons/ri/github-fill'
-	import KofiIcon from '../kit-docs/kofi-logo.svelte'
+	import KofiIcon from '../kit-docs/kofiLogo.svelte'
 	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs'
 	import { SLOGAN } from '$lib/strings'
 
@@ -118,18 +118,9 @@
 						<svelte:component this={GithubIcon} class="social-icon" />
 					</Button>
 					<Button title="Support Us on Ko-fi!" href="https://ko-fi.com/snavesutit">
-						<svg
-							width="39"
-							height="39"
-							viewBox="0 0 39 39"
-							class="social-icon"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M36.821 13.9081C35.6615 7.76406 29.5326 7 29.5326 7H2.08442C1.17843 7 1.06593 8.20024 1.06593 8.20024C1.06593 8.20024 0.942933 19.2159 1.03293 25.9812C1.27893 29.627 4.91188 30 4.91188 30C4.91188 30 17.3122 29.9654 22.8606 29.9263C26.5176 29.2856 26.8851 26.0669 26.8476 24.3102C33.3755 24.6711 37.9804 20.0522 36.821 13.9081ZM20.2282 19.1889C18.3592 21.3742 14.2118 25.169 14.2118 25.169C14.2118 25.169 14.0303 25.348 13.7468 25.2036C13.6328 25.1178 13.5848 25.0682 13.5848 25.0682C12.9203 24.4049 8.53283 20.4823 7.53385 19.1212C6.47036 17.6698 5.97237 15.0602 7.39735 13.5411C8.82383 12.022 11.9048 11.9077 13.9418 14.1533C13.9418 14.1533 16.2892 11.4731 19.1437 12.7049C21.9997 13.9382 21.8917 17.2336 20.2282 19.1889ZM29.4876 19.9078C28.0956 20.0823 26.9646 19.9499 26.9646 19.9499V11.4054H29.6196C29.6196 11.4054 32.576 12.2341 32.576 15.3731C32.576 18.2503 31.0985 19.3844 29.4876 19.9078Z"
-								fill="currentColor"
-							/>
-						</svg>
+						<div class="social-icon">
+							<KofiIcon />
+						</div>
 					</Button>
 				</div>
 			</div>
