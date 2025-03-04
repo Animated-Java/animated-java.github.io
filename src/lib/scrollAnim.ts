@@ -40,7 +40,6 @@ export function scrollAnimator(element: HTMLElement, options: IScrollAnimatorOpt
 
 	const observer = () => {
 		const scroll = window.scrollY
-
 		const localScroll = Math.min(Math.max(scroll - top, 0), rect.height)
 		const percent = Math.min(Math.max(localScroll / (rect.height * rate), 0), 1)
 		updateTransform(percent)
@@ -50,9 +49,7 @@ export function scrollAnimator(element: HTMLElement, options: IScrollAnimatorOpt
 	let intervalID: number | undefined
 	const setObserver = ({}: IScrollAnimatorOptions) => {
 		if (intervalID) clearInterval(intervalID)
-		// if (observer) removeEventListener('scroll', observer)
 		intervalID = setInterval(observer, 16)
-		// addEventListener('scroll', observer, { passive: true })
 		observer()
 	}
 
@@ -64,7 +61,7 @@ export function scrollAnimator(element: HTMLElement, options: IScrollAnimatorOpt
 		},
 
 		destroy() {
-			if (observer) removeEventListener('scroll', observer)
+			if (intervalID) clearInterval(intervalID)
 		},
 	}
 }

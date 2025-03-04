@@ -1,23 +1,41 @@
+<!-- Animated Java is a Blockbench plugin that enables the creation of intricate animated
+models for Vanilla Minecraft: Java Edition. With a wide range of features and
+options, Animated Java is the perfect tool for Map Makers and Data Pack Developers
+looking to add a touch of life to their creations. -->
+
 <script lang="ts">
 	import Carousel from '../components/VideoCarousel.svelte'
 	import Arrow from '~icons/ri/arrow-down-s-line'
 	import { SLOGAN } from '$lib/strings'
 	import { fade } from 'svelte/transition'
 	import { scrollAnimator } from '$lib/scrollAnim'
+	import { page } from '$app/stores'
 
 	let scroll: number
 
 	const PANELS: Array<{ title: string; description: string; image: string }> = [
 		{
-			title: 'No Mods Required!',
+			title: 'What is Animated Java?',
+			description:
+				'Animated Java is a Blockbench plugin that enables the creation of intricate animated models for Vanilla Minecraft: Java Edition. With a wide range of features and options, Animated Java is the perfect tool for Map Makers and Data Pack Developers looking to add a touch of life to their creations.',
+			image: '/img/vanilla.png',
+		},
+		{
+			title: 'No Mods Required',
 			description:
 				"Designed for Map Makers and Data Pack Developers, Animated Java leverages Minecraft's Data Pack and Resource Pack systems to animate your creations seamlessly.",
 			image: '/img/vanilla.png',
 		},
 		{
-			title: 'Variants',
+			title: 'Resource Packs are Optional',
 			description:
-				'Easily swap textures and models on model in-game with a single function call.',
+				'Animated Java allows you to use vanilla item and block models, making it possible to create animated models without needing a Resource Pack!',
+			image: '/img/resourcepackless.png',
+		},
+		{
+			title: 'Variants System',
+			description:
+				'The Variants system enables dynamic swapping of textures and models in-game with a single function call, providing greater flexibility and customization.',
 			image: '/img/variants.gif',
 		},
 		{
@@ -27,13 +45,7 @@
 			image: '/img/easing.gif',
 		},
 		{
-			title: 'Vanilla Models',
-			description:
-				'Animated Java allows you to preview vanilla item and block models, enabling the creation of animated models without a Resource Pack!',
-			image: '/img/resourcepackless.png',
-		},
-		{
-			title: 'Heavily Optimized',
+			title: 'Optimized for Performance',
 			description:
 				'Animated Java has undergone extensive performance testing and optimization, allowing you to focus on creativity without worrying about performance.',
 			image: '/img/performance.png',
@@ -44,44 +56,31 @@
 <svelte:window bind:scrollY={scroll} />
 
 <div class="page">
-	<div class="center-container">
-		<div class="title">
-			<img
-				class="icon"
-				src="/img/animated_java_icon.svg"
-				aria-label="Animated Java Icon"
-				alt="Animated Java Logo"
-			/>
-			<div>
+	{#key $page.url.pathname}
+		<div class="center-container">
+			<div class="title">
 				<img
-					class="banner"
-					role="heading"
-					aria-level="1"
-					aria-label="Animated Java"
-					src="/img/animated_java_2025_banner_no_background_no_padding.svg"
-					alt="Animated Java"
+					class="icon"
+					src="/img/animated_java_icon.svg"
+					aria-label="Animated Java Icon"
+					alt="Animated Java Logo"
 				/>
-				<p>
-					{SLOGAN}
-				</p>
+				<div>
+					<img
+						class="banner"
+						role="heading"
+						aria-level="1"
+						aria-label="Animated Java"
+						src="/img/animated_java_2025_banner_no_background_no_padding.svg"
+						alt="Animated Java"
+					/>
+					<p>
+						{SLOGAN}
+					</p>
+				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="center">
-		<h1>What is Animated Java?</h1>
-	</div>
-
-	<div class="center">
-		<div class="blurb">
-			<p>
-				Animated Java is a Blockbench plugin that enables the creation of intricate animated
-				models for Vanilla Minecraft: Java Edition. With a wide range of features and
-				options, Animated Java is the perfect tool for Map Makers and Data Pack Developers
-				looking to add a touch of life to their creations.
-			</p>
-		</div>
-	</div>
+	{/key}
 
 	{#if scroll < 100}
 		<div class="scroll-indicator" transition:fade={{ duration: 1000, delay: 500 }}>
@@ -135,14 +134,6 @@
 		justify-content: center;
 	}
 
-	h1 {
-		font-size: 2.5rem;
-		margin-top: 4rem;
-		text-align: center;
-		border-bottom: 2px solid rgb(var(--kd-color-brand));
-		margin-bottom: 1rem;
-	}
-
 	.blurb {
 		max-width: 630px;
 		margin-bottom: 3em;
@@ -166,7 +157,7 @@
 		flex-direction: row;
 		justify-content: center;
 		margin-top: 4rem;
-		font-size: 2rem;
+		font-size: 1.5rem;
 		color: var(--kd-color-subtle);
 		font-style: italic;
 		gap: 1rem;
@@ -175,7 +166,7 @@
 	}
 
 	.scroll-indicator :global(svg) {
-		animation: scroll-arrows 2s infinite;
+		animation: scroll-arrows 4s infinite;
 	}
 
 	@keyframes scroll-arrows {
@@ -215,30 +206,33 @@
 		margin-top: 4rem;
 	}
 	.panel {
+		display: flex;
+		flex-direction: row;
 		overflow: visible;
+		justify-content: center;
 		opacity: 0;
 	}
 	.left-panel {
-		align-self: flex-start;
-		display: flex;
-		flex-direction: row;
+		& > div:first-of-type {
+			margin-left: 32px;
+		}
 	}
 	.right-panel {
-		align-self: flex-end;
-		display: flex;
-		flex-direction: row;
+		& > div:first-of-type {
+			margin-right: 32px;
+		}
 	}
 	.panel > div:first-of-type {
 		align-self: center;
 		display: flex;
 		flex-direction: column;
-		margin: 32px;
 		flex-grow: 1;
+		max-width: 600px;
 	}
 	.panel img {
-		border-radius: 16px;
+		border-radius: 8px;
 		box-shadow: 2px 2px 8px -4px black;
-		width: 50%;
+		width: 40%;
 	}
 	.panel p {
 		color: var(--kd-color-subtle);
@@ -297,6 +291,8 @@
 		display: flex;
 		flex-direction: column;
 		margin-top: 8rem;
+		width: 80%;
+		align-self: center;
 	}
 	.made-with-aj h2 {
 		font-size: 2rem;

@@ -15,50 +15,58 @@
 	import KofiIcon from '../kit-docs/kofiLogo.svelte'
 	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs'
 	import { SLOGAN } from '$lib/strings'
+	import HeadMeta from '../components/HeadMeta.svelte'
 
 	export let data
 
-	$: ({ meta, sidebar } = data)
-
 	const links = [
-		{ title: 'Home', slug: '/', icon: false },
-		{ title: 'Documentation', slug: '/docs', icon: false },
-		{ title: 'Discord', slug: '/discord', icon: DiscordIcon },
-		{ title: 'Source', slug: '/source', icon: GithubIcon },
-		{ title: 'Ko-fi', slug: 'https://ko-fi.com/snavesutit', icon: KofiIcon },
+		{ label: 'Home', title: 'Home', slug: '/', match: /^\/$/, icon: false },
+		{
+			label: 'Documentation',
+			title: 'Documentation',
+			slug: '/docs',
+			match: /^\/docs\S*/,
+			icon: false,
+		},
+		{ icon: DiscordIcon, title: 'Join our Discord!', slug: '/discord', match: /^\/discord$/ },
+		{
+			icon: GithubIcon,
+			title: 'View Source Code (Github)',
+			slug: '/source',
+			match: /^\/source$/,
+		},
+		{ icon: KofiIcon, title: 'Support Us!', slug: '/support-us', match: /^\/support-us$/ },
 	]
 
-	console.log(KofiIcon)
+	let currentRelease = '1.X.X'
 
-	const { activeCategory } = createSidebarContext(sidebar)
+	const PACKAGE_URL =
+		'https://raw.githubusercontent.com/Animated-Java/animated-java/refs/heads/main/package.json'
 
-	$: category = $activeCategory ? `${$activeCategory}: ` : ''
-	$: title = meta ? `Animated Java | ${category}${meta.title}` : 'Animated Java'
-	$: description = meta?.description || SLOGAN
+	function getCurrentRelease() {
+		try {
+			fetch(PACKAGE_URL)
+				.then(res => res.json())
+				.then(data => {
+					currentRelease = data.version
+				})
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	getCurrentRelease()
+
+	const { activeCategory } = createSidebarContext(data.sidebar)
+	$: category = $activeCategory ? `${$activeCategory} — ` : ''
+	$: title = data.meta ? `Animated Java | ${category}${data.meta.title}` : 'Animated Java'
+	$: description = data.meta?.description || SLOGAN
 </script>
 
-<svelte:head>
-	{#key $page.url.pathname}
-		{#if title}
-			<title>{title}</title>
-		{/if}
-		{#if description}
-			<meta name="description" content={description} />
-		{/if}
-		<meta property="og:type" content="website" />
-		<meta content={title} property="og:title" />
-		<meta content={description} property="og:description" />
-		<meta content={$page.url} property="og:url" />
-		<meta
-			content="https://animated-java.github.io/img/animated_java_animated_icon.png"
-			property="og:image"
-		/>
-		<meta content="#00ACED" data-react-helmet="true" name="theme-color" />
-	{/key}
-</svelte:head>
+<HeadMeta {title} {description} />
 
-<KitDocs {meta}>
-	<KitDocsLayout navbar={{ links: [] }} {sidebar} search>
+<KitDocs meta={data.meta}>
+	<KitDocsLayout navbar={{ links: [] }} sidebar={data.sidebar} search>
 		<Algolia
 			appId={PUBLIC_ALGOLIA_ID}
 			apiKey={PUBLIC_ALGOLIA_SEARCH_KEY}
@@ -70,8 +78,12 @@
 		<ul slot="navbar-right" class="nav-links">
 			{#each links as link}
 				<li>
-					<a class={link.slug === $page.url.pathname ? 'active' : ''} href={link.slug}>
-						{link.title}
+					<a
+						class={!!link.match.exec($page.url.pathname) ? 'active' : ''}
+						title={link.title}
+						href={link.slug}
+					>
+						{link.label ?? ''}
 						<svelte:component this={link.icon} />
 					</a>
 				</li>
@@ -102,28 +114,14 @@
 
 		<div class="footer" slot="main-bottom">
 			{#if $page.url.pathname !== '/'}
-				<div class="footer-wip-warning" style="margin-top: 16px;">
-					⚠️ This site only contains the documentation for the latest release of Animated
-					Java. ⚠️
+				<div class="footer-version-warning">
+					This documentation is for the latest release of Animated Java.
 					<br />
-					Older versions may have different features or behavior.
+					Versions older than {currentRelease}, or
+					<a class="link" href="/docs/legacy-releases/versions">legacy</a> versions may have
+					different features or behavior.
 				</div>
 			{/if}
-			<div class="footer-social">
-				<div class="social-container">
-					<Button title="Join our Discord Server!" href="/discord">
-						<svelte:component this={DiscordIcon} class="social-icon" />
-					</Button>
-					<Button title="Check out our Source Code!" href="/source">
-						<svelte:component this={GithubIcon} class="social-icon" />
-					</Button>
-					<Button title="Support Us on Ko-fi!" href="https://ko-fi.com/snavesutit">
-						<div class="social-icon">
-							<KofiIcon />
-						</div>
-					</Button>
-				</div>
-			</div>
 			<p class="footer-copywrite">
 				© 2025 Titus Evans. All rights reserved. <br />Animated Java is not affiliated with
 				Mojang Studios.
@@ -157,6 +155,7 @@
 	}
 	.nav-links > li {
 		list-style: none;
+		display: flex;
 		color: rgb(var(--kd-color-soft) / var(--tw-text-opacity));
 	}
 	.nav-links > li > a {
@@ -258,21 +257,20 @@
 		align-items: center;
 	}
 
-	.footer-wip-warning {
+	.footer-version-warning {
 		text-align: center;
-	}
-
-	.footer-social {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin-top: 2rem;
-		margin-bottom: 2rem;
+		border: 2px dashed #facc15aa;
+		padding: 4px 8px;
+		border-radius: 8px;
+		font-style: italic;
+		margin-top: -32px;
+		color: var(--kd-color-subtle);
 	}
 
 	.footer-copywrite {
 		margin: 32px;
 		color: var(--kd-color-subtle);
+		text-align: center;
 	}
 
 	.header-container {
@@ -287,16 +285,5 @@
 		flex-direction: column;
 		justify-content: center;
 		margin-left: 1rem;
-	}
-
-	.social-container {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		gap: 2rem;
-	}
-
-	.social-container > :global(a) {
-		font-size: 2rem;
 	}
 </style>
