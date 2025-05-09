@@ -14,7 +14,8 @@ function animated_java:<export_namespace>/summon {args: {}}
 However, you may want to specify the position and rotation of the Rig Instance. To do this, you can change the execution context of the `summon` function:
 
 ```rust title=Summoning a Rig Instance at a specific position and rotation | copy
-execute positioned <x> <y> <z> rotated <rx> <ry> run function animated_java:<export_namespace>/summon {args: {}}
+execute positioned <x> <y> <z> rotated <rx> <ry> run \
+	function animated_java:<export_namespace>/summon {args: {}}
 ```
 
 ## Arguments
