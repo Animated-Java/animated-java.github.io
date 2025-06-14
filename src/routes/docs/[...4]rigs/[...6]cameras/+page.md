@@ -25,7 +25,7 @@ Runs a command as **_and at_** a specific camera's entity.
 ```rust title=Running a command as a camera | copy
 execute as @e[tag=aj.<export_namespace>.root] run \
   function animated_java:<export_namespace>/as_camera \
-    {name: '<camera_name>', command:'say Hello, World!'}
+    {name: '<camera_name>', command:'spectate @s @p'}
 ```
 
 :::
