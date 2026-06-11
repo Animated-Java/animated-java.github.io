@@ -1,0 +1,1 @@
+import{r as e}from"../chunks/CifRVE5c.js";const r=!0;function o(){throw e(302,"/docs/welcome")}const n=Object.freeze(Object.defineProperty({__proto__:null,load:o,prerender:r},Symbol.toStringTag,{value:"Module"}));export{n as universal};
