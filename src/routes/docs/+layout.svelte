@@ -12,10 +12,10 @@
 	}
 
 	const { children, data } = $props()
-	const siteUrl = 'https://animated-java.github.io'
+	const siteUrl = 'https://animated-java.dev'
 	const docsTitle = 'Animated Java Docs'
 	const defaultDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
-	const socialImage = `${siteUrl}/images/armor_stand_wave.webp`
+	const socialImage = `${siteUrl}/images/animated_java_icon.svg`
 
 	const pageTitle = $derived(
 		data.currentDoc?.title ? `${data.currentDoc.title} | ${docsTitle}` : docsTitle
@@ -192,6 +192,8 @@
 	<meta property="og:description" content={pageDescription} />
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:image" content={socialImage} />
+
+	<meta content="#00ACED" data-react-helmet="true" name="theme-color" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
