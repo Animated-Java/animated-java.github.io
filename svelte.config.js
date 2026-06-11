@@ -5,6 +5,7 @@ import { resolve } from 'path'
 import rehypeSlug from 'rehype-slug'
 import remarkDirective from 'remark-directive'
 import remarkGfm from 'remark-gfm'
+import rehypeDocLinks from './src/lib/docs/rehypeDocLinks.ts'
 import remarkAdmonitions from './src/lib/docs/remark-admonitions.ts'
 import './src/lib/prismjs/mcfunction.ts'
 
@@ -17,7 +18,7 @@ const config = {
 		vitePreprocess(),
 		mdsvex({
 			extensions: ['.md'],
-			rehypePlugins: [rehypeSlug, remarkAdmonitions],
+			rehypePlugins: [rehypeSlug, remarkAdmonitions, rehypeDocLinks],
 			remarkPlugins: [remarkGfm, remarkDirective],
 			highlight: {
 				highlighter: (code, lang) => {

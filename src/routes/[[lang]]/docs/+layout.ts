@@ -1,4 +1,6 @@
+import { DEFAULT_LANGUAGE } from '$lib/docs/docs'
 import { docsNavLinks, docsSidebar, flattenDocLinks, type DocLeaf } from '$lib/docs/navigation'
+import type { LayoutLoad } from '../$types'
 
 const FLATTENED_DOCS = flattenDocLinks(docsSidebar)
 
@@ -8,8 +10,11 @@ function normalizedPath(pathname: string): string {
 	return pathname
 }
 
-export function load({ url }: { url: URL }) {
-	const currentPath = normalizedPath(url.pathname)
+export const load: LayoutLoad = ({ params, url }) => {
+	const currentPath = normalizedPath(url.pathname).replace(
+		'/' + (params.lang ?? DEFAULT_LANGUAGE),
+		''
+	)
 	const currentIndex = FLATTENED_DOCS.findIndex(doc => doc.to === currentPath)
 	const currentDoc = currentIndex >= 0 ? FLATTENED_DOCS[currentIndex] : null
 
@@ -21,6 +26,8 @@ export function load({ url }: { url: URL }) {
 		next = currentIndex < FLATTENED_DOCS.length - 1 ? FLATTENED_DOCS[currentIndex + 1] : null
 	}
 
+	console.log('Current path:', currentPath)
+
 	return {
 		docsNavLinks,
 		docsSidebar,
@@ -28,5 +35,6 @@ export function load({ url }: { url: URL }) {
 		currentDoc,
 		previous,
 		next,
+		params,
 	}
 }

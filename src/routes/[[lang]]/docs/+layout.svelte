@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { browser } from '$app/environment'
-	import { afterNavigate } from '$app/navigation'
+	import { afterNavigate, goto } from '$app/navigation'
+	import { resolve } from '$app/paths'
 	import Footer from '$lib/components/footer.svelte'
 	import MinecraftIcon from '$lib/components/minecraftIcon.svelte'
-	import { onDestroy, onMount, tick } from 'svelte'
+	import { DEFAULT_LANGUAGE, docHref } from '$lib/docs/docs'
+	import { onDestroy, onMount, setContext, tick } from 'svelte'
 
 	interface TocHeading {
 		id: string
@@ -16,6 +18,23 @@
 	const docsTitle = 'Animated Java Docs'
 	const defaultDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
 	const socialImage = `${siteUrl}/images/animated_java_icon.svg`
+
+	const lang = $derived(data.params.lang ?? DEFAULT_LANGUAGE)
+	$effect(() => {
+		setContext('lang', lang)
+		console.log(`Current language set to: ${lang}`)
+	})
+
+	function handleClick(event: MouseEvent): void {
+		const target = (event.target as HTMLElement).closest('a')
+		if (!target) return
+		const path = target.getAttribute('data-doc-link')
+		if (!path) return
+
+		event.preventDefault()
+		const prefix = lang === DEFAULT_LANGUAGE ? '' : `/${lang}`
+		void goto(resolve(`${prefix}/docs/${path}`))
+	}
 
 	const pageTitle = $derived(
 		data.currentDoc?.title ? `${data.currentDoc.title} | ${docsTitle}` : docsTitle
@@ -201,6 +220,8 @@
 	<meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
+<svelte:window onclick={handleClick} />
+
 <div class="docs-shell">
 	<header class="docs-header minecraft-box">
 		<a href="/" class="brand-link">
@@ -265,7 +286,7 @@
 							<a
 								class={`section-link ${data.currentPath === section.to ? 'active' : ''}`}
 								onclick={closeMobileSidebar}
-								href={section.to}
+								href={docHref(section.to, lang)}
 								>{section.title}
 
 								{#if data.currentPath === section.to}
@@ -283,7 +304,7 @@
 										<a
 											class:active={data.currentPath === item.to}
 											onclick={closeMobileSidebar}
-											href={item.to}
+											href={docHref(item.to, lang)}
 											>{item.title}
 
 											{#if data.currentPath === item.to}
@@ -307,7 +328,7 @@
 			{#if data.previous ?? data.next}
 				<nav class="docs-pagination" aria-label="Previous and next page links">
 					{#if data.previous}
-						<a class="minecraft-button" href={data.previous.to}
+						<a class="minecraft-button" href={docHref(data.previous.to, lang)}
 							>&larr; {data.previous.title}</a
 						>
 					{:else}
@@ -315,7 +336,9 @@
 					{/if}
 
 					{#if data.next}
-						<a class="minecraft-button" href={data.next.to}>{data.next.title} &rarr;</a>
+						<a class="minecraft-button" href={docHref(data.next.to, lang)}
+							>{data.next.title} &rarr;</a
+						>
 					{/if}
 				</nav>
 			{/if}
