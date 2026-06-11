@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/docs/[...4]rigs/[...4]controlling-animation-playback/+page.md";

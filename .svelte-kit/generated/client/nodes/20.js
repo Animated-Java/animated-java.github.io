@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/docs/[...4]rigs/[...2]summoning-a-new-rig-instance/+page.md";

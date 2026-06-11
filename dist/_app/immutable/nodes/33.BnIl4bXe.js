@@ -1,1 +1,0 @@
-import{r as e}from"../chunks/CifRVE5c.js";const t=!0;function r(){throw e(302,"https://ko-fi.com/snavesutit")}const n=Object.freeze(Object.defineProperty({__proto__:null,load:r,prerender:t},Symbol.toStringTag,{value:"Module"}));export{n as universal};

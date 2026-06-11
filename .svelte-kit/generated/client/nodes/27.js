@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/docs/[...5]resources/[...2]tutorials/stacking-rigs/+page.md";

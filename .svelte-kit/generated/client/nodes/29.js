@@ -1,1 +1,0 @@
-export { default as component } from "../../../../src/routes/docs/[...5]resources/[...4]migrating-from-older-versions/+page.md";
