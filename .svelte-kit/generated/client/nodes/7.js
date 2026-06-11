@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...2]getting-started/[...3]creating-a-blueprint/+page.md";

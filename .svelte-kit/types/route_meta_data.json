@@ -1,0 +1,118 @@
+{
+	"/": [
+		"src/routes/+layout.ts",
+		"src/routes/+layout.ts"
+	],
+	"/404": [
+		"src/routes/404/+page.ts",
+		"src/routes/+layout.ts"
+	],
+	"/discord": [
+		"src/routes/discord/+page.ts",
+		"src/routes/+layout.ts"
+	],
+	"/docs": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...2]getting-started/[...3]creating-a-blueprint": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...2]getting-started/[...4]exporting-your-blueprint": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...2]getting-started/[...2]installing-animated-java": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...6]legacy-releases/[...2]installing": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...6]legacy-releases/[...4]legacy-armorstands": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...6]legacy-releases/[...3]legacy-beta": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...6]legacy-releases/[...1]versions": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...5]resources/[...1]faq": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...5]resources/[...3]installing-pre-releases": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...5]resources/[...4]migrating-from-older-versions": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...5]resources/[...5]plugin-json": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...5]resources/[...2]tutorials/stacking-rigs": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...6]cameras": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...3]controlling-a-rig-instance": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...4]controlling-animation-playback": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...5]locators": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...1]overview": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...2]summoning-a-new-rig-instance": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...4]rigs/[...7]tags": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...5]animations": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...8]block-displays": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...4]bones": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...10]cameras": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...7]item-displays": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...6]locators": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...1]overview": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...2]settings": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...9]text-displays": [
+		"src/routes/+layout.ts"
+	],
+	"/docs/[...3]the-blueprint-format/[...3]variants": [
+		"src/routes/+layout.ts"
+	],
+	"/kit-docs/[slug].meta": [
+		"src/routes/kit-docs/[slug].meta/+server.ts"
+	],
+	"/kit-docs/[dir].sidebar": [
+		"src/routes/kit-docs/[dir].sidebar/+server.ts"
+	],
+	"/source": [
+		"src/routes/source/+page.ts",
+		"src/routes/+layout.ts"
+	],
+	"/support-us": [
+		"src/routes/support-us/+page.ts",
+		"src/routes/+layout.ts"
+	]
+}

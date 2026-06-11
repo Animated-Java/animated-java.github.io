@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...6]legacy-releases/[...1]versions/+page.md";

@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...5]resources/[...3]installing-pre-releases/+page.md";

@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...3]the-blueprint-format/[...8]block-displays/+page.md";

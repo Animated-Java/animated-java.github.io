@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...3]the-blueprint-format/[...2]settings/+page.md";

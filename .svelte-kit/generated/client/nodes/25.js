@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...4]rigs/[...7]tags/+page.md";

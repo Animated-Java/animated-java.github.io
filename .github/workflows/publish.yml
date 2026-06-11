@@ -2,11 +2,6 @@ on: [push]
 
 jobs:
   build:
-    env:
-      # Env Secrets
-      PUBLIC_ALGOLIA_ID: ${{ secrets.PUBLIC_ALGOLIA_ID }}
-      PUBLIC_ALGOLIA_SEARCH_KEY: ${{ secrets.PUBLIC_ALGOLIA_SEARCH_KEY }}
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

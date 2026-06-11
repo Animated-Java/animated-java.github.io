@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/docs/[...6]legacy-releases/[...4]legacy-armorstands/+page.md";
