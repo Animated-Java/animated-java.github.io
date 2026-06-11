@@ -5,15 +5,15 @@
 	const { path }: Props = $props()
 </script>
 
-<div>
+<i>
 	<img
 		src={`https://github.com/FuncFusion/mc-dp-icons-assets/blob/main/${path}?raw=true`}
 		alt={path}
 	/>
-</div>
+</i>
 
 <style>
-	div {
+	i {
 		width: 32px;
 		margin-right: 8px;
 		vertical-align: middle;
