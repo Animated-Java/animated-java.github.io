@@ -12,6 +12,18 @@
 	}
 
 	const { children, data } = $props()
+	const siteUrl = 'https://animated-java.github.io'
+	const docsTitle = 'Animated Java Docs'
+	const defaultDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
+	const socialImage = `${siteUrl}/images/armor_stand_wave.webp`
+
+	const pageTitle = $derived(
+		data.currentDoc?.title ? `${data.currentDoc.title} | ${docsTitle}` : docsTitle
+	)
+	const pageDescription = $derived(
+		data.currentDoc?.title ? `${data.currentDoc.title}` : defaultDescription
+	)
+	const canonicalUrl = $derived(`${siteUrl}${data.currentPath ?? '/docs/welcome'}`)
 
 	let tocHeadings = $state<TocHeading[]>([])
 	let activeHeadingId = $state('')
@@ -168,6 +180,24 @@
 		}
 	})
 </script>
+
+<svelte:head>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
+	<link rel="canonical" href={canonicalUrl} />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Animated Java" />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
+	<meta property="og:url" content={canonicalUrl} />
+	<meta property="og:image" content={socialImage} />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={socialImage} />
+</svelte:head>
 
 <div class="docs-shell">
 	<header class="docs-header minecraft-box">

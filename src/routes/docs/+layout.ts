@@ -11,6 +11,7 @@ function normalizedPath(pathname: string): string {
 export function load({ url }: { url: URL }) {
 	const currentPath = normalizedPath(url.pathname)
 	const currentIndex = flattenedDocs.findIndex(doc => doc.to === currentPath)
+	const currentDoc = currentIndex >= 0 ? flattenedDocs[currentIndex] : null
 
 	let previous: DocLeaf | null = null
 	let next: DocLeaf | null = null
@@ -24,6 +25,7 @@ export function load({ url }: { url: URL }) {
 		docsNavLinks,
 		docsSidebar,
 		currentPath,
+		currentDoc,
 		previous,
 		next,
 	}
