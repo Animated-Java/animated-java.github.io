@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE, getDocModule, SUPPORTED_LANGAUGES } from '$lib/docs/docs'
+import { DEFAULT_LANGUAGE, getDocModule, SUPPORTED_LANGUAGES } from '$lib/docs/docs'
 import { error } from '@sveltejs/kit'
 import type { PageLoad } from '../$types'
 import type { EntryGenerator } from './$types'
@@ -18,7 +18,7 @@ export const entries: EntryGenerator = () => {
 
 	return paths.flatMap(path => [
 		{ lang: undefined, path },
-		...SUPPORTED_LANGAUGES.map(lang => ({ lang, path })),
+		...SUPPORTED_LANGUAGES.map(lang => ({ lang, path })),
 	])
 }
 

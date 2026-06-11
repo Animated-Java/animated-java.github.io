@@ -1,6 +1,6 @@
-import { SUPPORTED_LANGAUGES } from '$lib/docs/docs'
+import { SUPPORTED_LANGUAGES } from '$lib/docs/docs'
 import type { EntryGenerator } from './$types'
 
 export const entries: EntryGenerator = () => {
-	return SUPPORTED_LANGAUGES.map(lang => ({ lang }))
+	return SUPPORTED_LANGUAGES.map(lang => ({ lang }))
 }
