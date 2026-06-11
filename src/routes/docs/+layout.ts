@@ -1,6 +1,6 @@
 import { docsNavLinks, docsSidebar, flattenDocLinks, type DocLeaf } from '$lib/docs/navigation'
 
-const flattenedDocs = flattenDocLinks(docsSidebar)
+const FLATTENED_DOCS = flattenDocLinks(docsSidebar)
 
 function normalizedPath(pathname: string): string {
 	if (!pathname || pathname === '/') return '/docs/welcome'
@@ -10,15 +10,15 @@ function normalizedPath(pathname: string): string {
 
 export function load({ url }: { url: URL }) {
 	const currentPath = normalizedPath(url.pathname)
-	const currentIndex = flattenedDocs.findIndex(doc => doc.to === currentPath)
-	const currentDoc = currentIndex >= 0 ? flattenedDocs[currentIndex] : null
+	const currentIndex = FLATTENED_DOCS.findIndex(doc => doc.to === currentPath)
+	const currentDoc = currentIndex >= 0 ? FLATTENED_DOCS[currentIndex] : null
 
 	let previous: DocLeaf | null = null
 	let next: DocLeaf | null = null
 
 	if (currentIndex >= 0) {
-		previous = currentIndex > 0 ? flattenedDocs[currentIndex - 1] : null
-		next = currentIndex < flattenedDocs.length - 1 ? flattenedDocs[currentIndex + 1] : null
+		previous = currentIndex > 0 ? FLATTENED_DOCS[currentIndex - 1] : null
+		next = currentIndex < FLATTENED_DOCS.length - 1 ? FLATTENED_DOCS[currentIndex + 1] : null
 	}
 
 	return {
