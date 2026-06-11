@@ -6,7 +6,7 @@
 	const siteUrl = 'https://animated-java.github.io'
 	const pageTitle = 'Animated Java'
 	const pageDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
-	const socialImage = `${siteUrl}/images/armor_stand_wave.webp`
+	const socialImage = `${siteUrl}/images/animated_java_icon.svg`
 </script>
 
 <svelte:head>
