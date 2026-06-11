@@ -1,5 +1,6 @@
-import { SUPPORTED_LANGAUGES } from '$lib/docs/docs'
-import { redirect, type ServerLoad } from '@sveltejs/kit'
+import { DEFAULT_LANGUAGE, getDocModule, SUPPORTED_LANGAUGES } from '$lib/docs/docs'
+import { error } from '@sveltejs/kit'
+import type { PageLoad } from '../$types'
 import type { EntryGenerator } from './$types'
 
 export const prerender = true
@@ -21,13 +22,17 @@ export const entries: EntryGenerator = () => {
 	])
 }
 
-export const load: ServerLoad = ({ params, url }) => {
-	if (params.lang === 'en') {
-		throw redirect(302, url.pathname.replace('/en', ''))
-	}
+export const load: PageLoad = async ({ params }) => {
+	const lang = params.lang ?? DEFAULT_LANGUAGE
+	const mod = getDocModule(lang, params.path)
+
+	if (!mod) throw error(404, 'Documentation not found')
+
+	const { default: component, metadata } = await mod()
 
 	return {
-		lang: params.lang,
-		path: params.path,
+		component,
+		metadata,
+		lang,
 	}
 }
