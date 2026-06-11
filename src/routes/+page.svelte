@@ -36,11 +36,11 @@
 				/>
 			</div>
 
-			<div in:fade={{ duration: 800, delay: 600 }}>
+			<div in:fade={{ duration: 800, delay: 400 }}>
 				<IntroSection></IntroSection>
 			</div>
 
-			<section class="nav-buttons" in:fade={{ duration: 800, delay: 400 }}>
+			<section class="nav-buttons" in:fade={{ duration: 800, delay: 800 }}>
 				{#each docsNavLinks as link}
 					<a href={link.to} class="minecraft-button">
 						{#if link.icon}

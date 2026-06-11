@@ -36,7 +36,7 @@
 	bind:this={sectionElement}
 	class="youtube-section"
 	aria-label="Animated Java YouTube videos"
-	in:fade={{ duration: 800, delay: 1000 }}
+	in:fade={{ duration: 800, delay: 1200 }}
 >
 	<h2>
 		<div>See</div>
