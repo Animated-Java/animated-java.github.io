@@ -582,6 +582,21 @@
 			padding-top: 10px;
 		}
 
+		.docs-nav.open {
+			display: flex;
+		}
+
+		.docs-nav.open {
+			display: grid;
+			grid-template-columns: 1fr;
+		}
+
+		.docs-header {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: center;
+		}
+
 		.docs-sidebar {
 			position: static;
 			max-height: unset;
@@ -628,17 +643,6 @@
 	@media (width < 640px) {
 		.docs-shell {
 			padding: 8px;
-		}
-
-		.docs-header {
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
-			align-items: center;
-		}
-
-		.docs-nav.open {
-			display: grid;
-			grid-template-columns: 1fr;
 		}
 
 		.docs-nav a {
