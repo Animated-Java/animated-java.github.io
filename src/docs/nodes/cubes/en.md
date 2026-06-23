@@ -23,7 +23,7 @@ Cubes do **not** create their own entities when exported. Instead, they are bake
 
 -   #### Rescale
 
-    Allows bone entities to be rendered slightly larger than their nominal size by enabling the vanilla `rescale` flag in the model JSON.
+    Specifies whether or not to scale the faces across the whole block by scaling the non-rotated faces by 1 / cos(angle).
 
 ## Rotation Limitations
 
