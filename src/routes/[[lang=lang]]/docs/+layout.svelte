@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/environment'
 	import { afterNavigate, goto } from '$app/navigation'
-	import { resolve } from '$app/paths'
 	import Footer from '$lib/components/footer.svelte'
 	import MinecraftIcon from '$lib/components/minecraftIcon.svelte'
-	import { DEFAULT_LANGUAGE, docHref } from '$lib/docs/docs'
-	import { onDestroy, onMount, setContext, tick } from 'svelte'
+	import { getLanguageName, localizeHref, SUPPORTED_LANGUAGES } from '$lib/docs/docs'
+	import { onDestroy, onMount, tick } from 'svelte'
 
 	interface TocHeading {
 		id: string
@@ -19,21 +18,15 @@
 	const defaultDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
 	const socialImage = `${siteUrl}/images/animated_java_icon.svg`
 
-	const lang = $derived(data.params.lang ?? DEFAULT_LANGUAGE)
+	const lang = $derived(data.lang)
+
+	// The server sets this on full page loads; keep it in sync on client-side language switches.
 	$effect(() => {
-		setContext('lang', lang)
-		console.log(`Current language set to: ${lang}`)
+		document.documentElement.lang = lang
 	})
 
-	function handleClick(event: MouseEvent): void {
-		const target = (event.target as HTMLElement).closest('a')
-		if (!target) return
-		const path = target.getAttribute('data-doc-link')
-		if (!path) return
-
-		event.preventDefault()
-		const prefix = lang === DEFAULT_LANGUAGE ? '' : `/${lang}`
-		void goto(resolve(`${prefix}/docs/${path}`))
+	function switchLanguage(event: Event & { currentTarget: HTMLSelectElement }): void {
+		void goto(localizeHref(data.currentPath, event.currentTarget.value) + window.location.hash)
 	}
 
 	const pageTitle = $derived(
@@ -42,7 +35,7 @@
 	const pageDescription = $derived(
 		data.currentDoc?.title ? `${data.currentDoc.title}` : defaultDescription
 	)
-	const canonicalUrl = $derived(`${siteUrl}${data.currentPath ?? '/docs/welcome'}`)
+	const canonicalUrl = $derived(`${siteUrl}${localizeHref(data.currentPath, lang)}`)
 
 	let tocHeadings = $state<TocHeading[]>([])
 	let activeHeadingId = $state('')
@@ -220,8 +213,6 @@
 	<meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
-<svelte:window onclick={handleClick} />
-
 <div class="docs-shell">
 	<header class="docs-header minecraft-box">
 		<a href="/" class="brand-link">
@@ -252,7 +243,7 @@
 				<a
 					class="minecraft-button {data.currentPath === link.to ? 'active' : ''}"
 					onclick={closeMobileNav}
-					href={link.to}
+					href={localizeHref(link.to, lang)}
 				>
 					{#if link.icon}
 						<MinecraftIcon path={link.icon} />
@@ -260,6 +251,16 @@
 					{link.title}
 				</a>
 			{/each}
+			<select
+				class="language-select minecraft-button"
+				aria-label="Language"
+				value={lang}
+				onchange={switchLanguage}
+			>
+				{#each SUPPORTED_LANGUAGES as option}
+					<option value={option} lang={option}>{getLanguageName(option)}</option>
+				{/each}
+			</select>
 		</nav>
 	</header>
 
@@ -286,7 +287,7 @@
 							<a
 								class={`section-link ${data.currentPath === section.to ? 'active' : ''}`}
 								onclick={closeMobileSidebar}
-								href={docHref(section.to, lang)}
+								href={localizeHref(section.to, lang)}
 								>{section.title}
 
 								{#if data.currentPath === section.to}
@@ -304,7 +305,7 @@
 										<a
 											class:active={data.currentPath === item.to}
 											onclick={closeMobileSidebar}
-											href={docHref(item.to, lang)}
+											href={localizeHref(item.to, lang)}
 											>{item.title}
 
 											{#if data.currentPath === item.to}
@@ -328,7 +329,7 @@
 			{#if data.previous ?? data.next}
 				<nav class="docs-pagination" aria-label="Previous and next page links">
 					{#if data.previous}
-						<a class="minecraft-button" href={docHref(data.previous.to, lang)}
+						<a class="minecraft-button" href={localizeHref(data.previous.to, lang)}
 							>&larr; {data.previous.title}</a
 						>
 					{:else}
@@ -336,7 +337,7 @@
 					{/if}
 
 					{#if data.next}
-						<a class="minecraft-button" href={docHref(data.next.to, lang)}
+						<a class="minecraft-button" href={localizeHref(data.next.to, lang)}
 							>{data.next.title} &rarr;</a
 						>
 					{/if}
@@ -406,6 +407,13 @@
 		flex-wrap: wrap;
 		gap: 12px;
 		justify-content: flex-end;
+	}
+
+	.language-select {
+		font-family: var(--minecraft-font);
+		font-size: var(--font-size-small);
+		color: var(--minecraft-button-text-color);
+		cursor: pointer;
 	}
 
 	.docs-nav-toggle {

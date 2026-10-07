@@ -8,12 +8,36 @@
 	import { backOut } from 'svelte/easing'
 	import { fade, fly } from 'svelte/transition'
 
+	const siteUrl = 'https://animated-java.dev'
+	const pageTitle = 'Animated Java'
+	const pageDescription = 'Effortlessly craft complex animations for Minecraft: Java Edition'
+	const socialImage = `${siteUrl}/images/animated_java_icon.svg`
+
 	let startTransition = $state(false)
 
 	onMount(() => {
 		startTransition = true
 	})
 </script>
+
+<svelte:head>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
+	<link rel="canonical" href={siteUrl} />
+
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Animated Java" />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
+	<meta property="og:url" content={siteUrl} />
+	<meta property="og:image" content={socialImage} />
+	<meta content="#00ACED" data-react-helmet="true" name="theme-color" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={socialImage} />
+</svelte:head>
 
 <div class="home-page-shell">
 	<div class="bg-layer bg-base" aria-hidden="true"></div>
