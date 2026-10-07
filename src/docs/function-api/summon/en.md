@@ -3,27 +3,23 @@ title: Summon
 description: How to summon a Rig instance in Minecraft.
 ---
 
-## Overview
+# Summon
 
-The summon function spawns a new [Rig](/docs/core-concepts/rigs) instance at the caller's position and rotation. It creates the root entity with all bone passengers, locators, interactions, and cameras, then fires any configured on-summon event functions.
-
-## Function Path
+The summon function creates a new [Rig](/docs/core-concepts/rigs) instance at the current execution position and rotation.
 
 ```
 <blueprint_id>/summon
 ```
 
-**Example** (blueprint ID `my_pack:my_rig`):
+It's a [macro function](<https://minecraft.wiki/w/Function_(Java_Edition)#Macros>), so you always pass an `args` compound, even an empty one:
 
 ```mcfunction
 function my_pack:my_rig/summon {args: {}}
 ```
 
-The function must be called with a `{args: {}}` macro compound. You can pass optional arguments inside `args`.
-
 ## Arguments
 
-All arguments are optional unless stated otherwise.
+Every argument is optional.
 
 ```mcfunction
 function <blueprint_id>/summon {args: {
@@ -34,74 +30,69 @@ function <blueprint_id>/summon {args: {
 }}
 ```
 
--   #### `variant` (string, optional)
+-   #### `variant`
 
-    The [storage name](/docs/core-concepts/blueprints#blueprint-id) of the variant to apply immediately after summoning. If omitted, the **Default** variant is used.
+    The name of a [Variant](/docs/core-concepts/variants) to apply right after summoning. Without it, the rig uses the Default Variant.
 
-    If the variant name is invalid, the rig is automatically removed and an error is logged.
+    ```mcfunction
+    function my_pack:my_rig/summon {args: {variant: "angry"}}
+    ```
 
-    **Example:** `variant: "angry"` applies the `angry` variant on spawn.
+-   #### `animation`
 
--   #### `animation` (string, optional)
+    The name of an animation to pose the rig in. The rig is set to `frame` of that animation, but the animation doesn't play unless `start_animation` is `true`.
 
-    The name of the animation to seek to after summoning. The rig is placed at the specified `frame` of this animation but does **not** play it unless `start_animation` is also set.
+-   #### `frame`
 
-    If the animation name is invalid or the frame number is negative, the rig is automatically removed and an error is logged.
+    The frame of `animation` to pose the rig in, starting from `0`. Defaults to `0`. Ignored without `animation`.
 
--   #### `frame` (int, optional, default: `0`)
+-   #### `start_animation`
 
-    The animation frame to seek to. Only used when `animation` is specified. Frame indices are zero-based.
+    When `true`, `animation` starts playing from `frame` right away. Defaults to `false`.
 
--   #### `start_animation` (boolean, optional, default: `false`)
+:::warning[Invalid arguments]
+If an argument is invalid (an unknown Variant or animation, an empty string, or a negative frame), the new rig is removed again and an error is printed in chat listing the valid options. Passing `variant` to a Blueprint that only has the Default Variant is also an error.
+:::
 
-    When `true`, the animation specified by `animation` begins playing immediately after summoning (equivalent to calling `play` on it). When `false`, the rig is placed at the specified frame but the animation stays paused.
+## Position and Rotation
+
+The rig is summoned at the execution position, facing the execution rotation. Use `execute positioned`, `rotated`, or `at` to control where it appears and which way it faces:
+
+```mcfunction
+# At a specific spot, facing south
+execute positioned 10 64 20 rotated 0 0 run function my_pack:my_rig/summon {args: {}}
+
+# At the nearest player, facing the same way they are
+execute at @p run function my_pack:my_rig/summon {args: {}}
+```
 
 ## Examples
 
-Summon with default settings:
-
-```mcfunction
-function my_pack:my_rig/summon {args: {}}
-```
-
-Summon at the current position with a specific variant:
+Summon with a Variant:
 
 ```mcfunction
 function my_pack:my_rig/summon {args: {variant: "blue"}}
 ```
 
-Summon with a specific rotation (always use `rotated` to control facing direction):
-
-```mcfunction
-execute rotated 0 0 run function my_pack:my_rig/summon {args: {}}
-```
-
-Summon and immediately start the `walk` animation:
+Summon and start playing `walk`:
 
 ```mcfunction
 function my_pack:my_rig/summon {args: {animation: "walk", start_animation: true}}
 ```
 
-Summon and seek to frame 10 of the `idle` animation without playing it:
+Summon posed on frame 10 of `idle`, without playing it:
 
 ```mcfunction
 function my_pack:my_rig/summon {args: {animation: "idle", frame: 10}}
 ```
 
-## Execution Context
+## What Happens When You Summon
 
-The summon function can be called from any context. The rig is spawned **at the caller's position and rotation**. Use `execute positioned` / `execute rotated` / `execute at` before calling summon to control where the rig appears.
+1. The root entity and every node entity are created, and the rig is set to its default pose.
+2. The `variant` and `animation` arguments are applied.
+3. The On-Summon functions run: first each Locator's, then each Interaction's, then each display node's, and finally the Blueprint's own [On-Summon Function](/docs/core-concepts/blueprints#on-summon-function).
 
-```mcfunction
-# Summon at a specific location facing north
-execute positioned 10 64 20 rotated 0 0 run function my_pack:my_rig/summon {args: {}}
+## Related Reading
 
-# Summon at a player's position
-execute at @p run function my_pack:my_rig/summon {args: {}}
-```
-
-## Notes
-
--   The summon function uses Minecraft's [macro](<https://minecraft.wiki/w/Function_(Java_Edition)#Macro>) syntax — you must always pass the `{args: {...}}` compound even if you pass no arguments.
--   All per-node `on_summon_function` callbacks and the blueprint-level `on_summon_function` are called at the end of the summon sequence.
--   The rig's first tick runs on the **next** game tick after summon.
+-   [Remove](/docs/function-api/remove)
+-   [Rigs](/docs/core-concepts/rigs)

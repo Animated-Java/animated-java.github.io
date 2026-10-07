@@ -1,88 +1,79 @@
 ---
 title: Animation Config
-description: Configure loop behavior, timing, and node exclusions for an animation.
+description: Configure loop behavior, timing, node exclusions, and previews for an animation.
 ---
 
-The Animation Properties dialog controls how a single animation behaves at runtime.
+# Animation Config
 
-In Blockbench, open it by right-clicking an animation in the Animations panel and selecting Animation Properties.
+The **Animation Properties** dialog controls how one animation behaves. Open it by right-clicking an animation in the **Animations** panel and choosing **Properties**.
 
-## Why It Matters
+## Fields
 
-Animated Java uses these fields to generate per-animation metadata and runtime behavior.
+### Animation Name
 
--   Loop behavior decides what happens when the animation reaches the last frame.
--   Timing fields control how quickly the animation advances.
--   Excluded Nodes lets you layer multiple animations without bone conflicts.
-
-## Fields In The Dialog
-
-### Name
-
-The animation identifier used in generated function paths and storage keys.
-
--   Keep names stable after publishing packs to avoid breaking function calls.
--   Use only safe characters: letters, numbers, underscore, and dot.
-
-Example generated path:
+The animation's name, used in its function paths and tags:
 
 ```mcfunction
 <blueprint_id>/animations/<animation_name>/play
 ```
 
+Names may only use letters, digits, underscores, and periods. When exported, they're lowercased and periods become `_`.
+
+:::warning
+Renaming an animation changes its function paths. Update any commands that call it.
+:::
+
 ### Loop Mode
 
-Controls behavior at the end of the timeline.
+What happens when the animation reaches its last frame:
 
--   once: play to the end, then stop.
--   hold: play to the end and remain on the last frame.
--   loop: return to frame 0 and continue.
-
-Use hold for poses (for example, aiming or charging) and loop for cycles (walk, idle, run).
+-   **Once**: stop, and snap back to the first frame.
+-   **Hold**: stop, and stay on the last frame.
+-   **Loop**: start over from the first frame.
 
 ### Loop Delay
 
-Extra delay in ticks before a looping animation restarts.
+How many ticks to wait before a **Loop** animation starts over. `20` ticks is one second. Has no effect on the other loop modes.
 
--   Only applies when Loop Mode is loop.
--   20 ticks = 1 second.
+### Excluded Nodes
 
-### Included / Excluded Nodes
-
-A list of bones (groups) this animation should or should not modify.
-
-This is one of the most important controls for advanced rigs.
+Nodes this animation never moves. Drag nodes between the **Included Nodes** and **Excluded Nodes** columns, or use the swap button to flip the two lists.
 
 Use it to:
 
--   play an upper-body animation while legs continue walking,
--   run facial animation alongside body motion,
--   avoid two animations fighting over the same bones.
+-   play an upper-body animation while the legs keep walking,
+-   run a facial animation alongside body animations,
+-   stop two animations from fighting over the same node.
 
-## Practical Patterns
+Excluded nodes also aren't updated at all, which saves performance.
 
-### Layered locomotion + action
+### Preview Variants
 
--   Walk animation: exclude arm and head bones used by combat.
--   Attack animation: exclude leg and root locomotion bones.
+The [Variants](/docs/core-concepts/variants) shown when you preview this animation in the editor, applied in order. Set these to the state the rig will usually be in when the animation plays. Empty means the Default Variant.
 
-Result: both can run at the same time without overriding each other.
+Only affects the editor.
 
-### Pose locking
+### Preview Texture Slots
 
--   Set Loop Mode to hold for a final pose.
--   Trigger a second animation later to exit the pose cleanly.
+The textures [Texture Slots](/docs/core-concepts/texture-slots) show when you preview this animation, applied after the Preview Variants. Empty means the slots show whatever the Preview Variants set.
 
-## Common Mistakes
+Only affects the editor.
 
--   Renaming animations after datapack integration without updating all function calls.
--   Forgetting Excluded Nodes, causing bone conflicts and jitter.
--   Setting Loop Delay and expecting it to affect once or hold modes.
--   Overcomplicating Molang fields when default timing already works.
+## Patterns
+
+### Layered locomotion and actions
+
+-   `walk` excludes the arm and head bones.
+-   `attack` excludes the leg bones.
+
+Both can play at the same time without overriding each other.
+
+### Holding a pose
+
+-   Set an `aim` animation to **Hold**, so the rig stays aimed.
+-   [Tween](/docs/function-api/animations#tween) into another animation to leave the pose smoothly.
 
 ## Related Reading
 
 -   [Animations](/docs/core-concepts/animations)
--   [Animations Function API](/docs/function-api/animations)
--   [Groups](/docs/nodes/groups)
--   [Your First Blueprint](/docs/getting-started/your-first-blueprint)
+-   [Function API: Animations](/docs/function-api/animations)

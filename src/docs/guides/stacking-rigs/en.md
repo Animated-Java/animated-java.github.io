@@ -3,42 +3,58 @@ title: Stacking Rigs
 description: Learn how to stack rigs on top of each other to create dynamic models.
 ---
 
-## Introduction
+# Stacking Rigs
 
-"Stacking" is the process of mounting multiple entities on top of each other.
-
-Using [Locators](/docs/nodes/locators) and their [Use Entity](/docs/nodes/locators#use-entity) and [On-Summon Function](/docs/nodes/locators#on-summon-function) properties, you can stack multiple rigs to add dynamic parts to your model.
+"Stacking" means mounting entities on top of each other. With a [Locator](/docs/nodes/locators) that [uses an entity](/docs/nodes/locators#use-entity), you can mount one rig on another, then move or rotate it on its own: a turret on a tank, or a head that turns to watch the player.
 
 ## Tutorial
 
-Let's take an existing rig (`body`) and stack our head rig (`head`) on top of it.
+We'll mount a `my_pack:head` rig on top of a `my_pack:body` rig.
 
-1. Inside of your `body` rig, create a new [Locator](/docs/nodes/locators) named `head_locator`. Position this Locator where you want the head to be mounted.
-2. Open up `head_locator`'s config and configure the following properties:
+1. In the `body` Blueprint, add a [Locator](/docs/nodes/locators) named `head_mount` where the head should sit.
+2. Right-click `head_mount`, open its **Locator Config**, and set:
 
-    1. Enable `Use Entity`
-    2. Set the `Entity Type` to `minecraft:item_display`
-    3. Set `On-Summon Function` to
+    1. **Use Entity**: enabled
+    2. **Entity Type**: `minecraft:item_display`
+    3. **On-Summon Function**:
 
         ```mcfunction
-        function animated_java:head/summon {args:{}}
-        ride @n[type=item_frame,tag=aj.head.root,distance=..0.01] mount @s
+        function my_pack:head/summon {args: {}}
+        ride @e[type=minecraft:item_display,tag=my_pack.head.root,sort=nearest,limit=1] mount @s
         ```
 
-3. Save and export both rigs (see [Your First Blueprint](/docs/getting-started/your-first-blueprint) for export instructions).
-4. In Minecraft, reload your Data Pack and Resource Pack.
-5. Run the following command to summon your body rig.
-    ```mcfunction
-    execute rotated 0 0 run function animated_java:body/summon {args: {}}
-    ```
-6. You should see the head rig mounted on top of the body rig.
+3. Export both Blueprints (see [Exporting](/docs/core-concepts/exporting)).
+4. In Minecraft, reload your Resource Pack (`F3 + T`) and Data Pack (`/reload`).
+5. Summon the body:
 
-From here, you can use your own commands to adjust the `head` rig's rotation as needed.
+    ```mcfunction
+    execute rotated 0 0 run function my_pack:body/summon {args: {}}
+    ```
+
+The head rig is summoned on the `head_mount` Locator and rides along as the body animates.
+
+## Making the Head Look Around
+
+The head rig turns to match its root entity, so rotate the root entity to aim it. On Minecraft 1.21.2 and newer, run this every tick to make every head look at the nearest player:
+
+```mcfunction
+execute as @e[tag=my_pack.head.root] at @s facing entity @p eyes run rotate @s ~ ~
+```
+
+:::note
+Leave **Sync Passenger Rotation** off on `head_mount` for this. When it's on, the Locator overwrites the head's rotation every tick.
+:::
+
+## Removing Stacked Rigs
+
+Removing the body also removes the head, because removing a rig removes everything riding it. The head's own On-Remove functions don't run, so if you rely on them, remove the head first. Run this as the body's root entity, before `remove/this`:
+
+```mcfunction
+function my_pack:body/as_locator {name: "head_mount", command: "execute on passengers run function my_pack:head/remove/this"}
+```
 
 ## Common Issues
 
--   #### The `head` rig falls behind the `body` rig when moving.
+-   #### The head lags behind the body when it moves
 
-    This commonly happens when mounting the `body` root entity on an entity, then moving that entity via `Motion` (or the entity moving itself).
-
-    The only (known) way to keep this connection seemless is to use the `tp` command to move the rig.
+    This happens when the body's root entity rides another entity that moves with `Motion`, or moves on its own. Move the body with `/tp` instead: it's the only known way to keep stacked rigs together.

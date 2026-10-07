@@ -5,80 +5,70 @@ description: A node that creates an interaction entity, which can be right and l
 
 # Interactions
 
-Interactions are used to react to player inputs. They can be right and left clicked to trigger functions.
+Interactions are clickable hitboxes. Players can right-click (interact with) or left-click (attack) them to trigger your commands.
 
 <img src="/images/docs/nodes/interactions/example1.png" alt="Interaction example"/>
 
-## Element Options
-
--   #### Displayed Item
-
-    The ID of the item to display.
-
 ## Entity Creation
 
-An Interaction always creates a `minecraft:interaction` entity when exported.
+An Interaction always creates an `interaction` entity. Like Locators and Cameras, it isn't a passenger: Animated Java teleports it into place every tick (see [Floating Entities](/docs/core-concepts/rigs#floating-entities)).
 
-All functions support [MC-Build](https://mcbuild.dev) syntax unless otherwise stated.
+## Size
+
+Resize the Interaction in the editor to set its hitbox. Its width covers both the X and Z axes, and 16 pixels is one block.
+
+Interaction hitboxes are always aligned to the world's axes. They follow the rig's movement and rotation, but the box itself never turns.
 
 ## Interaction Config
 
-The interaction config is accessed by right-clicking on the interaction node in the outliner.
+Right-click an Interaction in the Outliner and choose **Interaction Config**. All of its functions support [MC-Build](https://mcbuild.dev) syntax.
 
--   ### Response
+-   #### Response
 
-    Whether interacting with this interaction should trigger a response (Hand animation / attack sound) when the player interacts with it.
+    Whether interacting with it plays a response: the player's hand swings, or an attack sound plays.
 
--   ### On-Summon Function
+-   #### On-Summon Function
 
-    A function that is executed `as` and `at` the entity when it is summoned.
+    Commands that run `as` and `at` the Interaction when the rig is summoned.
 
--   ### On-Interact Function
+-   #### On-Interact Function
 
-    A function that is executed `as` and `at` the entity when a player interacts with it.
+    Commands that run `as` the Interaction when a player right-clicks it. Use `execute on target` to select that player.
 
-    You can use `execute on target` to select the player who interacted with the entity.
+-   #### On-Attack Function
 
--   ### On-Attack Function
+    Commands that run `as` the Interaction when a player left-clicks it. Use `execute on attacker` to select that player.
 
-    A function that is executed `as` and `at` the entity when a player attacks it.
+    :::note
+    On-Interact and On-Attack run at the **player's** position. Start your commands with `execute at @s` if you need the Interaction's position.
+    :::
 
-    You can use `execute on target` to select the player who attacked the entity.
+-   #### On-Remove Function
 
--   ### On-Remove Function
+    Commands that run `as` and `at` the Interaction when the rig is removed.
 
-    A function that is executed `as` and `at` the entity when it is removed.
+-   #### On-Tick Function
 
--   ### On-Tick Function
+    Commands that run `as` and `at` the Interaction every tick.
 
-    A function that is executed `as` and `at` the entity every tick.
+## Interaction Keyframes
 
-## Accessing Interactions at Runtime
+Interactions can be moved with position keyframes, and have **Function** keyframes like [Locators](/docs/nodes/locators#locator-keyframes) do.
 
-Use the [interaction utility functions](/docs/function-api/utilities#interaction-functions) to run commands as or at interaction entities:
+## Accessing Interactions In-Game
+
+Use the [Interaction functions](/docs/function-api/utilities#interactions):
 
 ```mcfunction
-# Execute as a specific interaction entity
-execute as @e[tag=my_pack.my_rig.root] run \
-    function my_pack:my_rig/as_interaction {name: "hitbox", command: "say I was targeted!"}
+# Run a command as the "hitbox" Interaction
+execute as @e[tag=my_pack.my_rig.root] run function my_pack:my_rig/as_interaction {name: "hitbox", command: "say I was targeted!"}
 
-# Execute at every interaction's transform position
-execute as @e[tag=my_pack.my_rig.root] run \
-    function my_pack:my_rig/at_all_interactions {command: "particle minecraft:crit ~ ~ ~"}
+# Spawn particles at every Interaction
+execute as @e[tag=my_pack.my_rig.root] run function my_pack:my_rig/at_all_interactions {command: "particle minecraft:crit ~ ~ ~"}
 ```
 
-Interaction entities also include scoreboard tags for direct selection:
-
-```
-<blueprint_id>.interaction.<name>
-```
+You can also select one directly with its `<blueprint_id>.interaction.<name>` tag.
 
 ## Plugin Mode
 
-Interaction configs are not available when [Plugin Mode](/docs/core-concepts/blueprints#enable-plugin-mode) is enabled. All interaction settings are hidden in plugin mode.
-
-## Notes
-
--   Interaction entities are **not passengers** of the root entity — they are free-floating entities that are repositioned every tick to follow their parent bone's transform.
--   Interaction entities do not support rotation. Their axes are always world-axis-aligned.
--   The `width` and `height` of the interaction entity are determined by the node's size in the Blockbench editor.
+Interactions have no config in [Plugin mode](/docs/core-concepts/exporting#plugin-exports). Use your plugin's API to add behavior to them instead.

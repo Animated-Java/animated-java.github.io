@@ -5,38 +5,38 @@ description: Learn how to create your first Blueprint and export it to Minecraft
 
 # Your First Blueprint
 
-In this guide we'll create a simple Blueprint of a spinning cube, export it to a Minecraft world, and summon it in-game. This will introduce you to the full workflow of Animated Java.
+In this guide we'll build a spinning cube, export it, and summon it in a Minecraft world. It covers the whole Animated Java workflow from start to finish.
 
 ## Prerequisites
 
--   Animated Java is installed. See [Installing Animated Java](/docs/getting-started/installing) if needed.
--   You have a Minecraft world with a Data Pack folder and a Resource Pack folder you can write to.
+-   Animated Java is installed. See [Installing Animated Java](/docs/getting-started/installing) if it isn't.
+-   A Minecraft world with an empty Data Pack in its `datapacks` folder, and an empty Resource Pack in your `resourcepacks` folder. Each one needs at least a `pack.mcmeta` file.
 
 ---
 
-## Part 1: Creating the Blueprint
+## Part 1: Create the Blueprint
 
-1. **Create a New Blueprint**
+1. **Create a new Blueprint**
 
-    Navigate to **File <i class="minecraft-right-arrow"></i> New <i class="minecraft-right-arrow"></i> Animated Java Blueprint** or select **Animated Java Blueprint** from the startup screen. A new empty Blueprint will open.
+    Go to **File <i class="minecraft-right-arrow"></i> New <i class="minecraft-right-arrow"></i> Animated Java Blueprint**, or pick **Animated Java Blueprint** on the start screen.
 
-2. **Create a Group**
+2. **Add a Group**
 
-    In the Outliner, click the **Add Group** button to create a new bone. Rename it to `cube_bone`. Bones are the animated containers for your cube geometry.
+    In the Outliner, click **Add Group** and rename the new group to `cube_bone`. Groups are the bones of your rig: they're what moves when you animate.
 
 3. **Add a Cube**
 
-    Click the **Add Cube** button to create a new cube. In the Outliner, drag the cube onto `cube_bone` to parent it. Adjust the cube's position and size as desired.
+    Click **Add Cube**, then drag the cube onto `cube_bone` in the Outliner. Position and size it however you like.
 
-4. **Apply a Texture**
+4. **Texture it**
 
-    Open the **Textures** panel and create or import a texture. Assign it to all faces of your cube.
+    In the **Textures** panel, create or import a texture and apply it to every face of the cube.
 
 ---
 
-## Part 2: Configure Blueprint Settings
+## Part 2: Configure the Blueprint
 
-Before exporting, you need to tell Animated Java where to write your files.
+Animated Java needs to know where to write your packs.
 
 1. **Open Blueprint Settings**
 
@@ -44,84 +44,80 @@ Before exporting, you need to tell Animated Java where to write your files.
 
 2. **Set the Blueprint ID**
 
-    Under **General**, set the Blueprint ID to something unique, for example: `my_pack:spinning_cube`. This becomes your function namespace.
+    On the **General** page, set **Blueprint ID** to something unique, like `my_pack:spinning_cube`. Every function Animated Java generates lives under this ID.
 
-3. **Set the Target Version**
+3. **Set the Target Minecraft Version**
 
-    Set **Target Minecraft Version** to match your Minecraft installation.
+    Set **Target Minecraft Version** to the version you play on, like `26.2`.
 
-4. **Set the Resource Pack Path**
+4. **Pick the Resource Pack folder**
 
-    Under **Resource Pack**, click the folder icon and navigate to your Minecraft resource pack directory (the one containing `pack.mcmeta`).
+    On the **Resource Pack** page, leave the format on **Folder** and select your Resource Pack's folder (the one containing `pack.mcmeta`).
 
-5. **Set the Data Pack Path**
+5. **Pick the Data Pack folder**
 
-    Under **Data Pack**, click the folder icon and navigate to your Minecraft world's data pack directory.
+    On the **Data Pack** page, leave the format on **Folder** and select your Data Pack's folder inside the world's `datapacks` folder.
 
-6. **Save**
+6. **Close the dialog**
 
-    Click **Confirm** to close the settings dialog.
-
----
-
-## Part 3: Create an Animation
-
-1. **Switch to the Animate Tab**
-
-    Click the **Animate** tab at the top of Blockbench.
-
-2. **Create a New Animation**
-
-    In the **Animations** panel, click **+** to create a new animation. Name it `spin`. Right-click it and open **Animation Properties** to set the Loop Mode to **loop**.
-
-3. **Add Rotation Keyframes**
-
-    Select `cube_bone` in the Outliner. At time `0`, add a rotation keyframe with Y rotation = 0. Move the timeline to the last frame and add another keyframe with Y rotation = 360.
+    Settings save automatically when you switch pages or close the dialog.
 
 ---
 
-## Part 4: Export and Test in Minecraft
+## Part 3: Animate It
 
-1. **Export the Blueprint**
+1. **Switch to the Animate tab**
 
-    Click **Animated Java <i class="minecraft-right-arrow"></i> Export (Debug)** in the menu bar. This will export your Blueprint's model and animation functions to the specified data pack and resource pack folders.
+    Click **Animate** in the top-right corner of Blockbench.
 
-2. **Load the Packs in Minecraft**
+2. **Create an animation**
 
-    Open your Minecraft world. Enable your resource pack in the Resource Pack menu, then run `/reload` to reload the data pack.
+    In the **Animations** panel, click **+** to create an animation and name it `spin`. Right-click it, choose **Properties**, and set **Loop Mode** to **Loop**.
 
-3. **Summon Your Rig**
+3. **Add rotation keyframes**
 
-    Run the following command to summon your spinning cube rig at your feet:
+    Select `cube_bone`. At `0` seconds, add a rotation keyframe with a Y rotation of `0`. Move to the end of the animation and add another rotation keyframe with a Y rotation of `360`.
 
-```mcfunction
-execute positioned ~ ~ ~ rotated ~ 0 run function my_pack:spinning_cube/summon {args: {}}
-```
+---
 
-:::note
-Make sure to replace `my_pack:spinning_cube` with your actual Blueprint ID.
-:::
+## Part 4: Export and Test
 
-:::tip
-The rig will be oriented based on the execute context. Using `execute positioned` and `execute rotated` allows you to control the position and rotation of the rig when it is summoned.
-:::
+1. **Export**
 
-To start the spin animation, run:
+    Click **Animated Java <i class="minecraft-right-arrow"></i> Export (Debug)**, or press `Ctrl + E`. Animated Java writes the model and textures to your Resource Pack, and the functions to your Data Pack.
 
-```mcfunction
-execute as @e[tag=my_pack.spinning_cube.root] run function my_pack:spinning_cube/animations/spin/play
-```
+2. **Load the packs**
 
-To remove the rig:
+    In Minecraft, enable your Resource Pack (or press `F3 + T` if it's already on), then run `/reload`.
 
-```mcfunction
-execute as @e[tag=my_pack.spinning_cube.root] run function my_pack:spinning_cube/remove/this
-```
+3. **Summon the rig**
+
+    Run this to summon the cube at your feet, facing south:
+
+    ```mcfunction
+    execute positioned ~ ~ ~ rotated 0 0 run function my_pack:spinning_cube/summon {args: {}}
+    ```
+
+    :::note
+    Replace `my_pack:spinning_cube` with your own Blueprint ID.
+    :::
+
+4. **Play the animation**
+
+    ```mcfunction
+    execute as @e[tag=my_pack.spinning_cube.root] run function my_pack:spinning_cube/animations/spin/play
+    ```
+
+5. **Remove the rig**
+
+    ```mcfunction
+    execute as @e[tag=my_pack.spinning_cube.root] run function my_pack:spinning_cube/remove/this
+    ```
 
 ---
 
 ## Next Steps
 
--   Learn about [Blueprint Settings](/docs/core-concepts/blueprints) for all available configuration options.
--   Explore [Variants](/docs/function-api/variants) to give your model multiple appearances.
--   Read the full [Function API](/docs/function-api/summon) reference to control rigs from your own data pack.
+-   [Blueprints](/docs/core-concepts/blueprints) covers every Blueprint setting.
+-   [Variants](/docs/core-concepts/variants) and [Texture Slots](/docs/core-concepts/texture-slots) let one rig switch between looks.
+-   The [Function API](/docs/function-api/summon) lists every function you can call from your own Data Pack.

@@ -5,38 +5,28 @@ description: A node that represents a positional/rotational anchor for camera-ba
 
 # Cameras
 
-Cameras are positional anchors that track a specific point in space as your rig animates. They are useful for attaching player view effects, executing commands at specific view positions, or tracking a point of interest relative to the rig.
+Cameras are invisible anchors that follow your rig as it animates. Use them to put a player's view inside a cutscene, or to track a moving point of interest.
 
 ## Installing the Camera Plugin
 
-Animated Java does not include camera nodes by default. To use cameras, you must install the [Camera Plugin](https://www.blockbench.net/plugins/cameras) from the Blockbench plugin library.
+Camera nodes come from Blockbench's [Cameras plugin](https://www.blockbench.net/plugins/cameras). Install it to add Cameras to your Blueprints.
 
 ## Entity Creation
 
-A Camera always creates a `minecraft:item_display` entity when exported. Unlike bone entities, cameras are **not passengers** of the root entity — they are free-floating entities that are repositioned every tick by the rig's tick function using smooth teleportation (`teleport_duration: 2`).
+A Camera always creates an invisible `item_display` entity. Like Locators and Interactions, it isn't a passenger: Animated Java teleports it into place every tick (see [Floating Entities](/docs/core-concepts/rigs#floating-entities)), with a teleport duration of 2 ticks so it moves smoothly.
 
-Their position and rotation is stored as `{px, py, pz, rx, ry}` in the rig's data storage entry under `entry.data.cameras.<name>`, and updated each tick from the current animation frame.
+Cameras track their position and two axes of rotation (pitch and yaw). Camera roll isn't supported.
 
-## What Cameras Are Good For
+## Uses
 
--   **Spectator-mode view anchors** — Teleport a spectator player to the camera entity each tick to get a first-person view from within the rig.
--   **Positional effects** — Spawn particles, play sounds, or run commands at an animated position that isn't tied to a physical bone.
--   **Animation-driven targeting** — Point the camera at something of interest and have the engine track it automatically as the animation plays.
+-   **Cutscenes:** have a spectator player [spectate](https://minecraft.wiki/w/Commands/spectate) the Camera to see through it.
+-   **Positional effects:** spawn particles or play sounds at a moving point that isn't attached to a bone.
 
-## Camera Config
+## Accessing Cameras In-Game
 
-Cameras have no additional configuration dialog beyond what is set in Blockbench. Position, rotation, and animation are controlled in the standard Blockbench viewport and timeline.
-
-## Accessing Camera Entities
-
-Use the `as_camera` [utility function](/docs/function-api/utilities#camera-functions):
+Use the [`as_camera`](/docs/function-api/utilities#as_camera) function:
 
 ```mcfunction
-#ARGS: {name: string, command: string}
-execute as @e[tag=my_pack.my_rig.root] run function my_pack:my_rig/as_camera {name: "eye", command: "ride @s mount @p"}
+# Make the nearest spectator watch through the "eye" Camera
+execute as @e[tag=my_pack.my_rig.root] run function my_pack:my_rig/as_camera {name: "eye", command: "spectate @s @p[gamemode=spectator]"}
 ```
-
-## Notes
-
--   Cameras do not render any visible geometry in Minecraft — the `item_display` entity they create is invisible. They are purely positional anchors.
--   Only position and two-axis rotation (`rx`, `ry`) are stored per-frame. Camera roll is not supported.

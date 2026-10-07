@@ -5,7 +5,7 @@ description: A node that renders an item model.
 
 # Item Displays
 
-Item Displays render a vanilla Minecraft item model in the world. They can be animated just like [Groups](/docs/nodes/groups) - position, rotation, and scale keyframes are all supported.
+Item Displays render a Minecraft item in your rig. They can be animated just like [Groups](/docs/nodes/groups): position, rotation, and scale keyframes all work.
 
 <img src="/images/docs/nodes/item-displays/example1.png" alt="Item Display example"/>
 
@@ -13,28 +13,22 @@ Item Displays render a vanilla Minecraft item model in the world. They can be an
 
 -   #### Displayed Item
 
-    The namespaced ID of the item to display (e.g. `minecraft:diamond_sword`, `minecraft:oak_log`).
+    The ID of the item to display, like `minecraft:diamond_sword`. Set it in the **Displayed Item** panel.
 
-    The item is validated against the Minecraft item registry for the selected target version. Invalid items are highlighted with a warning.
+    The item is checked against the item registry of your Target Minecraft Version, and unknown items get a warning. Items from your [Preview Resource Packs](/docs/core-concepts/blueprints#preview) show up in the editor, too.
 
 -   #### Item Display Mode
 
-    Controls how the item model is oriented for display. This corresponds to Minecraft's `item_display` NBT field.
+    Which of the item model's display transforms to use, like holding it in a hand or wearing it on the head. Matches the `item_display` field of an `item_display` entity: `none`, `thirdperson_righthand`, `thirdperson_lefthand`, `firstperson_righthand`, `firstperson_lefthand`, `head`, `gui`, `ground`, or `fixed`.
 
-    -   `none` — Default orientation.
-    -   `thirdperson_righthand` / `thirdperson_lefthand` — Third-person hand display orientation.
-    -   `firstperson_righthand` / `firstperson_lefthand` — First-person hand display orientation.
-    -   `head` — Head slot display orientation.
-    -   `gui` — GUI inventory display orientation.
-    -   `ground` — Ground (dropped item) display orientation.
-    -   `fixed` — Fixed display orientation (item frame).
+-   #### Pivot
+
+    Item Displays rotate and scale around their pivot point. Move it with Blockbench's pivot tool.
 
 ## Entity Creation
 
-An Item Display always creates a `minecraft:item_display` entity when exported.
+An Item Display always creates an `item_display` entity.
 
 ## Display Entity Config
 
-Right-click on an Item Display node in the outliner and select **Display Entity Config** to open its configuration.
-
-See [Configs / Display Entity](/docs/configs/display-entity).
+Right-click an Item Display in the Outliner and choose **Display Entity Config**. See [Display Entity Config](/docs/configs/display-entity).
