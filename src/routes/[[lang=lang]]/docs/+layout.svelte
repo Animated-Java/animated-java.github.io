@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment'
-	import { afterNavigate, goto } from '$app/navigation'
+	import { afterNavigate } from '$app/navigation'
 	import Footer from '$lib/components/footer.svelte'
 	import MinecraftIcon from '$lib/components/minecraftIcon.svelte'
 	import { getLanguageName, localizeHref, SUPPORTED_LANGUAGES } from '$lib/docs/docs'
@@ -25,9 +25,6 @@
 		document.documentElement.lang = lang
 	})
 
-	function switchLanguage(event: Event & { currentTarget: HTMLSelectElement }): void {
-		void goto(localizeHref(data.currentPath, event.currentTarget.value) + window.location.hash)
-	}
 
 	const pageTitle = $derived(
 		data.currentDoc?.title ? `${data.currentDoc.title} | ${docsTitle}` : docsTitle
@@ -41,6 +38,8 @@
 	let activeHeadingId = $state('')
 	let isMobileNavOpen = $state(false)
 	let isMobileSidebarOpen = $state(false)
+	let isLanguageMenuOpen = $state(false)
+	let languageMenu = $state<HTMLDivElement>()
 	let headingObserver: IntersectionObserver | null = null
 	let observedTargets: HTMLElement[] = []
 
@@ -151,6 +150,26 @@
 		isMobileNavOpen = false
 	}
 
+	function toggleLanguageMenu(): void {
+		isLanguageMenuOpen = !isLanguageMenuOpen
+	}
+
+	function closeLanguageMenu(): void {
+		isLanguageMenuOpen = false
+	}
+
+	function handleWindowClick(event: MouseEvent): void {
+		if (event.target instanceof Node && !languageMenu?.contains(event.target)) {
+			closeLanguageMenu()
+		}
+	}
+
+	function handleWindowKeydown(event: KeyboardEvent): void {
+		if (event.key !== 'Escape' || !isLanguageMenuOpen) return
+		closeLanguageMenu()
+		languageMenu?.querySelector('button')?.focus()
+	}
+
 	function toggleMobileSidebar(): void {
 		isMobileSidebarOpen = !isMobileSidebarOpen
 	}
@@ -176,6 +195,7 @@
 	afterNavigate(() => {
 		closeMobileNav()
 		closeMobileSidebar()
+		closeLanguageMenu()
 		void refreshToc()
 	})
 
@@ -212,6 +232,8 @@
 	<meta name="twitter:description" content={pageDescription} />
 	<meta name="twitter:image" content={socialImage} />
 </svelte:head>
+
+<svelte:window onclick={handleWindowClick} onkeydown={handleWindowKeydown} />
 
 <div class="docs-shell">
 	<header class="docs-header minecraft-box">
@@ -251,16 +273,43 @@
 					{link.title}
 				</a>
 			{/each}
-			<!-- A select can't show an icon, so an invisible one covers this button -->
-			<label class="language-select minecraft-button">
-				<MinecraftIcon path="icons/current/lang_file.svg" />
-				{getLanguageName(lang)}
-				<select aria-label="Language" value={lang} onchange={switchLanguage}>
+			<div class="language-menu" bind:this={languageMenu}>
+				<button
+					type="button"
+					class="language-toggle minecraft-button"
+					aria-label="Language: {getLanguageName(lang)}"
+					aria-controls="language-list"
+					aria-expanded={isLanguageMenuOpen}
+					onclick={toggleLanguageMenu}
+				>
+					<MinecraftIcon path="icons/current/lang_file.svg" />
+					{getLanguageName(lang)}
+				</button>
+				<!-- Hidden instead of removed, so the prerendered page still links every language -->
+				<ul
+					id="language-list"
+					class="language-list minecraft-box"
+					hidden={!isLanguageMenuOpen}
+				>
 					{#each SUPPORTED_LANGUAGES as option}
-						<option value={option} lang={option}>{getLanguageName(option)}</option>
+						<li>
+							<a
+								class:active={option === lang}
+								aria-current={option === lang ? 'page' : undefined}
+								href={localizeHref(data.currentPath, option)}
+								hreflang={option}
+								lang={option}
+							>
+								{getLanguageName(option)}
+
+								{#if option === lang}
+									<i class="minecraft-left-arrow"></i>
+								{/if}
+							</a>
+						</li>
 					{/each}
-				</select>
-			</label>
+				</ul>
+			</div>
 		</nav>
 	</header>
 
@@ -409,26 +458,58 @@
 		justify-content: flex-end;
 	}
 
-	.language-select {
+	.language-menu {
 		position: relative;
+	}
+
+	.language-toggle {
 		font-family: var(--minecraft-font);
 		font-size: var(--font-size-small);
-		color: var(--minecraft-button-text-color);
-		cursor: pointer;
 	}
 
-	.language-select select {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		opacity: 0;
-		cursor: pointer;
-	}
-
-	.language-select:focus-within {
+	.language-toggle:focus-visible {
 		outline: 2px solid #00aced;
-		outline-offset: 2px;
+		outline-offset: 6px;
+	}
+
+	/* Stay pressed while the menu is open */
+	.language-toggle[aria-expanded='true'] {
+		/* prettier-ignore */
+		box-shadow:
+			0 0 0 4px var(--minecraft-button-inset-border-color) inset,
+			0 0 0 4px var(--minecraft-border-color);
+		padding: calc(4px + 8px) 16px calc(8px + 4px) 16px;
+		margin-top: 12px;
+	}
+
+	.language-list {
+		position: absolute;
+		top: calc(100% + 16px);
+		right: 0;
+		z-index: 10;
+		min-width: 100%;
+		box-sizing: border-box;
+		margin: 0;
+		padding: 12px 0;
+		gap: 2px;
+	}
+
+	.language-list[hidden] {
+		display: none;
+	}
+
+	.language-list a {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 6px 20px;
+		/* Scripts the Minecraft font lacks fall back to taller fonts, so pin the rows */
+		line-height: 24px;
+	}
+
+	.language-list a:not(.active):hover {
+		color: var(--minecraft-text-color);
+		background-color: #ffffff14;
 	}
 
 	.docs-nav-toggle {
@@ -438,14 +519,14 @@
 		line-height: 1;
 	}
 
-	.docs-nav a {
+	.docs-nav > a {
 		font-family: var(--minecraft-font);
 		font-size: var(--font-size-small);
 		text-decoration: none;
 		color: var(--minecraft-button-text-color);
 	}
 
-	.docs-nav a.active {
+	.docs-nav > a.active {
 		color: var(--minecraft-text-color);
 		background-color: #00aced;
 		/* prettier-ignore */
@@ -456,7 +537,7 @@
 		margin-top: 12px;
 	}
 
-	.docs-nav a.active::after {
+	.docs-nav > a.active::after {
 		content: '';
 		display: block;
 		position: relative;
@@ -669,8 +750,8 @@
 			);
 		}
 
-		.docs-nav.open a,
-		.docs-nav.open .language-select {
+		.docs-nav.open > a,
+		.docs-nav.open .language-toggle {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -681,8 +762,8 @@
 			white-space: nowrap;
 		}
 
-		.docs-nav.open a :global(i),
-		.docs-nav.open .language-select :global(i) {
+		.docs-nav.open > a :global(i),
+		.docs-nav.open .language-toggle :global(i) {
 			display: flex;
 			align-items: center;
 			height: 32px;
@@ -690,11 +771,21 @@
 		}
 
 		/* The pressed button is shorter, so sink it to the row's bottom edge like the desktop header */
-		.docs-nav.open a.active {
+		.docs-nav.open .language-menu {
+			display: grid;
+			align-content: end;
+		}
+
+		/* Grid cells can sit anywhere in the row, so match the button's width instead of overhanging */
+		.docs-nav.open .language-list {
+			left: 0;
+		}
+
+		.docs-nav.open > a.active {
 			align-self: end;
 		}
 
-		.docs-nav.open a.active::after {
+		.docs-nav.open > a.active::after {
 			display: none;
 		}
 
@@ -752,16 +843,16 @@
 			padding: 8px;
 		}
 
-		.docs-nav a {
+		.docs-nav > a {
 			display: block;
 			margin-top: 0;
 		}
 
-		.docs-nav a.active {
+		.docs-nav > a.active {
 			margin-top: 0;
 		}
 
-		.docs-nav a.active::after {
+		.docs-nav > a.active::after {
 			display: none;
 		}
 
