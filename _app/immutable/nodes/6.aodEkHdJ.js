@@ -1,0 +1,1 @@
+import{P as r,l as o}from"../chunks/-0V4PxNc.js";import{r as t}from"../chunks/C8BZa76B.js";const a=!0,l=()=>[{},...r.map(e=>({lang:e}))],n=({params:e})=>{t(302,o("/docs/welcome",e.lang))},i=Object.freeze(Object.defineProperty({__proto__:null,entries:l,load:n,prerender:a},Symbol.toStringTag,{value:"Module"}));export{i as universal};
