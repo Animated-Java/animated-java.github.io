@@ -16,7 +16,7 @@
 		max-width: 980px;
 		margin: 0 auto 28px;
 		padding: 28px;
-		background: linear-gradient(160deg, #00acedaa 0%, #00aced55 100%);
+		background: linear-gradient(160deg, #0a8cc4 0%, #076e9b 100%);
 	}
 
 	h2 {
