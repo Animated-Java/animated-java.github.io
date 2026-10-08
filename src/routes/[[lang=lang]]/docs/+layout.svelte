@@ -251,16 +251,16 @@
 					{link.title}
 				</a>
 			{/each}
-			<select
-				class="language-select minecraft-button"
-				aria-label="Language"
-				value={lang}
-				onchange={switchLanguage}
-			>
-				{#each SUPPORTED_LANGUAGES as option}
-					<option value={option} lang={option}>{getLanguageName(option)}</option>
-				{/each}
-			</select>
+			<!-- A select can't show an icon, so an invisible one covers this button -->
+			<label class="language-select minecraft-button">
+				<MinecraftIcon path="icons/current/lang_file.svg" />
+				{getLanguageName(lang)}
+				<select aria-label="Language" value={lang} onchange={switchLanguage}>
+					{#each SUPPORTED_LANGUAGES as option}
+						<option value={option} lang={option}>{getLanguageName(option)}</option>
+					{/each}
+				</select>
+			</label>
 		</nav>
 	</header>
 
@@ -410,10 +410,25 @@
 	}
 
 	.language-select {
+		position: relative;
 		font-family: var(--minecraft-font);
 		font-size: var(--font-size-small);
 		color: var(--minecraft-button-text-color);
 		cursor: pointer;
+	}
+
+	.language-select select {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.language-select:focus-within {
+		outline: 2px solid #00aced;
+		outline-offset: 2px;
 	}
 
 	.docs-nav-toggle {
@@ -646,12 +661,41 @@
 		}
 
 		.docs-nav.open {
-			display: flex;
+			display: grid;
+			/* At most 5 columns, one per item, so wide menus have no empty cells */
+			grid-template-columns: repeat(
+				auto-fill,
+				minmax(max(140px, calc((100% - 48px) / 5)), 1fr)
+			);
 		}
 
-		.docs-nav.open {
-			display: grid;
-			grid-template-columns: 1fr;
+		.docs-nav.open a,
+		.docs-nav.open .language-select {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 6px;
+			margin: 0;
+			padding-inline: 8px;
+			white-space: nowrap;
+		}
+
+		.docs-nav.open a :global(i),
+		.docs-nav.open .language-select :global(i) {
+			display: flex;
+			align-items: center;
+			height: 32px;
+			margin: 0;
+		}
+
+		/* The pressed button is shorter, so sink it to the row's bottom edge like the desktop header */
+		.docs-nav.open a.active {
+			align-self: end;
+		}
+
+		.docs-nav.open a.active::after {
+			display: none;
 		}
 
 		.docs-header {
