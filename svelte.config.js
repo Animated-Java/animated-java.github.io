@@ -17,6 +17,7 @@ const config = {
 		vitePreprocess(),
 		mdsvex({
 			extensions: ['.md'],
+			layout: resolve('./src/lib/docs/docLayout.svelte'),
 			rehypePlugins: [rehypeSlug, remarkAdmonitions],
 			remarkPlugins: [remarkGfm, remarkDirective],
 			highlight: {
