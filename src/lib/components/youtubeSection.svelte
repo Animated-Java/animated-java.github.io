@@ -5,6 +5,7 @@
 	const VIDEOS = [
 		'RFwAM5v5QoQ', // I Coded Minecraft’s Hardest Difficulty
 		'dd7pqAPd-p0', // Phantom Manor
+		'vOID8Z4W9Z0', // BBNO$$ Concert
 		'66eQ9RkyVLI', // Eternity's Divide Showcase
 		'XdABXLbS_ok', // I Coded Five Nights at Freddy's in Minecraft
 		'M2R3zgvbZ30', // How to Mine a Tree
