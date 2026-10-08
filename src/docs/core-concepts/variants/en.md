@@ -7,165 +7,73 @@ description: Understand what Variants are and how they change a rig's appearance
 
 ## What is a Variant?
 
-A **Variant** is a named appearance state for a Blueprint.
+A **Variant** is a named look for your rig. Applying one changes what the rig looks like without re-summoning it. Variants are applied **per rig instance**, so two copies of the same rig can wear different Variants at the same time.
 
-Variants let one rig switch between multiple visual configurations without being re-summoned. They are evaluated **per rig instance**, so two copies of the same rig can use different variants at the same time.
+Common uses:
 
-Common uses include:
+-   costumes or skins,
+-   damaged and undamaged states,
+-   lit and unlit props,
+-   facial expressions.
 
--   different costumes or skins,
--   damaged vs. undamaged states,
--   lit vs. unlit props,
--   facial expression swaps,
--   hiding or revealing optional model parts.
-
-See the [Function API: Variants](/docs/function-api/variants) page for the runtime control function.
+Manage Variants in the **Variants** panel. Click a Variant to preview it in the editor, and click its edit (pencil) icon to open its [Variant Config](/docs/configs/variant).
 
 ## What a Variant Changes
 
-A Variant can affect several parts of a rig at once.
+### Texture Slots
 
-### Texture swaps
+A Variant picks a texture for any of your [Texture Slots](/docs/core-concepts/texture-slots). For example, an `angry` Variant could switch a `face` slot to an angry face texture. Slots the Variant doesn't list are left as they are.
 
-A variant can replace one texture with another for the affected rig models.
+This is the main way Variants change a rig's look.
 
-This is the most common use case: one rig structure, multiple looks.
+### Display Entity Config
+
+Each node's [Display Entity Config](/docs/configs/display-entity) can have different settings per Variant, like billboard mode, brightness, glowing, or an On-Apply function. Applying the Variant applies those settings to the node.
+
+### On-Apply Function
+
+Commands that run `as` and `at` the root entity whenever the Variant is applied.
 
 ### Excluded Nodes
 
-A variant can exclude specific nodes so they are not modified when the variant is applied.
+Nodes in a Variant's **Excluded Nodes** list are never touched when it's applied, even if they have faces in one of its Texture Slots.
 
-This is useful when layering variants on top of each other — for example, a `red` variant that recolors the whole rig, and a `hat` variant that only shows a hat without affecting the recolor.
+## The Default Variant
 
-### Per-variant display entity config
+Every Blueprint has a **Default** Variant. It's your rig's base look, and what the rig starts with when it's summoned. You can rename it, but you can't delete it.
 
-Display entity settings can also change per variant.
+Applying the Default Variant resets every Texture Slot to its default texture, and every node to its default Display Entity Config.
 
-That includes settings such as:
+## Applying Variants
 
--   billboard mode,
--   brightness override,
--   glow settings,
--   shadow settings,
--   variant-specific on-apply commands.
+-   Run its function: [`<blueprint_id>/variants/<variant>/apply`](/docs/function-api/variants).
+-   Pass it when summoning: [`summon {args: {variant: "angry"}}`](/docs/function-api/summon#variant).
+-   Use a Variant keyframe in an [animation](/docs/core-concepts/animations#effect-keyframes). One keyframe can apply several Variants in order.
 
-These are configured from the [Display Entity Config](/docs/configs/display-entity) dialog.
+## Layering Variants
 
-## Default Variant
+Applying a Variant only changes what it sets. It doesn't reset the rig first, and Animated Java doesn't keep track of which Variants are active. So layering is:
 
-Every Blueprint always has a **Default** variant.
+-   **order-dependent:** when two Variants set the same slot or node, the last one applied wins,
+-   **partial:** anything a Variant doesn't set stays as it was.
 
-The Default variant represents the rig's base appearance. If you summon a rig without explicitly applying another variant, the rig starts in its default state.
+This makes it easy to give each Variant one job. A `red_shirt` Variant that only sets the `shirt` slot and an `angry` Variant that only sets the `face` slot can be applied in any order and combine cleanly.
 
-Think of all other variants as overrides on top of that baseline.
+To get back to a known state, apply the Default Variant first, then the Variants you want on top.
 
-## Variants Are Per Rig Instance
+:::warning[Before Minecraft 1.21.4]
+Older versions can't switch Texture Slots one at a time. Instead, applying a Variant swaps each bone it changes to a model with that Variant's textures, and the bone's other slots go back to their defaults. Layered Variants only combine cleanly if they change different bones.
+:::
 
-Variants are not a global toggle for the blueprint.
+## Variants or Separate Blueprints?
 
-If you summon the same blueprint multiple times:
+Use **Variants** when the rig is the same object, shares its animations, and only its look changes.
 
--   one rig can use the default variant,
--   another can use an `angry` variant,
--   another can switch variants mid-animation.
-
-This is why variant functions are executed **as the rig root entity**.
-
-## How Variants Fit Into a Rig
-
-Variants do not create a different rig structure.
-
-They operate on the existing rig by changing:
-
--   which models/textures are used,
--   which nodes are visible,
--   which display entity settings apply.
-
-That means variants are usually much cheaper and cleaner than creating separate blueprints for every look.
-
-## Variants and Animations
-
-Variants work well with animations.
-
-A Variant can be:
-
--   applied manually through the variants function API,
--   selected when the rig is summoned,
--   triggered by a Variant Keyframe inside an animation.
-
-This makes them useful for stateful animation work such as:
-
--   changing expression during a cutscene,
--   swapping weapon forms mid-attack,
--   changing prop appearance at a specific frame.
-
-## When To Use Variants vs Separate Blueprints
-
-Use **Variants** when:
-
--   the rig is fundamentally the same object,
--   animations can be shared,
--   only the appearance or visible parts change.
-
-Use **separate Blueprints** when:
-
--   the structure is substantially different,
--   the animation set is unrelated,
--   export settings or rig behavior need to diverge heavily.
-
-## Variant Layering
-
-Animated Java does **not** maintain a formal stack of active variants.
-
-Applying a variant simply updates the nodes that variant affects. If you apply another variant afterward, the second variant updates its own target nodes on top of the rig's current state.
-
-That means layering is:
-
--   **order-dependent**,
--   **partial**,
--   **not automatically reset back to Default** before each apply.
-
-### What This Means In Practice
-
-If Variant A changes one set of nodes and Variant B changes a different set of nodes, you can apply them sequentially and the result will often look like they are layered together.
-
-If both variants affect the same node, the later application wins for whatever it overrides on that node.
-
-Examples:
-
--   Two variants that swap different bones can be combined safely.
--   Two variants that both replace the same bone model are effectively last-write-wins.
--   Two variants that both apply display entity config to the same node are also order-dependent.
-
-### Safe Layering Pattern
-
-Variant layering works best when each variant is responsible for a separate concern, such as:
-
--   costume pieces,
--   facial expressions,
--   weapon state,
--   glow or brightness presentation on a separate node.
-
-### Avoid These Assumptions
-
--   Do not assume applying a variant clears all previous variant effects.
--   Do not assume variants are merged globally into one resolved state object.
--   Do not assume excluded nodes in one variant automatically restore nodes changed by a previous variant.
-
-### Recommended Approach
-
-If you need deterministic combined looks, create an explicit combined variant such as:
-
--   `angry_armored`
--   `lit_damaged`
--   `smiling_hat`
-
-Use sequential variant application only when you intentionally want order-based partial overrides.
+Use **separate Blueprints** when the model's structure is different, the animations are unrelated, or the rigs need different settings.
 
 ## Related Reading
 
--   [Blueprints](/docs/core-concepts/blueprints)
--   [Rigs](/docs/core-concepts/rigs)
--   [Animations](/docs/core-concepts/animations)
+-   [Texture Slots](/docs/core-concepts/texture-slots)
+-   [Variant Config](/docs/configs/variant)
 -   [Display Entity Config](/docs/configs/display-entity)
 -   [Function API: Variants](/docs/function-api/variants)

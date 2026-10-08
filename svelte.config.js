@@ -6,6 +6,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkDirective from 'remark-directive'
 import remarkGfm from 'remark-gfm'
 import remarkAdmonitions from './src/lib/docs/remark-admonitions.ts'
+import rehypeTree from './src/lib/docs/rehype-tree.ts'
 import './src/lib/prismjs/mcfunction.ts'
 
 /**
@@ -18,7 +19,7 @@ const config = {
 		mdsvex({
 			extensions: ['.md'],
 			layout: resolve('./src/lib/docs/docLayout.svelte'),
-			rehypePlugins: [rehypeSlug, remarkAdmonitions],
+			rehypePlugins: [rehypeSlug, remarkAdmonitions, rehypeTree],
 			remarkPlugins: [remarkGfm, remarkDirective],
 			highlight: {
 				highlighter: (code, lang) => {

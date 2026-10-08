@@ -7,169 +7,87 @@ description: Understand how Animated Java animations are structured, evaluated, 
 
 ## What is an Animation?
 
-An **Animation** is a timeline that changes a rig's pose over time.
+An **Animation** is a timeline that moves a rig's nodes over time, and can switch [Variants](/docs/core-concepts/variants) and [Texture Slots](/docs/core-concepts/texture-slots) or run commands along the way.
 
-In Animated Java, animations do not exist globally in the world. They are evaluated **per rig instance**. If you summon the same Blueprint ten times, each rig can be playing different animations independently.
-
-Animations primarily drive:
-
--   bone transforms,
--   display entity transforms,
--   variant changes,
--   function callbacks.
-
-See the [Function API: Animations](/docs/function-api/animations) page for the runtime control functions.
-
-## What an Animation Changes
-
-At a high level, an animation can affect:
-
--   position,
--   rotation,
--   scale,
--   effect keyframes.
-
-Transform keyframes update the rig pose. Effect keyframes trigger extra behavior such as variant changes or custom functions.
+Animations play **per rig instance**. If you summon the same Blueprint ten times, every instance can play a different animation, or the same one at a different frame. That's why animation functions must run **as the rig's root entity**. See [Function API: Animations](/docs/function-api/animations) for how to control them in-game.
 
 ## Frames and Timing
 
-Animation frames are zero-indexed and advance at **20 frames per second**.
-
--   1 tick = 1 frame
--   20 ticks = 1 second
-
-The total frame count is based on the animation length you set in Blockbench.
-
-For example:
-
--   1 second animation = 20 frames
--   2.5 second animation = 50 frames
+Animations run at **20 frames per second**, one frame per game tick, starting from frame `0`. A 1 second animation is 20 frames long, and a 2.5 second animation is 50.
 
 ## Loop Modes
 
-Each animation has a **loop mode** that determines its behavior when it reaches the last frame:
+Each animation's **Loop Mode** decides what happens when it reaches the last frame:
 
--   **`once`** — Plays from frame 0 to the last frame, then stops and resets to frame 0 (the default pose).
--   **`hold`** — Plays from frame 0 to the last frame, then freezes on the last frame.
--   **`loop`** — Plays from frame 0 to the last frame, then loops back to frame 0 (with an optional **Loop Delay** in ticks).
+-   **Once** plays to the end, then stops and snaps back to its first frame. Good for attacks, gestures, and other one-shot actions.
+-   **Hold** plays to the end, then pauses on the last frame. Good for poses like aiming or charging.
+-   **Loop** starts over from the first frame, after an optional **Loop Delay** in ticks. Good for idles, walk cycles, and anything else that repeats.
 
-Use these modes for different gameplay needs:
+Set the Loop Mode in the [Animation Properties](/docs/configs/animation) dialog.
 
--   `once` for attacks, gestures, or one-shot actions
--   `hold` for poses like aiming, crouching, or charging
--   `loop` for idle, walk, run, fly, and repeated motion
+## Keyframes
 
-## Loop Delay
+### Transform Keyframes
 
-Loop Delay adds a pause, in ticks, before a looping animation starts over.
+Position, rotation, and scale keyframes on Groups and Display nodes. Everything Blockbench offers works, including Molang expressions, Step and Smooth interpolation, and keyframes with separate pre and post values.
 
-This only matters for `loop` animations.
+Keyframes with **Linear** interpolation can also use the curves in the **Keyframe Easing** panel, like Sine, Elastic, or Bounce.
 
-Use it when you want movement to feel less mechanical, such as:
+Child bones follow their parent's interpolation. If a parent snaps to a keyframe with **Step** interpolation, its children snap with it.
 
--   breathing cycles,
--   blinking,
--   idle fidgets.
+### Effect Keyframes
 
-## Excluded Nodes
+The **Effects** row of the Timeline holds keyframes that change the rig instead of moving it:
 
-Animations support an **excluded nodes** list. Bones in this list are skipped during that animation and receive no transform updates. This lets multiple animations play simultaneously on the same rig — one animation drives the body, another drives the arms, for example.
+-   **Variant** keyframes apply one or more [Variants](/docs/core-concepts/variants), in order. Later Variants override earlier ones on the nodes they change.
+-   **Texture Slots** keyframes switch [Texture Slots](/docs/core-concepts/texture-slots) to any of their textures. Requires Minecraft 1.21.4 or newer.
+-   **Function** keyframes run commands `as` and `at` the root entity. They support [MC-Build](https://mcbuild.dev) syntax.
 
-This is the main tool for animation layering.
+When several happen on the same frame, they run in that order: Variants, then Texture Slots, then the Function.
 
-Example:
+Each effect keyframe has an **Execute Condition**: the condition part of an `execute` command, like `if score @s my_score matches 1..`. When it isn't met, the keyframe is skipped.
 
--   A walk animation controls hips and legs.
--   An attack animation controls torso and arms.
--   Because they affect different nodes, both can run at the same time.
+:::note
+Sound keyframes only play in the editor. To play a sound in-game, use a Function keyframe with `playsound`.
+:::
 
-## Playing Multiple Animations at Once
+### Locator and Interaction Keyframes
 
-Animated Java allows multiple animations to run simultaneously on the same rig instance, as long as they do not compete for the same nodes.
+[Locators](/docs/nodes/locators) and [Interactions](/docs/nodes/interactions) have their own **Function** keyframes. Their commands run at the node's position, and `as` its entity if it has one, so they're great for particles or sounds that follow a part of the rig.
 
-If two animations both try to drive the same bone, you should expect conflicts.
+They also support an **Execute Condition**, and a **Repeat** option that runs the commands again every **Frequency** ticks until the node's next keyframe.
 
-Good layering patterns include:
+### Previewing Effects
 
--   locomotion + upper body action
--   facial animation + body animation
--   additive idle motion + held pose
+In Animate mode, Variant and Texture Slot keyframes change the editor preview as the animation plays, and every bone shows what the animation has applied to it so far.
 
-## Keyframe Types
+The preview starts from the default Variant. If an animation expects the rig to already be in some other state, set **Preview Variants** and **Preview Texture Slots** in its [Animation Properties](/docs/configs/animation#preview-variants). These only affect the editor.
 
-Animations are not limited to transform keyframes.
+## Playing Several Animations at Once
 
-### Transform keyframes
+A rig can play several animations at the same time, as long as they move different nodes. Use each animation's **Excluded Nodes** list to keep it away from the nodes another animation controls.
 
-These define the pose of nodes over time.
+For example:
 
-### Variant keyframes
+-   a `walk` animation excludes the arms and head,
+-   an `attack` animation excludes the legs,
+-   so both can play together.
 
-Variant keyframes switch the rig to a different Variant at a specific frame.
+If two playing animations move the same node, they overwrite each other every tick, which usually looks like snapping or jitter.
 
-Use these for:
+## Tweening
 
--   expression swaps,
--   costume swaps,
--   toggling model states.
+[Tweening](/docs/function-api/animations#tween) smoothly blends the rig from whatever pose it's in to a frame of another animation. Use it to switch between animations without the rig snapping into place.
 
-### Function keyframes
+## Tips
 
-Function keyframes run custom MCfunction logic at a specific frame.
-
-Use them for:
-
--   particles,
--   sounds,
--   gameplay events,
--   syncing scripted behavior to motion.
-
-## Animation State
-
-Each live rig tracks its own animation state internally.
-
-That means:
-
--   one rig can be idle,
--   another can be walking,
--   another can be paused on frame 12,
--   another can be tweening into a new pose.
-
-This is why animation control functions must be run **as the rig root entity**.
-
-## Tweening and Pose Changes
-
-Animated Java can smoothly transition a rig from its current pose into a target animation frame.
-
-This is especially useful when:
-
--   entering or exiting a pose,
--   switching between movement states,
--   preventing harsh snapping between animations.
-
-See the [Function API: Animations](/docs/function-api/animations) page for the runtime tween functions.
-
-## Animation Properties
-
-In Blockbench, right-click an animation in the **Animations** panel and select **Animation Properties** to configure:
-
--   **Name** — Must only contain `[a-zA-Z0-9_.]`. Used in function paths and storage keys.
--   **Loop Mode** — `once`, `hold`, or `loop`.
--   **Loop Delay** — Ticks to wait before looping. Only relevant when loop mode is `loop`.
--   **Excluded Nodes** — Bones that this animation does not affect.
-
-For a full field-by-field breakdown, see the [Animation Config](/docs/configs/animation) page.
-
-## Practical Guidelines
-
--   Use Excluded Nodes aggressively to reduce the number of NBT modifications per tick.
--   Prefer `hold` over custom stop logic when you need a persistent final pose.
--   Use function keyframes for timing-sensitive events instead of manually checking frames in unrelated tick logic.
--   Keep animation names stable once datapack code depends on them.
+-   Excluded Nodes also save performance: excluded nodes aren't updated at all.
+-   Use **Hold** instead of your own stop logic when you need an animation to end on its final pose.
+-   Time events with Function keyframes, instead of checking frame numbers in your own tick functions.
+-   Animation names end up in function paths. Renaming an animation breaks any commands that call it.
 
 ## Related Reading
 
--   [Rigs](/docs/core-concepts/rigs)
 -   [Animation Config](/docs/configs/animation)
 -   [Function API: Animations](/docs/function-api/animations)
--   [Variants](/docs/function-api/variants)
+-   [Rigs](/docs/core-concepts/rigs)

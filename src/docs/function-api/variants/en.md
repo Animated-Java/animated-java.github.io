@@ -3,38 +3,44 @@ title: Variants
 description: How to apply Variants to a Rig instance.
 ---
 
-All variant functions live at `<blueprint_id>/variants/<variant_name>/...`.
+# Variants
 
-Functions must be executed **as the root entity** of the rig instance.
+Every [Variant](/docs/core-concepts/variants) gets an `apply` function:
 
-### apply
+```
+<blueprint_id>/variants/<variant>/apply
+```
 
-Applies the named variant to the rig.
+It must be run **as the root entity** of the rig. `<variant>` is the Variant's **Name** from its [Variant Config](/docs/configs/variant).
 
 ```mcfunction
 execute as @e[tag=my_pack.my_rig.root] run function my_pack:my_rig/variants/angry/apply
 ```
 
-Returns success `1`, so it can be used with `execute if function`:
+It returns success `1`, so it also works with `execute if function`:
 
 ```mcfunction
-execute if function my_pack:my_rig/variants/angry/apply run say Angry variant applied!
+execute as @e[tag=my_pack.my_rig.root] if function my_pack:my_rig/variants/angry/apply run say Grr!
 ```
 
-## Applying a Variant on Summon
+:::note
+Variant functions are only generated when the Blueprint has at least one Variant besides the Default.
+:::
 
-Pass the `variant` argument to the [summon function](/docs/function-api/summon):
+To get back to the rig's base look, apply the Default Variant (`variants/default/apply`, unless you've renamed it).
 
-```mcfunction
-function my_pack:my_rig/summon {args: {variant: "angry"}}
-```
+## Other Ways to Apply Variants
 
-## Applying a Variant during an Animation
+-   **When summoning:** pass the [`variant`](/docs/function-api/summon#variant) argument.
 
-Add a **Variant Keyframe** to the Effects channel in Blockbench's animation timeline, then select which variant to apply at that frame.
+    ```mcfunction
+    function my_pack:my_rig/summon {args: {variant: "angry"}}
+    ```
+
+-   **During an animation:** add a Variant keyframe to the animation's Effects. One keyframe can apply several Variants in order. See [Effect Keyframes](/docs/core-concepts/animations#effect-keyframes).
 
 ## Related Reading
 
--   [Variants Overview](/docs/core-concepts/variants)
+-   [Variants](/docs/core-concepts/variants)
+-   [Function API: Texture Slots](/docs/function-api/texture-slots)
 -   [Summon](/docs/function-api/summon)
--   [Animations](/docs/function-api/animations)

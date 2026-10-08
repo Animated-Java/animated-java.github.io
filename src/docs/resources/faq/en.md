@@ -9,63 +9,65 @@ description: Frequently asked questions about Animated Java.
 
     See [Installing Animated Java](/docs/getting-started/installing).
 
--   #### What versions of Minecraft does Animated Java support?
+-   #### Which versions of Minecraft does Animated Java support?
 
-    Minecraft 1.20.4 and above.
+    Minecraft: Java Edition 1.20.4 and newer, up to 26.3. Set the version you're targeting in your Blueprint's [Target Minecraft Version](/docs/core-concepts/blueprints#target-minecraft-version).
 
-    For much older versions of Minecraft, see [Legacy Releases](/docs/resources/legacy-releases)
+    For older versions of Minecraft, see [Legacy Releases](/docs/resources/legacy-releases).
 
--   #### How can I support the development of Animated Java?
+-   #### I'm updating from an older version of Animated Java. What changed?
 
-    You can support my projects on Ko-Fi at [ko-fi.com/snavesutit](/support-us)! ❤️
+    See [Upgrading to 1.11](/docs/resources/upgrading-to-1-11).
 
-    Alternatively, you can give the project a [star on GitHub](/source) ⭐ and share the project with your friends!
+-   #### How can I support Animated Java?
 
--   #### What about Vanilla item model rotation and scaling limitations?
+    You can support development on [Ko-fi](/support-us)! ❤️
 
-    See [Cubes - Rotation Limitations](/docs/nodes/cubes#rotation-limitations).
+    You can also give the project a [star on GitHub](/source) ⭐ and share it with your friends.
 
--   #### How can I optimize my models for better performance?
+-   #### Why can't I rotate my Cubes the way I want?
 
-    There are a few things you can do to make sure your models run as smoothly as possible:
+    Minecraft item models limit how Cubes can rotate on older versions. See [Rotation Limitations](/docs/nodes/cubes#rotation-limitations).
 
-    -   Use as few bones as possible. The more bones you have, the more NBT modifications need to be done each frame. Note that bones with no Cubes in them are not exported, and therefore do not contribute to performance issues.
-    -   Use Excluded Nodes to exclude bones from animations when possible so their transforms aren't updated.
-    -   Avoid playing animations when your Rig is not visible to the player.
+-   #### How can I make my rigs run faster?
 
-    Animated Java is designed to be as efficient as possible, but there are still some limitations to what can be done with commands. If you are experiencing performance issues, consider joining the [Animated Java Discord](/discord) for help and advice.
+    -   Use as few bones as you can. Every bone is an entity that has to be updated each frame. Groups without Cubes don't create entities, so they're free. The **E:** counter in the Outliner's toolbar shows how many entities your rig uses.
+    -   Use [Excluded Nodes](/docs/configs/animation#excluded-nodes) so animations only update the nodes they move.
+    -   Turn off [Auto Update Rig Orientation](/docs/core-concepts/blueprints#auto-update-rig-orientation) on rigs that don't move every tick.
+    -   Keep the [Animation System](/docs/core-concepts/blueprints#animation-system) on **Functions**.
+    -   Don't play animations on rigs nobody can see.
 
--   #### Can I use vanilla item / block models?
+    Still stuck? Ask in the [Animated Java Discord](/discord).
 
-    **Yes!** You can use [Block Display Nodes](/docs/nodes/block-displays) and [Item Display Nodes](/docs/nodes/item-displays) to display vanilla blocks and items in your models.
+-   #### Can I use vanilla items and blocks in my models?
 
-    In order to fully disable Resource Pack exporting, you can set [Resource Pack Export Mode](/docs/core-concepts/blueprints#resource-pack-export-mode) to `None` in your Blueprint's settings.
+    **Yes!** Use [Item Displays](/docs/nodes/item-displays) and [Block Displays](/docs/nodes/block-displays).
 
--   #### Can I have multiple exported rigs in a single Data Pack / Resource Pack?
+    If your rig has no Cubes at all, you can set the [Resource Pack Export Format](/docs/core-concepts/blueprints#resource-pack-export-format) to **None** and skip the Resource Pack entirely.
 
-    **Yes!** As long as each Rig's Blueprint has a unique [Blueprint ID](/docs/core-concepts/blueprints#blueprint-id), Animated Java will automatically handle merging with pre-existing rigs in the targeted Data Pack / Resource Pack.
+-   #### Can I put several rigs in one Data Pack and Resource Pack?
 
--   #### Can I play multiple animations at the same time?
+    **Yes!** As long as every Blueprint has its own [Blueprint ID](/docs/core-concepts/blueprints#blueprint-id), Animated Java merges them into your packs automatically.
 
-    **Yes!\***
+-   #### Can I play several animations at the same time?
 
-    \*Only one animation may affect any given bone at a time. However, you can play multiple animations simultaneously by having them affect different bones.
+    **Yes!** As long as they move different nodes. See [Playing Several Animations at Once](/docs/core-concepts/animations#playing-several-animations-at-once).
 
-    See the [Excluded Nodes](/docs/function-api/animations#excluded-nodes) section of the Animations documentation for more information.
+-   #### Can I smoothly transition between animations?
 
--   #### How can I make a model's head / bone look at a player / entity / location?
+    **Yes!** See [Tweening](/docs/function-api/animations#tweening).
 
-    Check out the [Stacking Rigs](/docs/guides/stacking-rigs) tutorial.
+-   #### Can I change my rig's textures in-game?
 
--   #### Can I preview custom fonts in Text Displays?
+    **Yes!** Use [Texture Slots](/docs/core-concepts/texture-slots) to swap textures on parts of the rig, and [Variants](/docs/core-concepts/variants) to switch between whole looks.
 
-    **No.** Animated Java does not yet support previewing custom fonts. :pensive:
+-   #### How can I make a bone look at a player or an entity?
 
-    You can still use custom fonts, they will just display as the default Vanilla font in the preview.
+    Put it in its own rig and mount it on a Locator. See [Stacking Rigs](/docs/guides/stacking-rigs#making-the-head-look-around).
 
--   #### Can I smoothly transition between different animations?
+-   #### Can I preview custom fonts, models, and textures from my Resource Pack?
 
-    **Yes!** See the [Tweening](/docs/function-api/animations#tween) section of the Animations documentation for more information.
+    **Yes!** Add your Resource Pack to the Blueprint's [Preview Resource Packs](/docs/core-concepts/blueprints#preview).
 
 -   #### How long has Animated Java been in development?
 

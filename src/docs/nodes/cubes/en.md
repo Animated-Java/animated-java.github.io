@@ -5,49 +5,42 @@ description: A node that renders a cube element.
 
 # Cubes
 
-Cubes are the fundamental building blocks of custom models in Animated Java. They work exactly the same as standard Blockbench cubes, and produce custom item model JSON when exported.
+Cubes are the building blocks of your custom models. They work just like standard Blockbench cubes, and are exported as item models.
 
 ## Entity Creation
 
-Cubes do **not** create their own entities when exported. Instead, they are baked into the item model JSON of their parent [Group](/docs/nodes/groups). The parent Group's `minecraft:item_display` entity renders the cube geometry.
+Cubes don't create entities of their own. Each Cube is baked into the model of the [Group](/docs/nodes/groups) it's in, and that Group's `item_display` entity renders it.
 
 ## Supported Features
 
 -   #### Tint Index
 
-    Cubes support Minecraft's tint index feature for coloring faces based on biome color maps (e.g. grass, foliage, water tints). Set in the cube's face properties.
+    A face's **Tint** marks it for recoloring in-game. On Minecraft 1.21.4 and newer, choose what color each tint index uses in the Group's [Item Model Properties](/docs/configs/item-model-properties).
 
 -   #### Light Emission
 
-    Allows the cube to emit a constant brightness level regardless of the ambient lighting in the world. Useful for glowing elements like eyes or screens.
+    Makes the Cube render at a fixed brightness, no matter how dark its surroundings are. Great for eyes, screens, and other glowing details.
 
 -   #### Rescale
 
-    Specifies whether or not to scale the faces across the whole block by scaling the non-rotated faces by 1 / cos(angle).
+    Scales a rotated Cube's faces by 1 / cos(angle), so it still fills the same width after rotating, like vanilla models.
 
 ## Rotation Limitations
 
-Cube rotations in Animated Java follow the same rules as vanilla Minecraft item models:
+Cube rotations follow Minecraft's item model rules, which depend on your [Target Minecraft Version](/docs/core-concepts/blueprints#target-minecraft-version):
 
-### For Minecraft 1.20.4 - 1.21.5:
+| Minecraft Version | Rotation rules                                           |
+| ----------------- | -------------------------------------------------------- |
+| 1.20.4 – 1.21.5   | One axis at a time, in 22.5° steps between -45° and 45°. |
+| 1.21.6 – 1.21.10  | One axis at a time, any angle.                           |
+| 1.21.11 and newer | Any rotation, on any axes.                               |
 
--   Cubes can only be rotated on **one axis at a time**.
--   Rotation values are limited to **22.5-degree increments** (0°, 22.5°, 45°, -22.5°, -45°).
-
-### For Minecraft 1.21.6 - 1.21.10:
-
--   Cubes can only be rotated on **one axis at a time**.
-
-### For Minecraft 1.21.11 and above:
-
--   There are no rotation limitations for cubes in Minecraft 1.21.11 and above — cubes can be rotated freely on all axes with no restrictions.
-
-Animated Java will automatically enforce these limitations based on the target Minecraft version selected in your Blueprint settings.
+Animated Java enforces these rules for your target version. Cubes that break them are outlined in red, and exporting fails until they're fixed.
 
 :::tip
-If you need a cube at an arbitrary rotation on a version that doesn't support it, place it inside a [Group](/docs/nodes/groups) and rotate the Group instead. Groups (bones) have no rotation restrictions.
+Need a Cube at a rotation your version doesn't allow? Put it in a [Group](/docs/nodes/groups) and rotate the Group instead. Groups can rotate freely on every version.
 :::
 
 ## Size Limitations
 
-Unlike vanilla Minecraft item models, Animated Java **removes all size limits** — cubes can be any size.
+Minecraft limits how big an item model can be, but Animated Java works around it: Cubes can be any size.

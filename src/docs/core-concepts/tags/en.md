@@ -5,179 +5,102 @@ description: Entity tags generated and used by Animated Java rigs.
 
 # Tags
 
-Animated Java assigns many entity tags to rig entities so datapack functions can target the right parts of a rig.
+Animated Java gives every entity in a rig a set of tags, so you can target exactly the part of a rig you want with a selector.
 
-This page documents the full tag system used by rig root and node entities.
+## How Names Become Tags
 
-## Blueprint ID and Name Formatting
+Tags start with either `aj.global` (shared by every rig from every Blueprint) or your Blueprint ID. In tags, the `:` and `/` in your Blueprint ID become `.`, so `my_pack:boss/dragon` becomes `my_pack.boss.dragon`.
 
-Most project tags are based on your blueprint id.
+Node names are their exported names: lowercase, with anything other than letters, digits, and underscores turned into `_`.
 
-Animated Java sanitizes ids and names for tags by replacing:
+## Root Entity
 
--   `:` with `.`
--   `/` with `.`
+Every rig's root entity has:
 
-So a blueprint id like `my_pack:boss/dragon` becomes `my_pack.boss.dragon` in tag prefixes.
-
-## Root Entity Tags
-
-Every rig root entity gets these tags:
-
--   `aj.new`
 -   `aj.global.entity`
 -   `aj.global.root`
 -   `<blueprint_id>.entity`
 -   `<blueprint_id>.root`
--   Any [custom rig entity tags](/docs/core-concepts/blueprints#Custom-Rig-Entity-Tags) you set in blueprint settings
+-   your [Custom Rig Entity Tags](/docs/core-concepts/blueprints#custom-rig-entity-tags)
 
-Example with blueprint id `my_pack:rigs/example`:
+## Every Node
 
--   `my_pack.rigs.example.entity`
--   `my_pack.rigs.example.root`
+Every entity a node creates (bones, displays, Locators, Cameras, and Interactions) has:
 
-## Node Baseline Tags
-
-All node entities (bone, displays, camera, locator, interaction) get:
-
--   `aj.new`
 -   `aj.global.entity`
 -   `aj.global.node`
--   `aj.global.node.<node_name>`
+-   `aj.global.node.<name>`
 -   `<blueprint_id>.entity`
 -   `<blueprint_id>.node`
--   `<blueprint_id>.node.<node_name>`
--   Any [custom rig entity tags](/docs/core-concepts/blueprints#Custom-Rig-Entity-Tags) you set in blueprint settings
+-   `<blueprint_id>.node.<name>`
+-   your [Custom Rig Entity Tags](/docs/core-concepts/blueprints#custom-rig-entity-tags)
 
-Nodes directly parented to root also get:
+## Node Types
 
--   `aj.global.root.child`
+`<type>` is one of `bone`, `item_display`, `block_display`, `text_display`, `locator`, `camera`, or `interaction`. Each node has:
 
-## Type Tags
+-   `aj.global.<type>`: every node of this type, from any Blueprint.
+-   `<blueprint_id>.<type>`: every node of this type in this Blueprint.
+-   `<blueprint_id>.<type>.<name>`: one specific node.
 
-### Global type tags
+Bones, Item Displays, Block Displays, and Text Displays also have:
 
-Tags applicable to all nodes of a specific type, regardless of blueprint:
+-   `aj.global.display_node.<name>`
+-   `<blueprint_id>.display_node.<name>`
 
--   `aj.global.display_node`
--   `aj.global.vanilla_display_node`
--   `aj.global.bone`
--   `aj.global.item_display`
--   `aj.global.block_display`
--   `aj.global.text_display`
--   `aj.global.camera`
--   `aj.global.locator`
--   `aj.global.interaction`
+## Hierarchy
 
-### Project type tags
+These tags describe where a node sits under a bone. In each of them, `<bone>` is the name of a parent bone, and every tag exists in an `aj.global.bone.<bone>...` and a `<blueprint_id>.bone.<bone>...` form.
 
-Tags for all nodes of a specific type within a specific blueprint:
+### Children
 
--   `<blueprint_id>.display_node`
--   `<blueprint_id>.vanilla_display_node`
--   `<blueprint_id>.bone`
--   `<blueprint_id>.item_display`
--   `<blueprint_id>.block_display`
--   `<blueprint_id>.text_display`
--   `<blueprint_id>.camera`
--   `<blueprint_id>.locator`
--   `<blueprint_id>.interaction`
+On every node directly inside `<bone>`:
 
-### Project named type tags
-
-Tags for a specific named node of a specific type within a specific blueprint:
-
--   `<blueprint_id>.bone.<bone_name>`
--   `<blueprint_id>.item_display.<node_name>`
--   `<blueprint_id>.block_display.<node_name>`
--   `<blueprint_id>.text_display.<node_name>`
--   `<blueprint_id>.camera.<node_name>`
--   `<blueprint_id>.locator.<node_name>`
--   `<blueprint_id>.interaction.<node_name>`
-
-## Hierarchy Tags
-
-Animated Java emits hierarchy tags for bone relationships.
-
-### Child tags
-
-For direct children of a specific bone:
-
--   `aj.global.bone.<bone>.child`
--   `aj.global.bone.<bone>.child.<type>`
 -   `<blueprint_id>.bone.<bone>.child`
 -   `<blueprint_id>.bone.<bone>.child.<type>`
 
-`<type>` can be:
+### Descendants
 
--   `bone`
--   `item_display`
--   `block_display`
--   `text_display`
--   `locator`
--   `camera`
--   `interaction`
+On every node anywhere inside `<bone>`, at any depth:
 
-### Descendant tags
-
-For all descendants of a specific bone (not just direct children):
-
--   `aj.global.bone.<bone>.decendant`
--   `aj.global.bone.<bone>.decendant.<type>`
 -   `<blueprint_id>.bone.<bone>.decendant`
 -   `<blueprint_id>.bone.<bone>.decendant.<type>`
 
-Note: the tag key is spelled `decendant` in current output.
+:::note
+`decendant` is spelled this way in the exported tags. Use the same spelling in your selectors.
+:::
 
-### Tree tags
+### Trees
 
-For the full bone tree including the bone itself:
+`<bone>` and everything inside it:
 
--   `aj.global.bone.<bone>.tree`
--   `aj.global.bone.<bone>.tree.bone`
--   `<blueprint_id>.bone.<bone>.tree`
--   `<blueprint_id>.bone.<bone>.tree.bone`
+-   `<blueprint_id>.bone.<bone>.tree`: the bone and every node inside it.
+-   `<blueprint_id>.bone.<bone>.tree.bone`: the bone and every bone inside it.
 
-## Root-Child Type Tags
+### Root Children
 
-Nodes directly under root also get one of:
+Nodes that aren't inside any bone have:
 
--   `aj.global.root.child.bone`
--   `aj.global.root.child.item_display`
--   `aj.global.root.child.block_display`
--   `aj.global.root.child.text_display`
--   `aj.global.root.child.locator`
--   `aj.global.root.child.camera`
--   `aj.global.root.child.interaction`
+-   `aj.global.root.child`
+-   `aj.global.root.child.<type>`
 
-And project-scoped equivalents:
+## State Tags
 
--   `<blueprint_id>.root.child.bone`
--   `<blueprint_id>.root.child.item_display`
--   `<blueprint_id>.root.child.block_display`
--   `<blueprint_id>.root.child.text_display`
--   `<blueprint_id>.root.child.locator`
--   `<blueprint_id>.root.child.camera`
--   `<blueprint_id>.root.child.interaction`
+Root entities also get these while the rig runs:
 
-## Runtime State Tags
+-   `<blueprint_id>.animation.<animation>.playing`: the animation is playing.
 
-Animated Java also uses runtime state tags:
+Animated Java also uses a few internal tags. Don't add or remove these yourself:
 
--   `<blueprint_id>.animation.<animation>.playing`
--   `<blueprint_id>.animation.<animation>.tween_playing`
--   `<blueprint_id>.variant.<variant>.applied`
+-   `aj.new`: on entities that are still being summoned.
+-   `aj.transforms_only`: while a frame is set without running its keyframe effects.
+-   `aj.pause_after_tween`: set by [`tween_paused`](/docs/function-api/animations#tween_paused).
+-   `aj.interacting_player`: on a player while an Interaction runs its On-Interact or On-Attack function.
+-   `aj.outdated_rig_text_display`: on the warning label shown above outdated rigs in debug exports.
 
-And internal control tags:
+## Selector Examples
 
--   `aj.transforms_only`
--   `aj.effects_only`
--   `aj.outdated_rig_text_display`
--   `aj.interacting_player`
-
-## Practical Selector Examples
-
-:::note[Select all rig roots from one Blueprint]
+:::note[Every root entity from one Blueprint]
 
 ```mcfunction
 @e[tag=my_pack.rigs.example.root]
@@ -185,7 +108,7 @@ And internal control tags:
 
 :::
 
-:::note[Select all block displays in one Blueprint]
+:::note[Every Block Display in one Blueprint]
 
 ```mcfunction
 @e[tag=my_pack.rigs.example.block_display]
@@ -193,7 +116,7 @@ And internal control tags:
 
 :::
 
-:::note[Select all descendants of bone "spine" in one blueprint]
+:::note[Everything inside the bone "spine"]
 
 ```mcfunction
 @e[tag=my_pack.rigs.example.bone.spine.decendant]
@@ -201,7 +124,7 @@ And internal control tags:
 
 :::
 
-:::note[Select direct children of "spine" that are item displays]
+:::note[Item Displays directly inside "spine"]
 
 ```mcfunction
 @e[tag=my_pack.rigs.example.bone.spine.child.item_display]
@@ -209,7 +132,7 @@ And internal control tags:
 
 :::
 
-:::note[Select a specific node named "left_hand"]
+:::note[The node named "left_hand"]
 
 ```mcfunction
 @e[tag=my_pack.rigs.example.node.left_hand]
@@ -217,14 +140,16 @@ And internal control tags:
 
 :::
 
+:::tip
+These selectors match the node in **every** instance of the rig. To target one instance, run your command through a rig function like [`as_node`](/docs/function-api/utilities#as_node), or check the `aj.id` score.
+:::
+
 ## Recommendations
 
--   Prefer project-scoped tags (`<blueprint_id>...`) in gameplay logic.
--   Treat `aj.global.*` tags as engine-level/internal targeting helpers.
--   Use hierarchy tags for partial-rig operations (arms only, upper body only, etc).
+-   Use `<blueprint_id>...` tags in your own logic. `aj.global...` tags match every rig from every Blueprint.
+-   Use hierarchy tags for partial-rig effects, like making only the arms glow.
 
 ## Related Reading
 
 -   [Rigs](/docs/core-concepts/rigs)
--   [Summon](/docs/function-api/summon)
--   [Remove](/docs/function-api/remove)
+-   [Function API: Utilities](/docs/function-api/utilities)

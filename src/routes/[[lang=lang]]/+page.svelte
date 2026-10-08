@@ -40,11 +40,6 @@
 </svelte:head>
 
 <div class="home-page-shell">
-	<div class="bg-layer bg-base" aria-hidden="true"></div>
-	<div class="bg-layer bg-aurora bg-aurora-a" aria-hidden="true"></div>
-	<div class="bg-layer bg-aurora bg-aurora-b" aria-hidden="true"></div>
-	<div class="bg-layer bg-grid" aria-hidden="true"></div>
-
 	<div class="home-page-content">
 		{#if startTransition}
 			<div class="header" in:fade={{ duration: 1000 }}>
@@ -129,58 +124,21 @@
 		margin: 48px 0px;
 	}
 
+	/* Blueprint paper: minor lines every 32px, major lines every 128px */
 	.home-page-shell {
-		position: relative;
-		isolation: isolate;
 		padding: 24px 0 48px;
 		min-height: 100vh;
-		overflow: clip;
-	}
-
-	.home-page-content {
-		position: relative;
-		z-index: 1;
-	}
-
-	.bg-layer {
-		position: absolute;
-		inset: -8% -10%;
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	.bg-base {
-		background:
-			radial-gradient(circle at 15% 12%, #5fd8ff22 0%, #5fd8ff00 40%),
-			radial-gradient(circle at 85% 10%, #87f2d522 0%, #87f2d500 34%),
-			linear-gradient(160deg, #05111d 0%, #072338 45%, #123d5a 100%);
-	}
-
-	.bg-aurora {
-		mix-blend-mode: screen;
-		filter: blur(36px);
-		opacity: 0.55;
-	}
-
-	.bg-aurora-a {
-		background:
-			radial-gradient(46% 32% at 24% 30%, #2bc2ff88 0%, #2bc2ff00 72%),
-			radial-gradient(30% 28% at 74% 56%, #69ffd388 0%, #69ffd300 74%);
-	}
-
-	.bg-aurora-b {
-		background:
-			radial-gradient(38% 30% at 74% 24%, #74b8ff66 0%, #74b8ff00 72%),
-			radial-gradient(36% 26% at 20% 76%, #00ffe466 0%, #00ffe400 74%);
-	}
-
-	.bg-grid {
-		opacity: 0.2;
+		background-color: #0d3150;
 		background-image:
-			linear-gradient(#b8f5ff33 1px, transparent 1px),
-			linear-gradient(90deg, #b8f5ff33 1px, transparent 1px);
-		background-size: 32px 32px;
-		mask-image: radial-gradient(circle at center, #000 40%, transparent 92%);
+			linear-gradient(#7fd3ff33 2px, transparent 2px),
+			linear-gradient(90deg, #7fd3ff33 2px, transparent 2px),
+			linear-gradient(#7fd3ff17 1px, transparent 1px),
+			linear-gradient(90deg, #7fd3ff17 1px, transparent 1px);
+		background-size:
+			128px 128px,
+			128px 128px,
+			32px 32px,
+			32px 32px;
 	}
 
 	.title {

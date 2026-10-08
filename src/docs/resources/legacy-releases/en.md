@@ -3,30 +3,24 @@ title: Legacy Releases
 description: Information about older versions of Animated Java.
 ---
 
-## Animated Java 0.x (Legacy)
+# Legacy Releases
 
-Animated Java has undergone a complete rewrite since its original release. The legacy `0.x` versions used a fundamentally different approach based on armor stands and are **no longer maintained**.
+Animated Java was rewritten from scratch for version 1.0. Older releases work differently, and are **no longer maintained**.
 
-:::warning[Hey]
-Legacy releases are not compatible with the current version of Animated Java. Blueprints created with legacy versions cannot be opened in the current plugin.
+| Release                                                                                              | Minecraft versions | How it works     |
+| ---------------------------------------------------------------------------------------------------- | ------------------ | ---------------- |
+| Current (1.0 and newer)                                                                              | 1.20.4 and newer   | Display entities |
+| [Legacy Beta](https://github.com/Animated-Java/animated-java/releases/tag/legacy-beta)               | 1.19.4 – 1.20.6    | Display entities |
+| [Legacy Armor Stand](https://github.com/Animated-Java/animated-java/releases/tag/legacy-armorstands) | 1.16.4 – 1.19.3    | Armor stands     |
+
+:::warning
+Legacy releases get no bug fixes or support. Use the current version if your Minecraft version allows it.
 :::
 
-### Legacy Version Support
+## Converting Legacy Projects
 
-| Legacy Version | Minecraft Version | Status      |
-| -------------- | ----------------- | ----------- |
-| 0.x            | 1.19.x – 1.20.1   | Unsupported |
+Legacy versions saved projects as `.ajmodel` files. To convert one into a Blueprint, pick **Update .ajmodel** on Blockbench's start screen and select the file. Animated Java converts it, then opens Blueprint Settings so you can set up the export.
 
-### Migrating from Legacy
+The model carries over, but the exported packs are completely different. Any commands or Data Pack code that used the legacy rig need to be rewritten for the current [Function API](/docs/function-api/summon).
 
-There is currently no automated migration path from legacy Animated Java `0.x` projects to the current Blueprint format. Legacy projects must be recreated from scratch.
-
-If you need help migrating your old project, consider asking in the [Animated Java Discord](/discord).
-
----
-
-## Current Version
-
-The current version of Animated Java targets **Minecraft 1.20.4 and above** and uses Minecraft's Display Entity system (`item_display`, `text_display`, `block_display`) for rendering, which provides significantly better performance and visual fidelity compared to armor stands.
-
-For installation instructions, see [Installing Animated Java](/docs/getting-started/installing).
+If you get stuck, ask in the [Animated Java Discord](/discord).

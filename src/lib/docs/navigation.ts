@@ -37,6 +37,7 @@ export const docsSidebar: DocSection[] = [
 			{ title: 'Rigs', to: '/docs/core-concepts/rigs' },
 			{ title: 'Animations', to: '/docs/core-concepts/animations' },
 			{ title: 'Variants', to: '/docs/core-concepts/variants' },
+			{ title: 'Texture Slots', to: '/docs/core-concepts/texture-slots' },
 			{ title: 'Tags', to: '/docs/core-concepts/tags' },
 		],
 	},
@@ -60,6 +61,7 @@ export const docsSidebar: DocSection[] = [
 			{ title: 'Remove', to: '/docs/function-api/remove' },
 			{ title: 'Animations', to: '/docs/function-api/animations' },
 			{ title: 'Variants', to: '/docs/function-api/variants' },
+			{ title: 'Texture Slots', to: '/docs/function-api/texture-slots' },
 			{ title: 'Utilities', to: '/docs/function-api/utilities' },
 		],
 	},
@@ -68,6 +70,8 @@ export const docsSidebar: DocSection[] = [
 		items: [
 			{ title: 'Animation', to: '/docs/configs/animation' },
 			{ title: 'Display Entity', to: '/docs/configs/display-entity' },
+			{ title: 'Variant', to: '/docs/configs/variant' },
+			{ title: 'Item Model Properties', to: '/docs/configs/item-model-properties' },
 		],
 	},
 	{
@@ -78,6 +82,7 @@ export const docsSidebar: DocSection[] = [
 		title: 'Resources',
 		items: [
 			{ title: 'FAQ', to: '/docs/resources/faq' },
+			{ title: 'Upgrading to 1.11', to: '/docs/resources/upgrading-to-1-11' },
 			{ title: 'Legacy Releases', to: '/docs/resources/legacy-releases' },
 		],
 	},

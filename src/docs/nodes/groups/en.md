@@ -5,69 +5,28 @@ description: A node that contains other nodes.
 
 # Groups
 
-Groups (also called **bones**) are used to create hierarchies and to apply transformations to multiple nodes at once. They are the primary tool for rigging and animating a model in Animated Java.
+Groups (also called **bones**) hold other nodes, so you can move, rotate, and scale them together. They're the main tool for rigging and animating your model.
 
 ## Entity Creation
 
-A Group only creates a `minecraft:item_display` entity when exported if it has [Cube](/docs/nodes/cubes) children. Otherwise, it is only used for organizational and rigging purposes in the editor.
+A Group that contains [Cubes](/docs/nodes/cubes) creates one `item_display` entity when exported, which renders all of its Cubes.
 
-:::tip
-Groups without Cube children are called **Structure Groups**, and have a unique icon in the editor to distinguish them from regular Groups. Structure Groups are free — they don't create an entity and cost nothing at runtime.
-:::
+### Structure Groups
 
-## Display Entity Config
+A Group without Cubes doesn't create an entity. These **Structure Groups** only organize and move their children, and have their own icon in the Outliner. They cost nothing in-game, so use them freely to build your rig's hierarchy.
 
-Because Groups that contain Cubes create a `minecraft:item_display` entity, they expose the full **Display Entity Config**. Right-click on the group in the outliner and select **Display Entity Config** to open it.
+## Rotation
 
-The config has a **global** section (applies regardless of variant) and a **per-variant** section (can be different for each variant).
+Groups can rotate freely, on any axis and at any angle, on every Minecraft version. Put Cubes in a Group when they need a rotation that [Cubes can't do](/docs/nodes/cubes#rotation-limitations) on their own.
 
-### Global Options
+## Configuration
 
--   #### On-Summon Function
+Right-click a Group that contains Cubes in the Outliner to open:
 
-    Commands executed `as` and `at` this entity when it is summoned.
+-   **[Display Entity Config](/docs/configs/display-entity)**: its On-Summon function, and per-Variant settings like billboard mode, brightness, glowing, and shadows.
+-   **[Item Model Properties](/docs/configs/item-model-properties)**: how its faces are tinted in-game. Requires Minecraft 1.21.4 or newer.
 
-    All functions support [MC-Build](https://mcbuild.dev) syntax.
+## Related Reading
 
-### Per-Variant Options
-
-These options can be configured independently for each variant using the **Variant** selector at the top of the config dialog.
-
--   #### On-Apply Function
-
-    Commands executed `as` this entity when the selected variant is applied to the rig.
-
--   #### Billboard
-
-    Controls whether the bone entity pivots to face the player.
-
-    -   `fixed` — No billboarding. The entity faces its rigged direction.
-    -   `horizontal` — Pivots around the vertical axis to face the player.
-    -   `vertical` — Pivots around the horizontal axis to face the player.
-    -   `center` — Always faces the player around both axes.
-
--   #### Override Brightness
-
-    When enabled, the entity ignores ambient lighting and uses the specified sky and block brightness values instead.
-
-    -   **Sky Brightness** — Sky light level (0–15).
-    -   **Block Brightness** — Block light level (0–15).
-
--   #### Enchanted
-
-    Adds the enchantment glint effect to the bone's item model. Useful for making a glowing sword, magic item, or highlight effect.
-
--   #### Glowing
-
-    Makes the entity emit a glow outline (as if it has the glowing status effect).
-
-    -   **Override Glow Color** — When enabled, uses a custom color for the glow outline.
-    -   **Glow Color** — The hex color for the glow outline.
-
--   #### Shadow Radius
-
-    The radius of the entity's circular shadow, in blocks. Set to `0` to disable the shadow.
-
--   #### Shadow Strength
-
-    The opacity of the shadow (0.0 – 1.0).
+-   [Rigs](/docs/core-concepts/rigs)
+-   [Tags](/docs/core-concepts/tags#hierarchy)

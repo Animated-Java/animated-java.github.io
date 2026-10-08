@@ -3,128 +3,78 @@ title: Display Entity Config
 description: Configure how Groups, Item Displays, Block Displays, and Text Displays behave at runtime.
 ---
 
-The Display Entity Config controls properties for rendered display entities.
+# Display Entity Config
 
-You can open it from the outliner context menu on supported nodes:
+The Display Entity Config controls the in-game settings of a node's display entity. Open it by right-clicking a node in the Outliner and choosing **Display Entity Config**. It's available on:
 
--   Groups
--   Item Displays
--   Block Displays
--   Text Displays
+-   [Groups](/docs/nodes/groups) that contain Cubes,
+-   [Item Displays](/docs/nodes/item-displays),
+-   [Block Displays](/docs/nodes/block-displays),
+-   [Text Displays](/docs/nodes/text-displays).
 
-## What This Config Affects
+The dialog has two pages: **General** settings that never change, and **Per-Variant** settings that can be different for each [Variant](/docs/core-concepts/variants).
 
-This dialog stores two kinds of settings:
+## General
 
--   Node-level settings
--   Per-variant settings
+-   #### On-Summon Function
 
-### Node-level settings
+    Commands that run `as` the node's entity when the rig is summoned. Supports [MC-Build](https://mcbuild.dev) syntax.
 
-These are stored once on the node:
+## Per-Variant
 
--   On Summon Function
+-   #### Target Variant
 
-### Per-variant settings
+    Which Variant you're editing settings for. **Default** sets the node's base settings. Any other Variant sets what the node changes to when that Variant is applied.
 
-These are selected using the variant dropdown in the dialog and can differ per variant:
+-   #### On-Apply Function
 
--   On Apply Function
--   Billboard
--   Brightness override settings
--   Enchanted (not available on Text Displays)
--   Glowing (not available on Text Displays)
--   Glow color override (not available on Text Displays)
--   Shadow settings
+    Commands that run `as` the node's entity when the Target Variant is applied.
 
-## Field Reference
+-   #### Billboard
 
-### On Summon Function
+    Whether the entity turns to face the player:
 
-Runs when the rig is summoned for that node.
+    -   **Fixed**: never turns.
+    -   **Vertical**: turns around the vertical axis.
+    -   **Horizontal**: turns around the horizontal axis.
+    -   **Center**: turns around both axes.
 
-Use this for setup commands that should happen once when the node entity is created.
+-   #### Override Brightness
 
-### Variant Selector
+    Ignores the world's lighting and uses fixed **Sky Brightness** and **Block Brightness** values instead, each from `0` to `15`.
 
-Selects which variant you are editing config for.
+-   #### Enchanted
 
--   Default writes to the node default display config.
--   Other entries write per-variant overrides.
+    Adds the enchantment glint. Not available on Block Displays or Text Displays.
 
-### On Apply Function
+-   #### Glowing
 
-Runs when that variant is applied and this node has a config override for that variant.
+    Gives the entity a glowing outline. Not available on Text Displays.
 
-Use this for variant-specific command logic.
+-   #### Override Glow Color
 
-### Billboard
+    Overrides the color of the glowing outline. Not available on Text Displays.
 
-Controls how the display entity faces the viewer:
+-   #### Shadow Radius
 
--   Fixed: no billboard pivoting
--   Vertical: pivots on vertical axis
--   Horizontal: pivots on horizontal axis
--   Center: pivots around center
+    The radius of the entity's shadow.
 
-### Override Brightness
+-   #### Shadow Strength
 
-Enables explicit light override for the node.
+    How dark the entity's shadow is.
 
-When enabled, two values are used:
+## How Per-Variant Settings Apply
 
--   Sky Brightness: 0 to 15
--   Block Brightness: 0 to 15
+-   Applying a Variant applies its settings to every node that has them, and runs their On-Apply functions.
+-   Nodes without settings for a Variant keep whatever they had before.
+-   Applying the Default Variant restores every node's Default settings.
 
-### Enchanted
+## Copying Settings
 
-Adds the enchanted glint to applicable display entities.
-
-This option is not available for Text Displays.
-
-### Glowing
-
-Enables vanilla glowing effect for applicable display entities.
-
-This option is not available for Text Displays.
-
-### Override Glow Color
-
-If enabled, sets a custom glow color using Glow Color.
-
-This option is not available for Text Displays.
-
-### Glow Color
-
-Hex color used when Override Glow Color is enabled.
-
-### Shadow Radius
-
-Controls shadow radius. Slider range in the dialog is 0 to 15.
-
-### Shadow Strength
-
-Controls shadow strength. Slider range in the dialog is 0 to 15.
-
-## Important Behavior Notes
-
--   Per-variant settings are only applied when variant logic runs.
--   If a variant has no override for a node, the node keeps its current/default display config.
--   The Invisible flag exists internally in config data but is not currently exposed in this dialog UI.
-
-## Copy/Paste Config
-
-The context menu also includes:
-
--   Copy Display Entity Config
--   Paste Display Entity Config
-
-This copies On Summon Function and all display config data from one supported node to another.
+The node's context menu also has **Copy Display Entity Config** and **Paste Display Entity Config**. They copy the On-Summon Function and every per-Variant setting from one node to another.
 
 ## Related Reading
 
--   [Animation Config](/docs/configs/animation)
+-   [Variants](/docs/core-concepts/variants)
 -   [Groups](/docs/nodes/groups)
--   [Item Displays](/docs/nodes/item-displays)
--   [Block Displays](/docs/nodes/block-displays)
 -   [Text Displays](/docs/nodes/text-displays)

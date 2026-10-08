@@ -7,188 +7,205 @@ description: Learn what a Blueprint is and how to configure it.
 
 ## What is a Blueprint?
 
-A **Blueprint** is Animated Java's custom Blockbench project format (`.ajblueprint`). It stores everything needed to generate a working Minecraft rig: your 3D model, textures, animations, variants, and all export configuration.
+A **Blueprint** (`.ajblueprint`) is Animated Java's Blockbench project format. It holds everything Animated Java needs to build a rig: the model, textures, animations, [Variants](/docs/core-concepts/variants), [Texture Slots](/docs/core-concepts/texture-slots), and every export setting.
 
-When you export a Blueprint, Animated Java compiles it into a **Resource Pack** (containing your custom models and textures) and a **Data Pack** (containing all the MCfunction logic to summon, animate, and control your rig in-game).
+When you [export](/docs/core-concepts/exporting) a Blueprint, Animated Java turns it into a **Resource Pack** (models and textures) and a **Data Pack** (the functions that summon, animate, and control the rig in-game).
+
+Blueprints saved by older versions of Animated Java are upgraded automatically when you open them. Projects from the legacy `0.x` versions (`.ajmodel` files) can be converted too, see [Legacy Releases](/docs/resources/legacy-releases).
 
 ---
 
 ## Blueprint Settings
 
-Blueprint Settings can be opened from **Animated Java <i class="minecraft-right-arrow"></i> Blueprint Settings** in the Blockbench menu bar, or from the Animated Java panel.
+Open Blueprint Settings from **Animated Java <i class="minecraft-right-arrow"></i> Blueprint Settings** in the menu bar. The dialog is split into pages, and some pages only appear for one [Target Environment](#target-environment). Changes save when you switch pages or close the dialog.
 
 ### General
 
+-   #### Target Environment
+
+    What will run your rig in-game:
+
+    -   **Datapack** exports a Resource Pack and a Data Pack. This is the default, and what most of these docs describe.
+    -   **Plugin** exports a single JSON file for a server plugin to read. The Resource Pack, Data Pack, Rig, and Event Functions pages are replaced by the [Plugin](#plugin) page. See [Plugin Exports](/docs/core-concepts/exporting#plugin-exports).
+
+-   #### Blueprint Name
+
+    The Blueprint's name. Also used as its file name.
+
 -   #### Blueprint ID
 
-    A namespaced identifier (e.g. `my_pack:my_rig`) that uniquely identifies this blueprint. This ID is used as the namespace and path for every generated function, function tag, storage key, and model path.
+    A namespaced ID (e.g. `my_pack:my_rig`) that identifies this Blueprint. Every generated function, tag, storage, and model lives under it.
 
     :::info[Example]
-    `my_pack:my_rig` generates functions at `data/my_pack/function/my_rig/...`
+    `my_pack:my_rig` puts its functions in `data/my_pack/function/my_rig/`, so you'd summon it with `function my_pack:my_rig/summon`.
     :::
 
     :::tip
-    Choose a unique ID. If two blueprints share the same ID, their exported files will overwrite each other.
+    Give every Blueprint its own ID. Two Blueprints with the same ID overwrite each other's files when exported.
     :::
 
     :::danger[Restrictions]
 
-    -   Cannot use the `minecraft:` namespace.
-
-    -   Cannot use `animated_java:global`.
-
-    -   May only contain lowercase letters, digits, underscores, forward slashes, and a single colon.
+    -   Must include a namespace and a path, like `namespace:path`.
+    -   The namespace may only use lowercase letters, digits, and underscores. The path may also use `/`.
+    -   Can't use the `minecraft` namespace.
+    -   Can't be `animated_java:global`.
 
     :::
 
 -   #### Target Minecraft Version
 
-    The Minecraft version to compile for. Animated Java uses this to pick the correct pack format, item component format, NBT structure, and enchantment syntax.
+    The Minecraft version to export for, like `26.2` (the default) or `1.20.4`. Animated Java supports **1.20.4** and newer.
 
-    **Minimum supported version:** 1.20.4
+    This changes how the packs are generated, and which features you can use. For example:
 
-    Changing this value after you have already exported may require re-exporting to update generated files.
+    -   [Cube rotations](/docs/nodes/cubes#rotation-limitations) are limited before 1.21.11.
+    -   [Texture Slot](/docs/core-concepts/texture-slots) functions, Texture Slot keyframes, and [Item Model Properties](/docs/configs/item-model-properties) need 1.21.4 or newer.
+    -   [Use Entity Stacking](#use-entity-stacking) can only be turned off on 1.21.4 or newer.
 
--   #### Enable Plugin Mode
+    Re-export after changing it.
 
-    Switches the export pipeline to produce a single `.json` file instead of a data pack. This file is consumed by a Minecraft server plugin rather than a vanilla data pack. When plugin mode is active, the Data Pack settings are replaced by Plugin settings.
+-   #### Texture Size
+
+    The resolution of the UV editor. It should match the size of your largest texture. Animated Java warns you if it doesn't, or if it isn't square or a power of two.
 
 ### Resource Pack
 
--   #### Resource Pack Export Mode
+Only shown when the Target Environment is **Datapack**.
 
-    Controls how the resource pack output is written.
+-   #### Resource Pack Export Format
 
-    -   **`folder`** — Merges generated files directly into a resource pack directory on disk. Ideal for live development.
-    -   **`zip`** — Writes all generated files into a `.zip` archive.
-    -   **`none`** — Skips resource pack output entirely. Only valid when your blueprint contains no custom models (e.g. you are only using vanilla Block Display or Item Display nodes).
+    -   **Folder** merges the generated files into an existing Resource Pack folder. Best while you're working on a project.
+    -   **Zip** writes a standalone `.zip` Resource Pack.
+    -   **None** skips the Resource Pack. Only works if the Blueprint has no Cubes, for example a rig made entirely of [Item Displays](/docs/nodes/item-displays), [Block Displays](/docs/nodes/block-displays), and [Text Displays](/docs/nodes/text-displays).
 
--   #### Resource Pack Path
+-   #### Resource Pack Folder / Zip
 
-    The path to the target resource pack folder or zip file. Must point to a valid resource pack (a directory containing `pack.mcmeta`).
+    Where to write the Resource Pack. A folder must contain a `pack.mcmeta` file. A zip path must end in `.zip`.
 
 -   #### Display Item
 
-    The Minecraft item whose model is overridden to render rig bones. Animated Java assigns each bone a unique `CustomModelData` value on this item.
+    The item whose model is overridden to display your rig's bones. Only shown for Minecraft versions before 1.21.2. Newer versions use the `minecraft:item_model` component instead, so no item is overridden.
 
-    :::note
-    This setting is only relevant for **Minecraft 1.20.4 – 1.21.1**. In 1.21.2 and later, Animated Java uses the `minecraft:item_model` item component, so no display item override is needed.
-    :::
-
-    The item must be a `generated`-type item (e.g. `minecraft:white_dye`, `minecraft:stick`). Avoid items with special rendering such as tools, armor, or blocks.
-
--   #### Custom Model Data Offset
-
-    An integer offset added to all assigned CustomModelData values. Useful for avoiding conflicts with other resource packs that also use CustomModelData on the same display item.
-
-    :::note
-    Only relevant for Minecraft 1.20.4 – 1.21.1.
-    :::
+    Pick an item whose model uses `minecraft:item/generated` as its parent, like `minecraft:white_dye` (the default). Several Blueprints can share the same Display Item.
 
 ### Data Pack
 
--   #### Data Pack Export Mode
+Only shown when the Target Environment is **Datapack**.
 
-    Controls how the data pack output is written. Same options as [Resource Pack Export Mode](#resource-pack-export-mode): `folder`, `zip`, or `none`.
+-   #### Data Pack Export Format
 
--   #### Data Pack Path
+    **Folder**, **Zip**, or **None**, like the [Resource Pack Export Format](#resource-pack-export-format).
 
-    The path to the target data pack folder or zip file.
+-   #### Data Pack Folder / Zip
 
--   #### Auto Update Rig Orientation
+    Where to write the Data Pack. A folder must contain a `pack.mcmeta` file. A zip path must end in `.zip`.
 
-    When enabled, Animated Java automatically updates the rig root entity's facing direction each tick to match its movement direction. Disable this if you want to control orientation manually.
+-   #### Animation System
 
--   #### Use Storage for Animation
+    How animation data is stored:
 
-    When enabled, animation frame data is written to command storage. This significantly reduces the number of generated function files, at the cost of 40% slower animation performance.
-
-    When disabled (the default), each animation frame is a separate MCfunction file. This produces more files but is much faster to run in-game.
+    -   **Functions** (the default) writes one function per animation frame. Fastest in-game, but creates a lot of files.
+    -   **Storage** keeps frame data in command storage. Creates far fewer files, but runs slower.
 
 ### Rig
 
--   #### Interpolation Duration
-
-    The number of ticks all bone display entities use for client-side transform interpolation (MC's `interpolation_duration` NBT field). Higher values produce smoother but more delayed-looking motion. The default is `1`.
-
--   #### Teleportation Duration
-
-    Interpolation duration in ticks for teleportation. Values are clamped between 0 and 59 (inclusive). The default is `1`.
+Only shown when the Target Environment is **Datapack** and a Data Pack is exported.
 
 -   #### Custom Rig Entity Tags
 
-    A comma-separated list of extra scoreboard tags added to all entities in the rig when it is summoned. Useful for identifying your rig entities in custom commands.
+    Extra tags, separated by commas, added to **every** entity in the rig when it's summoned.
 
     :::note[Example]
-    `my_pack.my_rig.special, summit.booth_entity`
+    `my_pack.boss, my_pack.hostile`
     :::
+
+-   #### Interpolation Duration
+
+    How many ticks Minecraft takes to smoothly move each display entity between animation frames (its `interpolation_duration`). Higher values look smoother but react slower. Default: `1`.
+
+-   #### Teleport Duration
+
+    How many ticks Minecraft takes to smoothly move the rig's entities when they're teleported (their `teleport_duration`). Minecraft caps this at `59`. Default: `1`.
+
+-   #### Shadow Radius
+
+    The radius of the root entity's shadow, in blocks. `0` (the default) disables it.
+
+-   #### Shadow Strength
+
+    How dark the root entity's shadow is. Only matters when Shadow Radius is above `0`. Default: `1`.
+
+-   #### Auto Update Rig Orientation
+
+    When **enabled** (the default), the rig follows its root entity every tick: bones turn to match the root's rotation, and floating entities (Locator entities, Cameras, and Interactions) move to their place on the rig. You can move a rig by teleporting its root entity.
+
+    This is expensive. When **disabled**, the rig only moves when you call [`move`](/docs/function-api/utilities#move). Turn it off for rigs that don't move every tick.
 
 -   #### Use Entity Stacking
 
-    When enabled (the default), all bone display entities ride the root entity as passengers. This is the standard and most performant approach.
+    When **enabled** (the default), every bone entity rides the root entity as a passenger. You can reach them with `execute on passengers`, but their rotation is less precise.
 
-    When disabled, bone entities are repositioned via teleportation every tick instead. This is _slightly_ less performant, however, it provides **_much_** smoother rotations.
+    When **disabled**, bone entities are separate entities teleported into place every tick. Rotation is much more precise, so the rig turns smoothly while it moves. Use [`as_node`](/docs/function-api/utilities#as_node) to run commands as a bone.
+
+    Turning this off requires Minecraft 1.21.4 or newer. Older versions always stack.
 
 ### Event Functions
 
-Event functions are snippets of MCfunction commands injected into specific points in the rig's lifecycle. All functions support [MC-Build](https://mcbuild.dev) syntax and are executed `as` and `at` the root entity unless noted.
+Only shown when the Target Environment is **Datapack**.
+
+Commands that run at specific points in the rig's life. Each one runs `as` and `at` the root entity, and supports [MC-Build](https://mcbuild.dev) syntax. Write them like a `.mcfunction` file.
 
 -   #### On-Summon Function
 
-    Commands injected into the `summon` function, executed once when the rig is first spawned.
+    Runs at the end of the [`summon`](/docs/function-api/summon) function, after every node is set up.
 
 -   #### On-Remove Function
 
-    Commands injected into the `remove/this` function, executed once when the rig is removed.
+    Runs at the start of [`remove/this`](/docs/function-api/remove#removethis), before the rig's entities are removed.
 
--   #### On-Pre-Tick Function
+-   #### Pre-Tick Function
 
-    Commands injected at the **beginning** of the `tick` function, executed every game tick before bone transforms are applied.
+    Runs every tick, **before** Animated Java's own tick logic.
 
--   #### On-Post-Tick Function
+-   #### Post-Tick Function
 
-    Commands injected at the **end** of the `tick` function, executed every game tick after bone transforms are applied.
+    Runs every tick, **after** Animated Java's own tick logic.
 
-### Render Box
+### Plugin
 
-The render box controls the culling volume that Minecraft uses to decide whether to render the rig. If the root entity's bounding box leaves the player's view frustum, the entire rig (including all passengers) is hidden.
+Only shown when the Target Environment is **Plugin**.
 
--   #### Show Render Box
+-   #### JSON File
 
-    Toggles a wireframe preview of the render box in the Blockbench viewport.
-
--   #### Auto Render Box
-
-    When enabled, Animated Java automatically calculates a render box large enough to contain all bones across all animation frames, with an 8-unit overflow margin. **Recommended to leave this on.**
-
--   #### Render Box Size
-
-    Manual render box dimensions in blocks (half-width and height). Only active when **Auto Render Box** is disabled.
-
-    :::warning
-    Setting the render box too small will cause the rig to disappear (cull) when partially off-screen. Setting it too large wastes rendering resources.
-    :::
-
-### Plugin Settings
-
-Only visible when [Enable Plugin Mode](#enable-plugin-mode) is turned on.
-
--   #### JSON File Path
-
-    The path to write the exported plugin blueprint JSON file.
+    Where to write the exported JSON file.
 
 -   #### Baked Animations
 
-    When enabled, animations are fully pre-computed (baked) and embedded in the JSON output. When disabled, raw keyframe data is embedded instead and the server plugin performs interpolation itself.
+    When enabled, every animation frame is calculated ahead of time and stored in the JSON file. When disabled, the raw keyframes are stored instead, and the plugin has to interpolate them itself. Some plugins require baked animations.
 
----
+### Preview
 
-## Exporting Your Blueprint
+Loads extra Resource Packs into the editor, so custom fonts, item and block models, and textures show up in your Blueprint's previews. Preview packs only affect the editor: they're never exported, and they don't replace your Blueprint's own Resource Pack.
 
-Once your blueprint is configured, click **Animated Java > Export (Debug)** to generate the resource pack and data pack files.
+-   #### Preview Resource Packs
 
-Animated Java tracks every file it writes using an `.ajmeta` file stored next to the pack. On the next export, stale files from the previous export are automatically cleaned up.
+    A list of Resource Packs, each one a folder containing `pack.mcmeta` or a `.zip` file. Packs higher in the list override packs below them. Use the arrows to reorder them.
 
-:::tip
-After exporting, run `/reload` in Minecraft to reload your data pack, and press `F3+T` to reload your resource pack.
-:::
+    Click **Reload Preview** after changing a pack's files.
+
+### Misc
+
+The render box is the area Minecraft uses to decide whether your rig is on screen. If it's too small, parts of the rig vanish when the root entity is just out of view.
+
+-   #### Preview Render Box
+
+    Shows the render box in the viewport.
+
+-   #### Auto Render Box
+
+    Fits the render box to your model automatically. Recommended.
+
+-   #### Render Box Size
+
+    The render box's size, when Auto Render Box is off.
