@@ -181,6 +181,94 @@ code {
 	color: #66e3ff;
 }
 
+.docs-content .tree {
+	--tree-line: 2px solid var(--minecraft-button-secondary-text-color);
+	--tree-branch-y: 14px;
+
+	margin: 16px 0;
+	padding: 12px 16px;
+	overflow-x: auto;
+	background-color: var(--minecraft-background-color);
+	box-shadow: 0 0 0 4px var(--minecraft-border-color);
+}
+
+.docs-content .tree ul {
+	margin: 0 0 0 8px;
+	padding-left: 0;
+}
+
+.docs-content .tree > ul {
+	margin: 0;
+}
+
+.docs-content .tree li {
+	position: relative;
+	margin: 0;
+	padding: 2px 0 2px 24px;
+	line-height: 24px;
+	white-space: nowrap;
+}
+
+.docs-content .tree > ul > li {
+	padding-left: 0;
+}
+
+/* Vertical connector, reusing the list bullet's ::before. */
+.docs-content .tree li::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: auto;
+	margin: 0;
+	border-left: var(--tree-line);
+	background: none;
+	outline: none;
+	box-shadow: none;
+	transform: none;
+}
+
+.docs-content .tree li:last-child::before {
+	bottom: auto;
+	height: var(--tree-branch-y);
+}
+
+.docs-content .tree li::after {
+	content: '';
+	position: absolute;
+	top: var(--tree-branch-y);
+	left: 0;
+	width: 16px;
+	border-top: var(--tree-line);
+}
+
+.docs-content .tree .tree-item-floating::after {
+	border-top-style: dashed;
+}
+
+.docs-content .tree > ul > li::before,
+.docs-content .tree > ul > li::after {
+	display: none;
+}
+
+.docs-content .tree-icon {
+	width: 16px;
+	height: 16px;
+	margin: 0 6px 0 0;
+	vertical-align: -3px;
+	background: none;
+	box-shadow: none;
+	image-rendering: pixelated;
+}
+
+.docs-content .tree-note {
+	margin-left: 12px;
+	color: var(--minecraft-text-subtle-color);
+	font-style: italic;
+}
+
 .docs-content a.link {
 	text-decoration: underline;
 }

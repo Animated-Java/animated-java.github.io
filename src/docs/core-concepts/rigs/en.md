@@ -11,17 +11,18 @@ A **Rig** is the group of entities your Blueprint creates in Minecraft. Every ti
 
 A rig is made of these entities:
 
-```
-Root Entity (minecraft:item_display)
-├── Bones (minecraft:item_display)              ← Groups with Cubes
-├── Item Displays (minecraft:item_display)
-├── Block Displays (minecraft:block_display)
-├── Text Displays (minecraft:text_display)
-│
-├╌╌ Locators (any entity type)                  ← only with Use Entity, free-floating
-├╌╌ Cameras (minecraft:item_display)            ← free-floating
-└╌╌ Interactions (minecraft:interaction)        ← free-floating
-```
+:::tree
+
+-   Root Entity `minecraft:item_display`
+    -   [Bones](/docs/nodes/groups) `minecraft:item_display` — Groups with Cubes
+    -   [Item Displays](/docs/nodes/item-displays) `minecraft:item_display`
+    -   [Block Displays](/docs/nodes/block-displays) `minecraft:block_display`
+    -   [Text Displays](/docs/nodes/text-displays) `minecraft:text_display`
+    -   ~ [Locators](/docs/nodes/locators) any entity type — only with Use Entity, free-floating
+    -   ~ [Cameras](/docs/nodes/cameras) `minecraft:item_display`
+    -   ~ [Interactions](/docs/nodes/interactions) `minecraft:interaction`
+
+:::
 
 :::tip
 The **E:** counter in the Outliner's toolbar shows how many entities one instance of your rig will use. Click it for a breakdown by node type.
