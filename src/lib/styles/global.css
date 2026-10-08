@@ -142,9 +142,21 @@ code {
 }
 
 .docs-content .admonition-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	margin: 0 0 8px;
 	font-family: 'MinecraftFull', sans-serif;
 	font-size: 16px;
+}
+
+.docs-content .admonition-icon {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	background: none;
+	box-shadow: none;
+	image-rendering: pixelated;
 }
 
 .docs-content .admonition-tip {

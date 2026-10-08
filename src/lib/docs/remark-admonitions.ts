@@ -4,6 +4,20 @@ import { visit } from 'unist-util-visit'
 
 const ADMONITION_NAMES = new Set(['note', 'tip', 'warning', 'info', 'danger'])
 
+/** Paths in the MCDP icon set (github.com/FuncFusion/mc-dp-icons-assets) for each admonition. */
+const ADMONITION_ICONS: Record<string, string> = {
+	note: 'misc/antbot/upscaled/pushpin.png',
+	tip: 'misc/antbot/upscaled/check.png',
+	info: 'icons/current/readme_file.svg',
+	warning: 'misc/antbot/upscaled/exclamation_mark.png',
+	danger: 'misc/antbot/upscaled/cross.png',
+}
+
+export function getAdmonitionIconUrl(kind: string): string {
+	const path = ADMONITION_ICONS[kind] ?? ADMONITION_ICONS.note
+	return `https://github.com/FuncFusion/mc-dp-icons-assets/blob/main/${path}?raw=true`
+}
+
 function defaultTitle(name: string): string {
 	switch (name) {
 		case 'tip':
@@ -289,7 +303,19 @@ const remarkAdmonitions: Plugin<[], Root> = () => {
 						properties: {
 							className: ['admonition-title'],
 						},
-						children: [{ type: 'text', value: title }],
+						children: [
+							{
+								type: 'element',
+								tagName: 'img',
+								properties: {
+									className: ['admonition-icon'],
+									src: getAdmonitionIconUrl(kind),
+									alt: '',
+								},
+								children: [],
+							},
+							{ type: 'text', value: title },
+						],
 					},
 					{
 						type: 'element',
