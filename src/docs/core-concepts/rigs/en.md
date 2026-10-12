@@ -42,7 +42,7 @@ See [Tags](/docs/core-concepts/tags) for every tag a rig uses.
 
 ## Bone Entities
 
-Groups that contain Cubes, Item Displays, Block Displays, and Text Displays each become one display entity. Animated Java calls these **bones**. They're animated by changing their `transformation`, and Minecraft smooths the motion between frames.
+Groups that contain Cubes each become one display entity. Animated Java calls these **bones**. They're animated by changing their `transformation`, and Minecraft smooths the motion between frames.
 
 By default, bones ride the root entity as passengers, so the whole rig moves with it. With [Use Entity Stacking](/docs/core-concepts/blueprints#use-entity-stacking) turned off, bones are separate entities that are teleported into place instead.
 
