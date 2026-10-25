@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"editorGroupHeader.tabsBorder": "#00aced",
+			"commandCenter.foreground": "#ffffffdd",
+			"commandCenter.background": "#00aced77",
+			"commandCenter.border": "#00aced"
+		}
+	}
+}

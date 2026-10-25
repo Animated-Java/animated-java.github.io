@@ -3,7 +3,7 @@ import type { Component } from 'svelte'
 const MODULES = import.meta.glob('/src/docs/**/*.md')
 
 export const DEFAULT_LANGUAGE = 'en'
-export const SUPPORTED_LANGUAGES = ['en', 'de', 'nl', 'ru', 'uk', 'zh-cn']
+export const SUPPORTED_LANGUAGES = ['en', 'de', 'nl', 'ru', 'uk', 'zh-cn', 'vi']
 /** Languages served under a `/<lang>` prefix. The default language has no prefix. */
 export const PREFIXED_LANGUAGES = SUPPORTED_LANGUAGES.filter(lang => lang !== DEFAULT_LANGUAGE)
 
